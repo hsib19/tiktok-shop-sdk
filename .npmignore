@@ -1,0 +1,41 @@
+# Ignore source files
+src/
+test/
+__tests__/
+*.test.ts
+*.spec.ts
+
+# Ignore config files
+tsconfig.json
+tsconfig.*.json
+jest.config.*
+eslint.config.*
+.eslintrc
+.eslintrc.*
+.prettierrc
+.prettierrc.*
+.prettierignore
+
+# Ignore dev scripts and metadata
+.nyc_output/
+coverage/
+.vscode/
+.env
+.env.*
+node_modules/
+dist/**/*.map
+
+# Ignore lock files (optional)
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Ignore build and logs
+*.log
+*.tsbuildinfo
+
+# Ignore misc
+.npmignore
+.gitignore
+.editorconfig
+.DS_Store
