@@ -18,6 +18,7 @@ export class EventModule {
      * @returns A promise resolving to the webhook list and metadata.
      */
     async getShopWebhooks(): Promise<TikTokAPIResponse<GetWebhooksResponse>> {
+
         return this.request({
             method: 'GET',
             path: '/event/202309/webhooks',

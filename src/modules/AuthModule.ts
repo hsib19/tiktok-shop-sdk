@@ -22,13 +22,13 @@ export class AuthModule {
      * @returns Promise resolving to an AccessTokenResponse object
      */
     async getAccessToken(params: GetAccessTokenParams): Promise<TikTokAPIResponse<AccessTokenResponse>> {
-        return authRequest<AccessTokenResponse>({
+        return authRequest({
             method: 'GET',
             path: '/api/v2/token/get',
             query: {
                 app_key: this.config.appKey,
                 app_secret: this.config.appSecret,
-                grant_type: params.grant_type || 'authorized_code',
+                grant_type: 'authorized_code',
                 auth_code: params.auth_code,
             },
         });
@@ -42,13 +42,13 @@ export class AuthModule {
      * @returns Promise resolving to an AccessTokenResponse object
      */
     async refreshAccessToken(params: RefreshAccessTokenParams): Promise<TikTokAPIResponse<AccessTokenResponse>> {
-        return authRequest<AccessTokenResponse>({
+        return authRequest({
             method: 'GET',
             path: '/api/v2/token/refresh',
             query: {
                 app_key: this.config.appKey,
                 app_secret: this.config.appSecret,
-                grant_type: params.grant_type || 'refresh_token',
+                grant_type: 'refresh_token',
                 refresh_token: params.refresh_token,
             },
         });

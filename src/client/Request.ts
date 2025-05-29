@@ -1,20 +1,8 @@
-import { TikTokAPIResponse } from '@types';
+import { RequestOptions, TikTokAPIResponse } from '@types';
 import { generateSignature, handleResponse, TikTokAPIError } from '@utils';
 import axios, { AxiosError } from 'axios';
 
-interface RequestOptions {
-    method: 'GET' | 'POST' | 'DELETE' | 'PUT';
-    path: string;
-    query?: Record<string, unknown>;
-    body?: Record<string, unknown>;
-    config: {
-        appKey: string;
-        appSecret: string;
-        accessToken?: string;
-        shopCipher?: string;
-        baseURL: string;
-    };
-}
+
 
 /**
  * Generic TikTok API request function
