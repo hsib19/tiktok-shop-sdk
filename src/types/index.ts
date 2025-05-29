@@ -3,6 +3,7 @@ import FormData from 'form-data';
 export * from './AuthTypes';
 export * from './ShopTypes';
 export * from './EventTypes';
+export * from './SellerTypes';
 
 export interface RequestParams {
     method: 'GET' | 'POST' | 'DELETE' | 'PUT';

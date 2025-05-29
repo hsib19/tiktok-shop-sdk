@@ -1,7 +1,7 @@
 import { request } from '@client';
 import { RequestFunction } from '@types';
-import { AuthModule, EventModule, ShopModule } from '@modules';
 import { DEFAULT_BASE_URL, SDKConfig } from '@sdk';
+import { AuthModule, EventModule, ShopModule, SellerModule } from '@modules';
 
 /**
  * TikTokShopSDK is the main entry point to interact with TikTok Shop API.
@@ -12,6 +12,7 @@ export class TikTokShopSDK {
     public auth: AuthModule;
     public shop: ShopModule;
     public event: EventModule;
+    public seller: SellerModule;
 
     // Internally stored access token (used in headers)
     private accessToken?: string;
@@ -48,6 +49,7 @@ export class TikTokShopSDK {
         this.auth = new AuthModule(this.config); // Auth doesn't use access token
         this.shop = new ShopModule(requestWithConfig);
         this.event = new EventModule(requestWithConfigCipher);
+        this.seller = new SellerModule(requestWithConfig);
     }
 
     /**
