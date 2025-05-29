@@ -5,12 +5,12 @@
 ![Build Status](https://github.com/hsib19/tiktok-shop-sdk/actions/workflows/ci.yml/badge.svg)
 ![Bundle size](https://img.shields.io/bundlephobia/minzip/tiktok-shop-sdk)
 [![codecov](https://codecov.io/gh/hsib19/tiktok-shop-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/hsib19/tiktok-shop-sdk)
-![License](https://img.shields.io/npm/l/tiktok-shop-sdk)
 ![Types](https://img.shields.io/npm/types/tiktok-shop-sdk)
 [![GitHub](https://img.shields.io/badge/GitHub-View%20Repo-blue?logo=github)](https://github.com/hsib19/tiktok-shop-sdk)
 ![Made with TypeScript](https://img.shields.io/badge/Made%20with-TypeScript-3178c6?logo=typescript&logoColor=white)
 ![Open Source](https://badgen.net/badge/status/open%20source/green)
 ![Downloads](https://img.shields.io/npm/dw/tiktok-shop-sdk)
+[![License](https://img.shields.io/npm/l/tiktok-shop-sdk.svg)](https://www.npmjs.com/package/tiktok-shop-sdk)
 
 **[View on npm](https://www.npmjs.com/package/tiktok-shop-sdk)**
 

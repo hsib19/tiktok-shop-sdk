@@ -1,5 +1,5 @@
 {
-  "name": "tiktok-shop-sdk",
+  "name": "@hsib19/tiktok-shop-sdk",
   "version": "0.1.0",
   "description": "A TypeScript SDK for interacting with TikTok Shop OpenAPI.",
   "main": "dist/index.js",
@@ -56,5 +56,8 @@
     "tsup": "^8.5.0",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.33.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }
