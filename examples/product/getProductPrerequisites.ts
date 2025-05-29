@@ -8,16 +8,17 @@ const sdk = new TikTokShopSDK({
     appSecret: process.env.TIKTOK_APP_SECRET!,
 });
 
-async function main(){
+async function main() {
 
     try {
 
         // Set Access Token
         sdk.setAccessToken(process.env.TIKTOK_APP_ACCESS_KEY!);
-    
-        const response = await sdk.seller.getActiveShops();
-        console.log(JSON.stringify(response.data.shops))
-        
+        sdk.setShopCipher(process.env.TIKTOK_SHOP_CIPHER!)
+
+        const response = await sdk.product.getProductPrerequisites();
+        console.log(response.data.shop)
+
     } catch (error) {
         if (error instanceof TikTokAPIError) {
             console.error("TikTok API Error:", error.message);
@@ -31,4 +32,4 @@ async function main(){
 
 main();
 
-// npx tsx examples/seller/getActiveShops.ts
+// npx tsx examples/product/getProductPrerequisites.ts

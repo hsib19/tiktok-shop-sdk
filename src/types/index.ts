@@ -4,6 +4,7 @@ export * from './AuthTypes';
 export * from './ShopTypes';
 export * from './EventTypes';
 export * from './SellerTypes';
+export * from './ProductTypes';
 
 export interface RequestParams {
     method: 'GET' | 'POST' | 'DELETE' | 'PUT';
@@ -27,5 +28,4 @@ export type TikTokAPIResponse<T> = {
 };
 
 export type RequestFunction = <T>(params: RequestParams) => Promise<TikTokAPIResponse<T>>;
-
 export type MultipartRequestFunction = <T>(params: MultipartRequestParams) => Promise<TikTokAPIResponse<T>>;

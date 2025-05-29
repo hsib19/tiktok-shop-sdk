@@ -18,25 +18,43 @@ interface RequestOptions {
 
 /**
  * Generic TikTok API request function
- * Handles query building, signature generation, headers, and HTTP request with error handling.
+ * This function constructs the full API request by:
+ * - Building query parameters including required authentication fields
+ * - Generating the request signature using the app secret
+ * - Appending all query parameters to the URL (including nested query objects)
+ * - Adding necessary HTTP headers including access token if provided
+ * - Sending the request via Axios
+ * - Handling and parsing the response or errors gracefully
+ *
+ * @template T - Expected shape of the response data
+ * @param {RequestOptions} options - Options for the request, including method, path, query, body, and config
+ * @returns {Promise<TikTokAPIResponse<T>>} - Promise resolving to typed TikTok API response
  */
-export async function request<T>({ method, path, query = {}, body, config }: RequestOptions): Promise<TikTokAPIResponse<T>> {
-    // Generate current UNIX timestamp in seconds (required for signing)
+export async function request<T>({
+    method,
+    path,
+    query = {},
+    body,
+    config,
+}: RequestOptions): Promise<TikTokAPIResponse<T>> {
+    // Generate the current UNIX timestamp in seconds as a string, required for signing the request
     const timestamp = Math.floor(Date.now() / 1000).toString();
 
-    // Prepare query parameters with required TikTok fields
+    // Prepare unsigned query parameters, merging user query with required TikTok parameters
+    // Here we assume query is a flat object; if nested objects exist, flattening may be needed before this step
     const unsignedQuery: Record<string, unknown> = {
         ...query,
         app_key: config.appKey,
         timestamp,
     };
 
-    // Inject shop_cipher only if available and needed
+    // Include shop cipher in query parameters if available (used for shop-specific requests)
     if (config.shopCipher) {
         unsignedQuery.shop_cipher = config.shopCipher;
     }
 
-    // Generate request signature (version v1 explicitly here)
+    // Generate the request signature using the provided app secret, path, query, and body
+    // Signature version 'v1' is used explicitly here
     const sign = generateSignature({
         appSecret: config.appSecret,
         path,
@@ -45,30 +63,57 @@ export async function request<T>({ method, path, query = {}, body, config }: Req
         version: 'v1',
     });
 
-    // Add the signature to query parameters
+    // Construct the final query object by spreading unsignedQuery and adding the signature
+    // Note: If 'query' property itself contains a nested object, it should already be flattened to avoid "[object Object]"
     const fullQuery = {
         ...unsignedQuery,
         sign,
     };
 
-    // Build full request URL with encoded query parameters
+    // Create the full request URL with base URL and path
     const url = new URL(path, config.baseURL);
+
+    // Append query parameters to the URL's search params
     Object.entries(fullQuery).forEach(([key, val]) => {
-        if (val !== undefined) url.searchParams.append(key, String(val));
+        if (val === undefined) return; // Skip undefined values
+
+        if (key === 'query' && typeof val === 'object' && val !== null) {
+            // If 'query' is an object, append its individual properties as separate query params
+            Object.entries(val).forEach(([innerKey, innerVal]) => {
+                if (
+                    innerVal !== undefined &&
+                    (typeof innerVal === 'string' || typeof innerVal === 'number' || typeof innerVal === 'boolean')
+                ) {
+                    url.searchParams.append(innerKey, String(innerVal));
+                }
+            });
+        } else {
+            // For normal string/number/boolean values, append directly
+            if (
+                typeof val === 'string' ||
+                typeof val === 'number' ||
+                typeof val === 'boolean'
+            ) {
+                url.searchParams.append(key, String(val));
+            }
+        }
     });
 
-    // Prepare request headers
+    // console.log(url.toString())
+    // return null;
+
+    // Prepare request headers, including JSON content type
     const headers: Record<string, string> = {
         'Content-Type': 'application/json',
     };
 
-    // Attach access token if available
+    // Add access token header if provided (used for authenticated requests)
     if (config.accessToken) {
         headers['x-tts-access-token'] = config.accessToken;
     }
 
     try {
-        // Send HTTP request using Axios
+        // Send the HTTP request using Axios with the constructed URL, method, headers, and body
         const response = await axios.request({
             url: url.toString(),
             method,
@@ -76,24 +121,24 @@ export async function request<T>({ method, path, query = {}, body, config }: Req
             data: body,
         });
 
-        // Process and return the data field of the response
+        // Handle and return the processed response data
         return handleResponse<T>(response.data);
 
     } catch (error) {
         if (axios.isAxiosError(error)) {
-            // Attempt to extract TikTok API error details from the response, if any
+            // Attempt to extract detailed TikTok API error info if present
             const axiosError = error as AxiosError<{ code: number; message: string; request_id: string }>;
             if (axiosError.response?.data) {
                 const data = axiosError.response.data;
                 if (typeof data.code === 'number' && typeof data.message === 'string') {
-                    // Throw a custom TikTokAPIError with detailed info
+                    // Throw a specialized TikTokAPIError with code, message, and request ID
                     throw new TikTokAPIError(data.code, data.message, data.request_id || '');
                 }
             }
-            // Fallback: throw generic axios error with message
+            // Fallback: throw a generic Axios error with message
             throw new Error(`Axios error: ${error.message}`);
         }
-        // Re-throw if the error is not an axios error
+        // Re-throw any other unexpected errors
         throw error;
     }
 }

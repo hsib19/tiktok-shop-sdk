@@ -17,23 +17,36 @@ export function generateSignature({
     path,
     query = {},
     body = {},
-    version = 'v1', 
+    version = 'v1',
 }: SignatureInput): string {
     // Remove parameters that should NOT be included in the signature
     const cleanQuery = { ...query };
     delete cleanQuery.sign;
     delete cleanQuery.access_token;
 
-    // Sort query keys alphabetically
-    const sortedKeys = Object.keys(cleanQuery).sort();
+    // Flatten nested `query` object if exists
+    let flatQuery: Record<string, unknown> = {};
+    Object.entries(cleanQuery).forEach(([key, val]) => {
+        if (key === 'query' && typeof val === 'object' && val !== null) {
+            // Flatten inner query object properties into flatQuery
+            Object.entries(val).forEach(([innerKey, innerVal]) => {
+                flatQuery[innerKey] = innerVal;
+            });
+        } else {
+            flatQuery[key] = val;
+        }
+    });
+
+    // Sort flatQuery keys alphabetically
+    const sortedKeys = Object.keys(flatQuery).sort();
 
     // Build sorted query string based on version format
     // v2: "key=value&key2=value2"
     // v1: "keyvaluekey2value2"
     const sortedQuery =
         version === 'v2'
-            ? sortedKeys.map((key) => `${key}=${cleanQuery[key]}`).join('&')
-            : sortedKeys.map((key) => `${key}${cleanQuery[key]}`).join('');
+            ? sortedKeys.map((key) => `${key}=${flatQuery[key]}`).join('&')
+            : sortedKeys.map((key) => `${key}${flatQuery[key]}`).join('');
 
     // Serialize body to JSON string if it's a non-empty object
     const bodyString =
@@ -52,6 +65,5 @@ export function generateSignature({
     // Generate HMAC-SHA256 signature using the base string and appSecret
     const sign = crypto.createHmac('sha256', appSecret).update(baseString).digest('hex');
 
-    // Return the computed signature string
     return sign;
 }

@@ -15,7 +15,7 @@ async function main(){
         // Set Access Token
         sdk.setAccessToken(process.env.TIKTOK_APP_ACCESS_KEY!);
     
-        const response = await sdk.seller.getActiveShops();
+        const response = await sdk.seller.getSellerPermissions();
         console.log(JSON.stringify(response))
         
     } catch (error) {

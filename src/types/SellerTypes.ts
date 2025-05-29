@@ -5,13 +5,9 @@ export interface SellerShop {
 }
 
 export interface SellerShopsResponse {
-    data: {
-        shops: SellerShop[];
-    };
+    shops: SellerShop[];
 }
 
 export interface SellerPermissionsResponse {
-    data: {
-        permissions: string[];
-    };
+    permissions: string[];
 }
