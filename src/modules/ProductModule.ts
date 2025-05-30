@@ -24,9 +24,7 @@ import {
     RequestFunction,
     SearchProductInput,
     SearchProductsResponse,
-    SearchResponsiblePersonsInput,
     SearchResponsiblePersonsParam,
-    SearchResponsiblePersonsQuery,
     SearchResponsiblePersonsResponse,
     SearchSizeChartResponse,
     SearchSizeChartsInput,
@@ -174,7 +172,7 @@ export class ProductModule {
         });
     }
 
-    editResponsiblePersons(params: EditResponsiblePersonInput): Promise<TikTokAPIResponse<{}>> {
+    editResponsiblePersons(params: EditResponsiblePersonInput): Promise<TikTokAPIResponse<object>> {
         return this.request({
             method: 'POST',
             path: `/product/202409/compliance/responsible_persons/${params.responsible_person_id}/partial_edit`,
@@ -182,7 +180,7 @@ export class ProductModule {
         });
     }
 
-    createCategoryUpgradeTask(): Promise<TikTokAPIResponse<{}>> {
+    createCategoryUpgradeTask(): Promise<TikTokAPIResponse<object>> {
         return this.request({
             method: 'POST',
             path: `/product/202407/products/category_upgrade_task`,
