@@ -1,6 +1,6 @@
 {
   "name": "tiktok-shop-sdk",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "A TypeScript SDK for interacting with TikTok Shop OpenAPI.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -20,7 +20,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "build": "tsup",
-    "prepublishOnly": "npm run lint && npm run test && npm run test:coverage && npm run build"
+    "prepublishOnly": "npm run lint && npm run test && npm run build"
   },
   "keywords": [
     "tiktok",
