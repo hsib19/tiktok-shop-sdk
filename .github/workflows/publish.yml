@@ -1,73 +1,38 @@
-# .github/workflows/publish.yml
-
 name: Publish to npm
 
 on:
+  push:
+    branches:
+      - main
   release:
-    types: [published] # This workflow will run when a new GitHub release is published.
+    types: [published]
 
 jobs:
   publish:
-    name: Publish package to npm
-    runs-on: ubuntu-latest # Use the latest Ubuntu environment for the job.
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4 # Action to checkout your repository code.
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*' # Use the latest LTS (Long Term Support) version of Node.js.
-          registry-url: 'https://registry.npmjs.org/' # Specify the npm registry URL.
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org/'
 
       - name: Install dependencies
-        run: npm ci # Use 'npm ci' for clean install in CI environments. It's faster and more reliable.
+        run: npm ci
 
-      - name: Build package (if applicable)
-        # Uncomment the following line if your package requires a build step before publishing.
-        # run: npm run build
-        # Make sure your package.json has a "build" script if you enable this.
+      - name: Build package
+        run: npm run build
 
-      - name: Publish package
-        run: npm publish --access public # Publish the package. Use --access public for public packages.
+      - name: Publish to npm
+        run: npm publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # Access the npm token from GitHub secrets.
-                                                  # You MUST add NPM_TOKEN to your repository secrets.
-                                                  # Go to Repository Settings -> Secrets and variables -> Actions
-                                                  # and add a new repository secret called NPM_TOKEN
-                                                  # with your npm automation token.
-
-      - name: Create GitHub Release (optional, for changelog)
-        # This step is optional but useful if you want to update the GitHub release
-        # description with a changelog generated from your package.
-        # You might use a tool like 'auto-changelog' or have a script that generates it.
-        # This example assumes you have a way to get release notes.
-        #
-        # For a more advanced approach using a tool like `release-please` or `semantic-release`,
-        # this step might be handled automatically.
-        if: success()
-        run: |
-          echo "No automated changelog generation in this example."
-          echo "You can add a step here to generate release notes and update the GitHub release."
-        # - name: Get changelog (example using a dummy changelog, replace with real logic)
-        #   id: changelog
-        #   run: |
-        #     # Replace this with your actual changelog generation logic
-        #     echo "changelog_body<<EOF" >> $GITHUB_OUTPUT
-        #     echo "## Release Notes for ${{ github.ref_name }}" >> $GITHUB_OUTPUT
-        #     echo "" >> $GITHUB_OUTPUT
-        #     echo "- Feature A" >> $GITHUB_OUTPUT
-        #     echo "- Bug Fix B" >> $GITHUB_OUTPUT
-        #     echo "EOF" >> $GITHUB_OUTPUT
-
-        # - name: Update GitHub Release with Changelog
-        #   uses: softprops/action-gh-release@v1
-        #   if: steps.changelog.outputs.changelog_body != ''
-        #   with:
-        #     body: ${{ steps.changelog.outputs.changelog_body }}
-        #     tag_name: ${{ github.ref_name }} # Use the same tag name as the release
-        #     name: Release ${{ github.ref_name }}
-        #     draft: false
-        #     prerelease: false
-        #     token: ${{ secrets.GITHUB_TOKEN }} # Use the default GITHUB_TOKEN for this.
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
