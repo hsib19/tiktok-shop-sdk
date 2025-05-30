@@ -1,5 +1,5 @@
 import { ProductModule } from '../src/modules/ProductModule';
-import { GetAttributesResponse, GetCategoriesQuery, GetCategoryAttributes, GetCategoryRulesQuery, GetCategoryRulesResponse, RecommendCategoryByProductParams, RecommendCategoryByProductResponse, TikTokAPIResponse } from '../src/types'
+import { BrandCreateResponse, BrandFilterInput, BrandInput, GetAttributesResponse, GetBrandsResponse, GetCategoriesQuery, GetCategoryAttributes, GetCategoryRulesQuery, GetCategoryRulesResponse, GetProductParams, GetProductResponse, RecommendCategoryByProductParams, RecommendCategoryByProductResponse, SearchProductInput, SearchProductsResponse, SearchSizeChartResponse, SearchSizeChartsInput, TikTokAPIResponse } from '../src/types'
 
 describe('ProductModule', () => {
     let mockRequest: jest.Mock;
@@ -10,7 +10,7 @@ describe('ProductModule', () => {
         productModule = new ProductModule(mockRequest);
     });
 
-    describe('getProductPrerequisites', () => {
+    describe('Other Product Module', () => {
         it('should call request with correct GET path and return response', async () => {
             const mockResponse = { code: 0, data: { needsReturnWarehouse: true, needsBrandApproval: false }, message: 'success' };
             mockRequest.mockResolvedValue(mockResponse);
@@ -23,6 +23,57 @@ describe('ProductModule', () => {
             });
             expect(result).toBe(mockResponse);
         });
+
+        it('should call request with correct parameters in searchSizeCharts', async () => {
+
+            const mockRes: TikTokAPIResponse<SearchSizeChartResponse> = {
+                data: {
+                    "size_chart": [
+                        {
+                            "template_id": "7362027385890244398",
+                            "template_name": "size chart",
+                            "images": [
+                                {
+                                    "uri": "tos-maliva-i-o3syd03w52-us/c668cdf70b7f483c94dbe",
+                                    "url": "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036",
+                                    "locale": "en-US"
+                                }
+                            ]
+                        }
+                    ],
+                    "next_page_token": "b2Zmc2V0PTAK",
+                    "total_count": 100
+                },
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest);
+
+            const paramInput: SearchSizeChartsInput = {
+                body: {
+                    keyword: "t-shirt",
+                },
+                query: {
+                    page_size: 10
+                }
+            };
+
+            const result = await product.searchSizeCharts(paramInput);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'POST',
+                path: '/product/202407/sizecharts/search',
+                query: paramInput.query,
+                body: paramInput.body,
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
     });
 
     describe('getCategories', () => {
@@ -186,4 +237,521 @@ describe('ProductModule', () => {
         });
         
     });
+
+    describe('Testing Brands', () => {
+        it("should call request with correct parameters in createCustomBrands", async() => {
+
+            const mockRes: TikTokAPIResponse<BrandCreateResponse> = {
+                data: {
+                    id: '7510161790286776065'
+                },
+                code: 0,
+                message: 'Success',
+                request_id: "202505300714081AB426BE9CD57B00477F"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest);
+
+            const input: BrandInput = {
+                name: "Name Brand 2",
+            };
+
+            const result = await product.createCustomBrands(input);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'POST',
+                path: `/product/202309/brands`,
+                body: input,
+            });
+
+            expect(result).toEqual(mockRes);
+
+        });
+
+
+        it("should call request with correct parameters in getBrands", async () => {
+
+            const mockRes: TikTokAPIResponse<GetBrandsResponse> = {
+                data: {
+                    "brands": [
+                        {
+                            "id": "7082427311584347905",
+                            "name": "Teas",
+                            "authorized_status": "AUTHORIZED",
+                            "is_t1_brand": true,
+                            "brand_status": "AVAILABLE"
+                        }
+                    ],
+                    "total_count": 10000,
+                    "next_page_token": "b2Zmc2V0PTAK"
+                },
+                code: 0,
+                message: 'Success',
+                request_id: "202505300714081AB426BE9CD57B00477F"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest);
+
+            const query: BrandFilterInput = {
+                page_size: 1,
+            };
+
+            const result = await product.getBrands(query);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'GET',
+                path: `/product/202309/brands`,
+                query: query,
+            });
+
+            expect(result).toEqual(mockRes);
+
+        });
+
+    })
+
+
+    describe("Testing Products", () => {
+        it("Search products using searchProducts", async () => {
+            const mockRes: TikTokAPIResponse<SearchProductsResponse> = {
+                data: {
+                    "total_count": 200,
+                    "products": [
+                        {
+                            "id": "1729592969712207008",
+                            "title": "Short Boat Invisible Socks",
+                            "status": "ACTIVATE",
+                            "skus": [
+                                {
+                                    "id": "1729592969712207012",
+                                    "seller_sku": "Color-Red-XM01",
+                                    "price": {
+                                        "currency": "USD",
+                                        "tax_exclusive_price": "111.01",
+                                        "sale_price": "121.11"
+                                    },
+                                    "inventory": [
+                                        {
+                                            "warehouse_id": "7068517275539719942",
+                                            "quantity": 999
+                                        }
+                                    ],
+                                    "list_price": {
+                                        "amount": "1",
+                                        "currency": "USD"
+                                    },
+                                    "external_list_prices": [
+                                        {
+                                            "source": "SHOPIFY_COMPARE_AT_PRICE",
+                                            "amount": "1",
+                                            "currency": "USD"
+                                        }
+                                    ],
+                                    "pre_sale": {
+                                        "type": "PRE_ORDER",
+                                        "fulfillment_type": {
+                                            "handling_duration_days": 7,
+                                            "release_date": 1619611761
+                                        }
+                                    }
+                                }
+                            ],
+                            "sales_regions": [
+                                "US"
+                            ],
+                            "create_time": 1234567890,
+                            "update_time": 1234567800,
+                            "product_sync_fail_reasons": [
+                                "The required qualification is missed."
+                            ],
+                            "is_not_for_sale": true,
+                            "recommended_categories": [
+                                {
+                                    "id": "853000",
+                                    "local_name": "Botol & Stoples Penyimpanan"
+                                }
+                            ],
+                            "listing_quality_tier": "POOR",
+                            "integrated_platform_statuses": [
+                                {
+                                    "platform": "TOKOPEDIA",
+                                    "status": "PLATFORM_DEACTIVATED"
+                                }
+                            ],
+                            "audit": {
+                                "status": "AUDITING",
+                                "pre_approved_reasons": [
+                                    "KYC_PENDING"
+                                ]
+                            },
+                            "product_families": [
+                                {
+                                    "id": "1000592969712207000",
+                                    "products": [
+                                        {
+                                            "id": "1729592969712207008"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "next_page_token": "b2Zmc2V0PTAK"
+                },
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest);
+
+            const paramInput: SearchProductInput = {
+                body: {
+                    status: 'ALL' 
+                },
+                query: {
+                    page_size: 10
+                }
+            };
+
+            const result = await product.searchProducts(paramInput);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'POST',
+                path: '/product/202502/products/search',
+                query: paramInput.query,
+                body: paramInput.body,
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
+        it("Get product Detail using getProduct", async () => {
+            const mockRes: TikTokAPIResponse<GetProductResponse> = {
+                data: {
+                    "id": "1729592969712207008",
+                    "status": "SELLER_DEACTIVATED",
+                    "title": "Short Boat Invisible Socks",
+                    "category_chains": [
+                        {
+                            "id": "853000",
+                            "parent_id": "851848",
+                            "local_name": "Botol & Stoples Penyimpanan",
+                            "is_leaf": true
+                        }
+                    ],
+                    "brand": {
+                        "id": "7082427311584347905",
+                        "name": "brand xxx aaa"
+                    },
+                    "main_images": [
+                        {
+                            "height": 600,
+                            "width": 600,
+                            "thumb_urls": [
+                                "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036"
+                            ],
+                            "uri": "tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4",
+                            "urls": [
+                                "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036"
+                            ]
+                        }
+                    ],
+                    "video": {
+                        "id": "v09ea0g40000cj91373c77u3mid3g1s0",
+                        "cover_url": "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036",
+                        "format": "MP4",
+                        "url": "https://v16m-default.akamaized.net/bbae7099581b26cd340beaa7821b2d8c/64de6020/video/tos/alisg/tos-alisg-v-f466fc-sg/oMne9QuzIBN3fIDN7bFCCMbBKuGigg12ghDC8k/?a=0&ch=0&cr=0&dr=0&er=0&lr=default&cd=0%7C0%7C0%7C0&br=2212&bt=1106&cs=0&ds=3&ft=dl9~j-Inz7TKnfsfiyq8Z&mime_type=video_mp4&qs=13&rc=anR4Ojk6ZmYzbTMzODRmNEBpanR4Ojk6ZmYzbTMzODRmNEBsYWFwcjRva2NgLS1kLy1zYSNsYWFwcjRva2NgLS1kLy1zcw%3D%3D&l=202308171159498F7B108584E58B010932&btag=e00048000",
+                        "width": 1280,
+                        "height": 480,
+                        "size": 1000
+                    },
+                    "description": "<p>Please compare above detailed size with your measurement before purchase.</p>\n<ul> \n  <li>M-Size</li>\n  <li>XL-Size</li>\n</ul> \n<img src=\"https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/181595ea7d26489284b5667488d708c1~tplv-o3syd03w52-origin-jpeg.jpeg?from=1432613627\" />\n",
+                    "package_dimensions": {
+                        "length": "10",
+                        "width": "10",
+                        "height": "10",
+                        "unit": "CENTIMETER"
+                    },
+                    "package_weight": {
+                        "value": "1.32",
+                        "unit": "KILOGRAM"
+                    },
+                    "skus": [
+                        {
+                            "id": "10001",
+                            "seller_sku": "sku name",
+                            "price": {
+                                "tax_exclusive_price": "110",
+                                "sale_price": "117.5",
+                                "currency": "USD",
+                                "unit_price": "1"
+                            },
+                            "inventory": [
+                                {
+                                    "warehouse_id": "6966568648651605766",
+                                    "quantity": 999
+                                }
+                            ],
+                            "identifier_code": {
+                                "code": "10000000000010",
+                                "type": "GTIN"
+                            },
+                            "sales_attributes": [
+                                {
+                                    "id": "100000",
+                                    "name": "Color",
+                                    "value_id": "100000",
+                                    "value_name": "Red",
+                                    "sku_img": {
+                                        "height": 100,
+                                        "width": 100,
+                                        "thumb_urls": [
+                                            "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036"
+                                        ],
+                                        "uri": "tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4",
+                                        "urls": [
+                                            "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036"
+                                        ]
+                                    },
+                                    "supplementary_sku_images": [
+                                        {
+                                            "uri": "tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4",
+                                            "height": 100,
+                                            "width": 100,
+                                            "thumb_urls": [
+                                                "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036"
+                                            ],
+                                            "urls": [
+                                                "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "external_sku_id": "1729592969712207234",
+                            "combined_skus": [
+                                {
+                                    "product_id": "1729582718312380123",
+                                    "sku_id": "1729582718312380123",
+                                    "sku_count": 1
+                                }
+                            ],
+                            "global_listing_policy": {
+                                "price_sync": true,
+                                "inventory_type": "SHARED",
+                                "replicate_source": {
+                                    "product_id": "1729592969712203232",
+                                    "shop_id": "7295929697122032321",
+                                    "sku_id": "1729592969712203232"
+                                }
+                            },
+                            "sku_unit_count": "1.00",
+                            "external_urls": [
+                                "https://example.com/path1",
+                                "https://example.com/path2"
+                            ],
+                            "extra_identifier_codes": [
+                                "00012345678905",
+                                "9780596520687"
+                            ],
+                            "pre_sale": {
+                                "type": "PRE_ORDER",
+                                "fulfillment_type": {
+                                    "handling_duration_days": 3,
+                                    "release_date": 1619611761
+                                }
+                            },
+                            "list_price": {
+                                "amount": "1",
+                                "currency": "USD"
+                            },
+                            "external_list_prices": [
+                                {
+                                    "source": "SHOPIFY_COMPARE_AT_PRICE",
+                                    "amount": "1",
+                                    "currency": "USD"
+                                }
+                            ]
+                        }
+                    ],
+                    "certifications": [
+                        {
+                            "id": "602362",
+                            "title": "SNI Certificate",
+                            "files": [
+                                {
+                                    "id": "v09ea0g40000cj91373c77u3mid3g1s0",
+                                    "urls": [
+                                        "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036"
+                                    ],
+                                    "name": "CERT_X2.PDF",
+                                    "format": "PDF"
+                                }
+                            ],
+                            "images": [
+                                {
+                                    "height": 600,
+                                    "width": 600,
+                                    "thumb_urls": [
+                                        "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036"
+                                    ],
+                                    "uri": "tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4",
+                                    "urls": [
+                                        "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036"
+                                    ]
+                                }
+                            ],
+                            "expiration_date": 1741235456
+                        }
+                    ],
+                    "size_chart": {
+                        "image": {
+                            "height": 600,
+                            "width": 600,
+                            "thumb_urls": [
+                                "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036"
+                            ],
+                            "uri": "tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4",
+                            "urls": [
+                                "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036"
+                            ]
+                        },
+                        "template": {
+                            "id": "7267563252536723205"
+                        }
+                    },
+                    "is_cod_allowed": true,
+                    "product_attributes": [
+                        {
+                            "id": "100392",
+                            "name": "Occasion",
+                            "values": [
+                                {
+                                    "id": "1001533",
+                                    "name": "Birthday"
+                                }
+                            ]
+                        }
+                    ],
+                    "audit_failed_reasons": [
+                        {
+                            "position": "product",
+                            "reasons": [
+                                "violate listing rules"
+                            ],
+                            "suggestions": [
+                                "The product violates TikTok Shopping listing rules, please check and resubmit."
+                            ],
+                            "listing_platform": "TIKTOK_SHOP"
+                        }
+                    ],
+                    "update_time": 1234567899,
+                    "create_time": 1234567890,
+                    "delivery_options": [
+                        {
+                            "id": "1729592969712203232",
+                            "name": "\"\"",
+                            "is_available": true
+                        }
+                    ],
+                    "external_product_id": "172959296971220002",
+                    "product_types": [
+                        "COMBINED_PRODUCT"
+                    ],
+                    "is_not_for_sale": true,
+                    "recommended_categories": [
+                        {
+                            "id": "850003",
+                            "local_name": "\t\nBotol & Stoples Penyimpanan"
+                        }
+                    ],
+                    "manufacturer_ids": [
+                        "172959296971220002"
+                    ],
+                    "responsible_person_ids": [
+                        "172959296971220003"
+                    ],
+                    "listing_quality_tier": "POOR",
+                    "integrated_platform_statuses": [
+                        {
+                            "platform": "TOKOPEDIA",
+                            "status": "PLATFORM_DEACTIVATED"
+                        }
+                    ],
+                    "shipping_insurance_requirement": "OPTIONAL",
+                    "minimum_order_quantity": 1,
+                    "is_pre_owned": false,
+                    "audit": {
+                        "status": "AUDITING",
+                        "pre_approved_reasons": [
+                            "KYC_PENDING"
+                        ]
+                    },
+                    "global_product_association": {
+                        "global_product_id": "1729592969712207920",
+                        "sku_mappings": [
+                            {
+                                "global_sku_id": "1729592969712207234",
+                                "local_sku_id": "1729592969712207230",
+                                "sales_attribute_mappings": [
+                                    {
+                                        "local_attribute_id": "100000",
+                                        "global_attribute_id": "100000",
+                                        "local_value_id": "1001064",
+                                        "global_value_id": "1001064"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "prescription_requirement": {
+                        "needs_prescription": false
+                    },
+                    "product_families": [
+                        {
+                            "id": "1000592969712207000",
+                            "products": [
+                                {
+                                    "id": "1729592969712207008"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest);
+
+            const paramInput: GetProductParams = {
+                product_id: "1731477962415703193",
+                query: {
+                   return_under_review_version: false
+                }
+            };
+
+            const result = await product.getProduct(paramInput);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'GET',
+                path: `/product/202309/products/${paramInput.product_id}`,
+                query: paramInput.query,
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
+    });
+
 });

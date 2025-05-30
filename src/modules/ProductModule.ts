@@ -1,4 +1,4 @@
-import { CategoriesResponse, CheckListingPrerequisitesResponse, GetAttributesResponse, GetCategoriesQuery, GetCategoryAttributes, GetCategoryRulesQuery, GetCategoryRulesResponse, RecommendCategoryByProductParams, RecommendCategoryByProductResponse, RequestFunction, TikTokAPIResponse } from '@types';
+import { BrandCreateResponse, BrandFilterInput, BrandInput, CategoriesResponse, CheckListingPrerequisitesResponse, GetAttributesResponse, GetBrandsResponse, GetCategoriesQuery, GetCategoryAttributes, GetCategoryRulesQuery, GetCategoryRulesResponse, GetProductParams, GetProductResponse, RecommendCategoryByProductParams, RecommendCategoryByProductResponse, RequestFunction, SearchProductInput, SearchProductsResponse, SearchSizeChartResponse, SearchSizeChartsInput, TikTokAPIResponse } from '@types';
 
 export class ProductModule {
     constructor(
@@ -52,6 +52,53 @@ export class ProductModule {
         return this.request({
             method: 'GET',
             path: `/product/202309/categories/${params.category_id}/attributes`,
+            query: params.query
+        })
+    }
+
+    createCustomBrands(body: BrandInput): Promise<TikTokAPIResponse<BrandCreateResponse>> {
+
+        return this.request({
+            method: 'POST',
+            path: `/product/202309/brands`,
+            body: body
+        })
+    }
+
+    getBrands(query: BrandFilterInput): Promise<TikTokAPIResponse<GetBrandsResponse>> {
+
+        return this.request({
+            method: 'GET',
+            path: `/product/202309/brands`,
+            query: query
+        })
+    }
+
+    searchSizeCharts(params: SearchSizeChartsInput): Promise<TikTokAPIResponse<SearchSizeChartResponse>> {
+
+        return this.request({
+            method: 'POST',
+            path: `/product/202407/sizecharts/search`,
+            query: params.query,
+            body: params.body
+        })
+    }
+
+    searchProducts(params: SearchProductInput): Promise<TikTokAPIResponse<SearchProductsResponse>> {
+
+        return this.request({
+            method: 'POST',
+            path: `/product/202502/products/search`,
+            query: params.query,
+            body: params.body
+        })
+    }
+
+    getProduct(params: GetProductParams): Promise<TikTokAPIResponse<GetProductResponse>> {
+
+        return this.request({
+            method: 'GET',
+            path: `/product/202309/products/${params.product_id}`,
             query: params.query
         })
     }

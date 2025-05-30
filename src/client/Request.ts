@@ -58,6 +58,8 @@ export async function request<T>({
         sign,
     };
 
+
+
     // Create the full request URL with base URL and path
     const url = new URL(path, config.baseURL);
 
