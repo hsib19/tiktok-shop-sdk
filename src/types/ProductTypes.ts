@@ -31,8 +31,10 @@ export type CheckListingPrerequisitesResponse = {
     };
 };
 
+type locale = string | "de-DE" | "en-GB" | "en-IE" | "en-US" | "es-ES" | "es-MX" | "fr-FR" | "id-ID" | "it-IT" | "ja-JP" | "ms-MY" | "pt-BR" | "th-TH" | "vi-VN" | "zh-CN";
+
 export type GetCategoriesQuery = {
-    locale?: string | "de-DE" | "en-GB" | "en-IE" | "en-US" | "es-ES" | "es-MX" | "fr-FR" | "id-ID" | "it-IT" | "ja-JP" | "ms-MY" | "pt-BR" | "th-TH" | "vi-VN" | "zh-CN";
+    locale?: locale;
     keyword?: string;
     category_version?: string | "v1" | "v2";
     listing_platform?: string | "TIKTOK_SHOP" | "TOKOPEDIA";
@@ -49,4 +51,111 @@ export interface Category {
 
 export type CategoriesResponse = {
     categories: Category[]
+}
+
+export type RecommendCategoryByProductParams = {
+    product_title: string;
+    description?: string;
+    images?: {
+        url: string;
+        width?: number;
+        height?: number;
+    }[];
+    category_version?: 'v1' | 'v2';
+    listing_platform?: 'TIKTOK_SHOP' | 'TOKOPEDIA';
+    include_prohibited_categories?: boolean;
+}
+
+export interface RecommendCategoryByProductResponse {
+    leaf_category_id: string;
+    categories: {
+        id: string;
+        name: string;
+        level: number;
+        is_leaf: boolean;
+        permission_statuses: string[];
+    }[];
+}
+
+export type GetCategoryRules  = {
+    category_version?: "v1" | "v2";
+    locale?: locale;
+}
+
+export type GetCategoryInput = {
+    category_id: string;
+    query: GetCategoryRules
+}
+
+export type GetCategoryRulesQuery = GetCategoryInput;
+export type GetCategoryAttributes = GetCategoryInput;
+
+export interface GetAttributesResponse {
+    attributes: Attribute[];
+}
+
+export interface Attribute {
+    id: string;
+    name: string;
+    type: string; 
+    is_requried: boolean; 
+    values: AttributeValue[];
+    value_data_format: string; 
+    is_customizable: boolean;
+    requirement_conditions: RequirementCondition[];
+    is_multiple_selection: boolean;
+}
+
+export interface AttributeValue {
+    id: string;
+    name: string;
+}
+
+export interface RequirementCondition {
+    condition_type: string; 
+    attribute_id: string;
+    attribute_value_id: string;
+}
+
+
+export interface GetCategoryRulesResponse {
+    product_certifications: ProductCertification[];
+    size_chart: {
+        is_supported: boolean;
+        is_required: boolean;
+    };
+    cod: {
+        is_supported: boolean;
+    };
+    package_dimension: {
+        is_required: boolean;
+    };
+    epr: {
+        is_required: boolean;
+    };
+    responsible_person: {
+        is_required: boolean;
+    };
+    manufacturer: {
+        is_required: boolean;
+    };
+    allowed_special_product_types: string[]; 
+}
+
+export interface ProductCertification {
+    id: string;
+    name: string;
+    is_required: boolean;
+    document_details: string;
+    sample_image_url: string;
+    requirement_conditions: RequirementCondition[];
+    expiration_date: {
+        is_required: boolean;
+    };
+}
+
+export interface RequirementCondition {
+    condition_type: string;
+    attribute_id: string;
+    attribute_value_id: string;
 }

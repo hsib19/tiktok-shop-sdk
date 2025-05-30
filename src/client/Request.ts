@@ -47,7 +47,7 @@ export async function request<T>({
         appSecret: config.appSecret,
         path,
         query: unsignedQuery,
-        body,
+        body: body?.body ?? body,
         version: 'v1',
     });
 
@@ -106,7 +106,7 @@ export async function request<T>({
             url: url.toString(),
             method,
             headers,
-            data: body,
+            data: body?.body ?? body, 
         });
 
         // Handle and return the processed response data
