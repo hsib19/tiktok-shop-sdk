@@ -3,7 +3,7 @@ name: Publish Package
 on:
   push:
     tags:
-      - 'v*'  # Trigger saat push tag mulai dengan "v"
+      - 'v*'  
 
 jobs:
   publish:
@@ -19,6 +19,9 @@ jobs:
           node-version: 18
           registry-url: https://registry.npmjs.org
 
+      - name: Clean npm cache (pre-auth)
+        run: npm cache clean --force
+
       - name: Authenticate to npm
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
@@ -28,5 +31,11 @@ jobs:
       - name: Build package
         run: npm run build
 
+      - name: Clean npm cache (pre-publish)
+        run: npm cache clean --force
+
+      - name: Verify package.json content
+        run: cat package.json
+
       - name: Publish package
-        run: npm publish --access public
+        run: npm publish --access public --loglevel silly

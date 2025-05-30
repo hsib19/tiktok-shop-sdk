@@ -1,6 +1,6 @@
 {
   "name": "tiktok-shop-sdk",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "A TypeScript SDK for interacting with TikTok Shop OpenAPI.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
