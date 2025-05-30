@@ -1,4 +1,26 @@
-import { BrandCreateResponse, BrandFilterInput, BrandInput, CategoriesResponse, CheckListingPrerequisitesResponse, GetAttributesResponse, GetBrandsResponse, GetCategoriesQuery, GetCategoryAttributes, GetCategoryRulesQuery, GetCategoryRulesResponse, GetProductParams, GetProductResponse, RecommendCategoryByProductParams, RecommendCategoryByProductResponse, RequestFunction, SearchProductInput, SearchProductsResponse, SearchSizeChartResponse, SearchSizeChartsInput, TikTokAPIResponse } from '@types';
+import { 
+    BrandCreateResponse,
+    BrandFilterInput,
+    BrandInput,
+    CategoriesResponse,
+    CheckListingPrerequisitesResponse,
+    GetAttributesResponse,
+    GetBrandsResponse,
+    GetCategoriesQuery,
+    GetCategoryAttributes,
+    GetCategoryRulesQuery,
+    GetCategoryRulesResponse,
+    GetProductParams,
+    GetProductResponse,
+    RecommendCategoryByProductParams,
+    RecommendCategoryByProductResponse,
+    RequestFunction,
+    SearchProductInput,
+    SearchProductsResponse,
+    SearchSizeChartResponse,
+    SearchSizeChartsInput,
+    TikTokAPIResponse
+} from '@types';
 
 export class ProductModule {
     constructor(
