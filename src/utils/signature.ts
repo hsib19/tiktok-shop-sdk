@@ -30,10 +30,18 @@ export function generateSignature({
         if (key === 'query' && typeof val === 'object' && val !== null) {
             // Flatten inner query object properties into flatQuery
             Object.entries(val).forEach(([innerKey, innerVal]) => {
-                flatQuery[innerKey] = innerVal;
+                if (Array.isArray(innerVal)) {
+                    flatQuery[innerKey] = innerVal.join(',');
+                } else {
+                    flatQuery[innerKey] = innerVal;
+                }
             });
         } else {
-            flatQuery[key] = val;
+            if (Array.isArray(val)) {
+                flatQuery[key] = val.join(',');
+            } else {
+                flatQuery[key] = val;
+            }
         }
     });
 

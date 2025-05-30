@@ -1,5 +1,5 @@
 import { ProductModule } from '../src/modules/ProductModule';
-import { BrandCreateResponse, BrandFilterInput, BrandInput, GetAttributesResponse, GetBrandsResponse, GetCategoriesQuery, GetCategoryAttributes, GetCategoryRulesQuery, GetCategoryRulesResponse, GetProductParams, GetProductResponse, RecommendCategoryByProductParams, RecommendCategoryByProductResponse, SearchProductInput, SearchProductsResponse, SearchSizeChartResponse, SearchSizeChartsInput, TikTokAPIResponse } from '../src/types'
+import { BrandCreateResponse, BrandFilterInput, BrandInput, CreateResponsiblePersonInput, CreateResponsiblePersonResponse, EditResponsiblePersonInput, GetAttributesResponse, GetBrandsResponse, GetCategoriesQuery, GetCategoryAttributes, GetCategoryRulesQuery, GetCategoryRulesResponse, GetProductParams, GetProductResponse, GetProductSEOWordsResponse, GetRecommendedProductTitleAndDescriptionQuery, GetRecommendedProductTitleAndDescriptionResponse, ProductDiagnosisResponse, RecommendCategoryByProductParams, RecommendCategoryByProductResponse, SearchProductInput, SearchProductsResponse, SearchResponsiblePersonsParam, SearchResponsiblePersonsResponse, SearchSizeChartResponse, SearchSizeChartsInput, TikTokAPIResponse } from '../src/types'
 
 describe('ProductModule', () => {
     let mockRequest: jest.Mock;
@@ -231,6 +231,28 @@ describe('ProductModule', () => {
                 method: 'GET',
                 path: `/product/202309/categories/${input.category_id}/attributes`,
                 query: input.query,
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
+        it("Upgrade category using createCategoryUpgradeTask", async () => {
+            const mockRes: TikTokAPIResponse<{}> = {
+                data: {},
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest);
+
+            const result = await product.createCategoryUpgradeTask();
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'POST',
+                path: `/product/202407/products/category_upgrade_task`,
             });
 
             expect(result).toEqual(mockRes);
@@ -752,6 +774,307 @@ describe('ProductModule', () => {
             expect(result).toEqual(mockRes);
         });
 
+        it("Get product recomend title, desc using getRecommendedProductTitleAndDescription", async () => {
+            const mockRes: TikTokAPIResponse<GetRecommendedProductTitleAndDescriptionResponse> = {
+                data: {
+                    "products": [
+                        {
+                            "id": "123456",
+                            "suggestions": [
+                                {
+                                    "field": "TITLE",
+                                    "items": [
+                                        {
+                                            "text": "this is a good title"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest);
+
+            const paramInput: GetRecommendedProductTitleAndDescriptionQuery = {
+                product_ids: ['1731477962415703193', '240248209423']
+            };
+
+            const result = await product.getRecommendedProductTitleAndDescription(paramInput);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'GET',
+                path: `/product/202405/products/suggestions`,
+                query: paramInput,
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
+        it("Get product SEO word using getProductsSEOWords", async () => {
+            const mockRes: TikTokAPIResponse<GetProductSEOWordsResponse> = {
+                data: {
+                    "products": [
+                        {
+                            "id": "12345",
+                            "seo_words": [
+                                {
+                                    "text": "dress"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest);
+
+            const paramInput: GetRecommendedProductTitleAndDescriptionQuery = {
+                product_ids: ['1731477962415703193', '240248209423']
+            };
+
+            const result = await product.getProductsSEOWords(paramInput);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'GET',
+                path: `/product/202405/products/seo_words`,
+                query: paramInput,
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
+        it("Diagnose product using productInformationIssueDiagnosis", async () => {
+            const mockRes: TikTokAPIResponse<ProductDiagnosisResponse> = {
+                data: {
+                    "products": [
+                        {
+                            "id": "123456",
+                            "listing_quality": {
+                                "current_tier": "POOR",
+                                "remaining_recommendations": 3
+                            },
+                            "diagnoses": [
+                                {
+                                    "field": "TITLE",
+                                    "diagnosis_results": [
+                                        {
+                                            "code": "TITLE_LESS_THAN_40_CHARACTERS",
+                                            "how_to_solve": "Names must be at least 40 characters long and contain product-identifying information, such as \"hiking boots\" or \"lipstick\".",
+                                            "quality_tier": "GOOD"
+                                        }
+                                    ],
+                                    "suggestion": {
+                                        "seo_words": [
+                                            {
+                                                "text": "dress"
+                                            }
+                                        ],
+                                        "smart_texts": [
+                                            {
+                                                "text": "this is a good title"
+                                            }
+                                        ],
+                                        "images": [
+                                            {
+                                                "height": 600,
+                                                "width": 600,
+                                                "uri": "tos-maliva-i-o3syd03w52-us/53b55d6e8cdf1f315affa7e70b45707d",
+                                                "url": "https://p16-graph-va.ibyteimg.com/tos-maliva-i-1por3rr4fy-us/v2/53b55d6e8cdf1f315affa7e70b45707d~tplv-1por3rr4fy-image.webp",
+                                                "optimized_uri": "tos-maliva-i-o3syd03w52-us/0266127022264e54ad2f639f5e0fb5e6",
+                                                "optimized_url": "https://p16-graph-va.ibyteimg.com/tos-maliva-i-1por3rr4fy-us/v2/0266127022264e54ad2f639f5e0fb5e6~tplv-1por3rr4fy-image.webp"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest);
+
+            const paramInput: GetRecommendedProductTitleAndDescriptionQuery = {
+                product_ids: ['1731477962415703193', '240248209423']
+            };
+
+            const result = await product.productInformationIssueDiagnosis(paramInput);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'GET',
+                path: `/product/202405/products/diagnoses`,
+                query: paramInput,
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
     });
+
+    describe('Testing responsible person', () => { 
+        it("create responsible person using createResponsiblePerson", async () => {
+            const mockRes: TikTokAPIResponse<CreateResponsiblePersonResponse> = {
+                data:{
+                    responsible_person_id: ''
+                },
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest);
+
+            const paramInput: CreateResponsiblePersonInput = {
+                name: "John Doe",
+                email: "john.doe@email.com",
+                phone_number: {
+                    "country_code": "+353",
+                    "local_number": "80915151"
+                },
+                address: {
+                    street_address_line1: "63 Cardiff Ln, Grand Canal Dock, Dublin City, Dublin",
+                    street_address_line2: "-",
+                    district: "-",
+                    city: "-",
+                    postal_code: "D02 HD23",
+                    province: "-",
+                    country: "IE"
+                },
+                locale: "en-IE"
+            };
+
+            const result = await product.createResponsiblePerson(paramInput);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'POST',
+                path: `/product/202409/compliance/responsible_persons`,
+                body: paramInput,
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
+        it("get responsible person using searchResponsiblePersons", async () => {
+            const mockRes: TikTokAPIResponse<SearchResponsiblePersonsResponse> = {
+                data: {
+                    "responsible_persons": [
+                        {
+                            "id": "66d3cbe4d9c8b09ddca932a7",
+                            "name": "John Doe",
+                            "email": "john.doe@email.com",
+                            "phone_number": {
+                                "country_code": "+353",
+                                "local_number": "80915151"
+                            },
+                            "address": {
+                                "street_address_line1": "63 Cardiff Ln, Grand Canal Dock, Dublin City, Dublin",
+                                "street_address_line2": "-",
+                                "district": "-",
+                                "city": "-",
+                                "province": "-",
+                                "postal_code": "D02 HD23",
+                                "country": "Ireland"
+                            }
+                        }
+                    ],
+                    "total_count": 26,
+                    "next_page_token": "66d3cbe3d9c8b09ddca932a1"
+                },
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest);
+
+            const paramInput: SearchResponsiblePersonsParam = {
+                body: {
+                    responsible_person_ids: ["66d3cbe4d9c8b09ddca932a7"],
+                    keyword: "John"
+                },
+                query: {
+                    page_size: 1
+                }
+            };
+
+            const result = await product.searchResponsiblePersons(paramInput);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'POST',
+                path: `/product/202409/compliance/responsible_persons/search`,
+                body: paramInput.body,
+                query: paramInput.query,
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
+        it("edit responsible person using editResponsiblePersons", async () => {
+            const mockRes: TikTokAPIResponse<{}> = {
+                data: {},
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest);
+
+            const paramInput: EditResponsiblePersonInput = {
+                body: {
+                    name: "John Doe Edit",
+                    email: "john.doe@email.com",
+                    phone_number: {
+                        "country_code": "+353",
+                        "local_number": "80915151"
+                    },
+                    address: {
+                        street_address_line1: "63 Cardiff Ln, Grand Canal Dock, Dublin City, Dublin",
+                        street_address_line2: "-",
+                        district: "-",
+                        city: "-",
+                        postal_code: "D02 HD23",
+                        province: "-",
+                        country: "IE"
+                    },
+                    locale: "en-IE"
+                },
+                responsible_person_id: "304950349583045345"
+            };
+
+            const result = await product.editResponsiblePersons(paramInput);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'POST',
+                path: `/product/202409/compliance/responsible_persons/${paramInput.responsible_person_id}/partial_edit`,
+                body: paramInput.body
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
+     })
 
 });

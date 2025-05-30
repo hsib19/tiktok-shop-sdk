@@ -530,3 +530,141 @@ export type GetProductResponse = {
         }[];
     }[];
 };
+
+export type EditResponsiblePersonInput = {
+    responsible_person_id: string;
+    body: CreateResponsiblePersonInput;
+}
+
+export type CreateResponsiblePersonInput = {
+    name: string;
+    email: string;
+    phone_number: {
+        country_code: string;
+        local_number: string;
+    };
+    address: {
+        street_address_line1: string;
+        street_address_line2?: string;
+        district?: string;
+        city?: string;
+        postal_code: string;
+        province?: string;
+        country: string;
+    };
+    locale?: string;
+};
+
+export interface CreateResponsiblePersonResponse {
+    "responsible_person_id": string;
+}
+
+export type SearchResponsiblePersonsQuery = {
+    page_size: number;
+    page_token?: string;
+}
+
+export type SearchResponsiblePersonsInput = {
+    responsible_person_ids?: string[];
+    keyword?: string;
+}
+
+export type SearchResponsiblePersonsParam = {
+    query: SearchResponsiblePersonsQuery,
+    body: SearchResponsiblePersonsInput,
+}
+
+export type SearchResponsiblePersonsResponse = {
+    responsible_persons: {
+        id: string;
+        name: string;
+        email: string;
+        phone_number: {
+            country_code: string;
+            local_number: string;
+        };
+        address: {
+            street_address_line1: string;
+            street_address_line2?: string;
+            district?: string;
+            city?: string;
+            postal_code: string;
+            province?: string;
+            country: string;
+        };
+        locale?: string;
+    }[];
+    total_count: number,
+    next_page_token: string;
+};
+
+export type GetRecommendedProductTitleAndDescriptionQuery = {
+    product_ids: string[];
+}
+
+export interface GetRecommendedProductTitleAndDescriptionResponse {
+    products: {
+        id: string,
+        suggestions: {
+                field: string,
+                items: { text: string; }[]
+            }[];
+    }[];
+}
+
+
+export type GetProductSEOWordsResponse = {
+    products:{
+        id: string,
+        seo_words: 
+            {
+            text: string
+            }[]
+    }[];
+}
+
+export interface ProductDiagnosisResponse {
+    products: DiagnosedProduct[];
+}
+
+export interface DiagnosedProduct {
+    id: string;
+    listing_quality: ListingQuality;
+    diagnoses: Diagnosis[];
+}
+
+export interface ListingQuality {
+    current_tier: string;
+    remaining_recommendations: number;
+}
+
+export interface Diagnosis {
+    field: string;
+    diagnosis_results: DiagnosisResult[];
+    suggestion: Suggestion;
+}
+
+export interface DiagnosisResult {
+    code: string;
+    how_to_solve: string;
+    quality_tier: string; 
+}
+
+export interface Suggestion {
+    seo_words: TextItem[];
+    smart_texts: TextItem[];
+    images: ImageItem[];
+}
+
+export interface TextItem {
+    text: string;
+}
+
+export interface ImageItem {
+    height: number;
+    width: number;
+    uri: string;
+    url: string;
+    optimized_uri: string;
+    optimized_url: string;
+}

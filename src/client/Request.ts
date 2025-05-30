@@ -36,6 +36,7 @@ export async function request<T>({
         timestamp,
     };
 
+ 
     // Include shop cipher in query parameters if available (used for shop-specific requests)
     if (config.shopCipher) {
         unsignedQuery.shop_cipher = config.shopCipher;
@@ -70,16 +71,28 @@ export async function request<T>({
         if (key === 'query' && typeof val === 'object' && val !== null) {
             // If 'query' is an object, append its individual properties as separate query params
             Object.entries(val).forEach(([innerKey, innerVal]) => {
-                if (
-                    innerVal !== undefined &&
-                    (typeof innerVal === 'string' || typeof innerVal === 'number' || typeof innerVal === 'boolean')
+                if (innerVal === undefined) return;
+
+                // If inner value is an array of primitives, join with commas
+                if (Array.isArray(innerVal)) {
+                    url.searchParams.append(innerKey, innerVal.join(','));
+                }
+                // Otherwise, if primitive value, add directly
+                else if (
+                    typeof innerVal === 'string' ||
+                    typeof innerVal === 'number' ||
+                    typeof innerVal === 'boolean'
                 ) {
                     url.searchParams.append(innerKey, String(innerVal));
                 }
             });
         } else {
+            // Handle array values by joining with commas (e.g., product_ids=1,2,3)
+            if (Array.isArray(val)) {
+                url.searchParams.append(key, val.join(','));
+            }
             // For normal string/number/boolean values, append directly
-            if (
+            else if (
                 typeof val === 'string' ||
                 typeof val === 'number' ||
                 typeof val === 'boolean'
@@ -88,6 +101,7 @@ export async function request<T>({
             }
         }
     });
+
 
     // console.log(url.toString())
     // return null;

@@ -96,6 +96,7 @@ Modules marked as **Completed** are fully implemented and tested, while those ma
 | `Auth` | `✅ Completed` |
 | `Shop` | `✅ Completed` |
 | `Event` | `✅ Completed` |
+| `Seller` | `✅ Completed` |
 | `Products` | `🚧 In Progress` |
 | `Orders` | `⏳ Not Started` |
 | `Logistic` | `⏳ Not Started` |
