@@ -1,5 +1,12 @@
+import path from 'path';
 import { ProductModule } from '../src/modules/ProductModule';
-import { ActivateProductInput, BrandCreateResponse, BrandFilterInput, BrandInput, CreateManufacturerInput, CreateManufacturerResponse, CreateResponsiblePersonInput, CreateResponsiblePersonResponse, DeactivateProductInput, DeleteProductInput, EditPartialManufacturerParam, EditResponsiblePersonInput, GetAttributesResponse, GetBrandsResponse, GetCategoriesQuery, GetCategoryAttributes, GetCategoryRulesQuery, GetCategoryRulesResponse, GetGlobalAttributeResponse, GetGlobalAttributesQuery, GetGlobalCategoriesQuery, GetGlobalCategoriesResponse, GetManufacturersResponse, GetProductParams, GetProductResponse, GetProductSEOWordsResponse, GetRecommendedProductTitleAndDescriptionQuery, GetRecommendedProductTitleAndDescriptionResponse, ProductDiagnosisResponse, RecommendCategoryByProductParams, RecommendCategoryByProductResponse, SearchManufacturerQuery, SearchProductInput, SearchProductsResponse, SearchResponsiblePersonsParam, SearchResponsiblePersonsResponse, SearchSizeChartResponse, SearchSizeChartsInput, TikTokAPIResponse } from '../src/types'
+import { ActivateProductInput, BrandCreateResponse, BrandFilterInput, BrandInput, CreateManufacturerInput, CreateManufacturerResponse, CreateProductInput, CreateProductResponse, CreateResponsiblePersonInput, CreateResponsiblePersonResponse, DeactivateProductInput, DeleteProductInput, EditPartialManufacturerParam, EditResponsiblePersonInput, GetAttributesResponse, GetBrandsResponse, GetCategoriesQuery, GetCategoryAttributes, GetCategoryRulesQuery, GetCategoryRulesResponse, GetGlobalAttributeResponse, GetGlobalAttributesQuery, GetGlobalCategoriesQuery, GetGlobalCategoriesResponse, GetManufacturersResponse, GetProductParams, GetProductResponse, GetProductSEOWordsResponse, GetRecommendedProductTitleAndDescriptionQuery, GetRecommendedProductTitleAndDescriptionResponse, OptimizedImagesInput, OptimizedImagesResponse, ProductDiagnosisResponse, RecommendCategoryByProductParams, RecommendCategoryByProductResponse, SearchManufacturerQuery, SearchProductInput, SearchProductsResponse, SearchResponsiblePersonsParam, SearchResponsiblePersonsResponse, SearchSizeChartResponse, SearchSizeChartsInput, TikTokAPIResponse, UploadImageParams, UploadImageResponse } from '../src/types'
+import fs from 'fs';
+
+jest.mock('form-data');
+import * as FormData from 'form-data';
+
+jest.mock('fs');
 
 describe('ProductModule', () => {
     let mockRequest: jest.Mock;
@@ -7,7 +14,7 @@ describe('ProductModule', () => {
 
     beforeEach(() => {
         mockRequest = jest.fn();
-        productModule = new ProductModule(mockRequest);
+        productModule = new ProductModule(mockRequest, mockRequest);
     });
 
     describe('Other Product Module', () => {
@@ -51,7 +58,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const paramInput: SearchSizeChartsInput = {
                 body: {
@@ -121,7 +128,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const input: RecommendCategoryByProductParams = {
                 product_title: 'Kaos Anime Senku Dr. Stone Unisex Original Cotton Lengan Pendek',
@@ -158,7 +165,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const input: GetCategoryRulesQuery = {
                 category_id: "601226",
@@ -215,7 +222,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const input: GetCategoryAttributes = {
                 category_id: "601226",
@@ -246,7 +253,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const result = await product.createCategoryUpgradeTask();
 
@@ -280,7 +287,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const query: GetGlobalCategoriesQuery = {
                 keyword: "T-Shirt"
@@ -309,7 +316,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const params: GetGlobalAttributesQuery = {
                 category_id: "600001",
@@ -342,7 +349,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const bodyParam: CreateManufacturerInput = {
                 name: "John Doe",
@@ -377,7 +384,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const params: SearchManufacturerQuery = {
                 body: {
@@ -411,7 +418,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const paramInput: EditPartialManufacturerParam = {
                 body: {
@@ -455,7 +462,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const input: BrandInput = {
                 name: "Name Brand 2",
@@ -497,7 +504,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const query: BrandFilterInput = {
                 page_size: 1,
@@ -612,7 +619,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const paramInput: SearchProductInput = {
                 body: {
@@ -935,7 +942,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const paramInput: GetProductParams = {
                 product_id: "1731477962415703193",
@@ -981,7 +988,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const paramInput: GetRecommendedProductTitleAndDescriptionQuery = {
                 product_ids: ['1731477962415703193', '240248209423']
@@ -1019,7 +1026,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const paramInput: GetRecommendedProductTitleAndDescriptionQuery = {
                 product_ids: ['1731477962415703193', '240248209423']
@@ -1090,7 +1097,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const paramInput: GetRecommendedProductTitleAndDescriptionQuery = {
                 product_ids: ['1731477962415703193', '240248209423']
@@ -1118,7 +1125,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const paramInput: DeactivateProductInput = {
                 product_ids: ['1731477962415703193'],
@@ -1147,7 +1154,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const paramInput: ActivateProductInput = {
                 product_ids: ['1731477962415703193'],
@@ -1176,7 +1183,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const paramInput: DeleteProductInput = {
                 product_ids: ['1731477962415703193']
@@ -1186,6 +1193,159 @@ describe('ProductModule', () => {
 
             expect(mockRequest).toHaveBeenCalledWith({
                 method: 'DELETE',
+                path: `/product/202309/products`,
+                body: paramInput,
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
+        it('should upload a product image', async () => {
+            const fakeBuffer = Buffer.from('dummy-image-data');
+            const filePath = path.join(process.cwd(), 'images/fnatic.png');
+
+            // Mock fs.readFileSync to return a dummy buffer
+            (fs.readFileSync as jest.Mock).mockReturnValue(fakeBuffer);
+
+            const mockRes: TikTokAPIResponse<UploadImageResponse> = {
+                data: {
+                    height: 1133,
+                    uri: 'tos-maliva-i-o3syd03w52-us/4e48873aebfd4be88a8d2db7b2372b05',
+                    url: 'https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/4e48873aebfd4be88a8d2db7b2372b05~tplv-o3syd03w52-origin-jpeg.jpeg?dr=15568&from=1432613627&idc=maliva&ps=933b5bde&shcp=9794469a&shp=5563f2fb&t=555f072d',
+                    use_case: 'MAIN_IMAGE',
+                    width: 1133
+                },
+                code: 0,
+                message: 'success',
+                request_id: '92834928479234'
+            }
+
+            const uploadSpy = jest.spyOn(productModule, 'uploadProductImage').mockResolvedValue(mockRes);
+
+            const fileBuffer = fs.readFileSync(filePath);
+
+            const response = await productModule.uploadProductImage({
+                data: fileBuffer,
+                use_case: 'MAIN_IMAGE',
+            });
+
+            expect(fs.readFileSync).toHaveBeenCalledWith(filePath);
+            expect(uploadSpy).toHaveBeenCalledWith({
+                data: fakeBuffer,
+                use_case: 'MAIN_IMAGE',
+            });
+            expect(response).toEqual(mockRes);
+        });
+
+        it("Optimize images using optimizedImages", async () => {
+            const mockRes: TikTokAPIResponse<OptimizedImagesResponse | object> = {
+                data: {
+                },
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest, mockRequest);
+
+            const paramInput: OptimizedImagesInput = {
+                images: [
+                    {
+                        uri: "tos-maliva-i-o3syd03w52-us/4e48873aebfd4be88a8d2db7b2372b05",
+                        optimization_mode: ["WHITE_BACKGROUND"]
+                    }
+                ]
+            };
+
+            const result = await product.optimizedImages(paramInput);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'POST',
+                path: `/product/202404/images/optimize`,
+                body: paramInput,
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
+        it("create product using createProduct", async () => {
+            const mockRes: TikTokAPIResponse<CreateProductResponse | object> = {
+                data: {
+                    "product_id": "1729592969712207008",
+                    "skus": [
+                        {
+                            "id": "1729592969712207012",
+                            "seller_sku": "Color-Red-XM001",
+                            "sales_attributes": [
+                                {
+                                    "id": "100000",
+                                    "value_id": "1729592969712207123"
+                                }
+                            ],
+                            "external_sku_id": "1729592969712207234"
+                        }
+                    ],
+                    "warnings": [
+                        {
+                            "message": "The [brand_id]:123 field is incorrect and has been automatically cleared by the system. Reason: [Brand does not exist]. You can edit it later."
+                        }
+                    ]
+                },
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest, mockRequest);
+
+            const paramInput: CreateProductInput = {
+                description: "T-Shirt Fnatic Original Limited Edition Red Orange",
+                category_id: "601226",
+                title: "T-Shirt Fnatic Original Limited Edition Red Orange",
+                package_weight: {
+                    value: "0.5",
+                    unit: "KILOGRAM",
+                },
+                main_images: [
+                    {
+                        uri: "tos-maliva-i-o3syd03w52-us/4e48873aebfd4be88a8d2db7b2372b05",
+                    },
+                ],
+                skus: [
+                    {
+                        sales_attributes: [],
+                        inventory: [
+                            {
+                                warehouse_id: "7505773560071456518",
+                                quantity: 100
+                            },
+                        ],
+                        seller_sku: "FNC-02874823",
+                        price: {
+                            amount: "190000",
+                            currency: "IDR",
+                        },
+                        combined_skus: [],
+                        external_urls: [],
+                        extra_identifier_codes: [],
+                        external_list_prices: [],
+                    },
+                ],
+                size_chart: {
+                    image: {
+                        uri: "tos-maliva-i-o3syd03w52-us/b73320c9778b4aeb85dda50aeba1f9e6",
+                    },
+                },
+            };
+
+            const result = await product.createProduct(paramInput);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'POST',
                 path: `/product/202309/products`,
                 body: paramInput,
             });
@@ -1208,7 +1368,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const paramInput: CreateResponsiblePersonInput = {
                 name: "John Doe",
@@ -1273,7 +1433,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const paramInput: SearchResponsiblePersonsParam = {
                 body: {
@@ -1307,7 +1467,7 @@ describe('ProductModule', () => {
 
             const mockRequest = jest.fn().mockResolvedValue(mockRes);
 
-            const product = new ProductModule(mockRequest);
+            const product = new ProductModule(mockRequest, mockRequest);
 
             const paramInput: EditResponsiblePersonInput = {
                 body: {
@@ -1345,3 +1505,4 @@ describe('ProductModule', () => {
      })
 
 });
+

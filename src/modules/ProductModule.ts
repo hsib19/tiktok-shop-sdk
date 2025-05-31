@@ -7,6 +7,8 @@ import {
     CheckListingPrerequisitesResponse,
     CreateManufacturerInput,
     CreateManufacturerResponse,
+    CreateProductInput,
+    CreateProductResponse,
     CreateResponsiblePersonInput,
     CreateResponsiblePersonResponse,
     DeactivateProductInput,
@@ -29,6 +31,9 @@ import {
     GetProductSEOWordsResponse,
     GetRecommendedProductTitleAndDescriptionQuery,
     GetRecommendedProductTitleAndDescriptionResponse,
+    MultipartRequestFunction,
+    OptimizedImagesInput,
+    OptimizedImagesResponse,
     ProductDiagnosisResponse,
     RecommendCategoryByProductParams,
     RecommendCategoryByProductResponse,
@@ -40,8 +45,11 @@ import {
     SearchResponsiblePersonsResponse,
     SearchSizeChartResponse,
     SearchSizeChartsInput,
-    TikTokAPIResponse
+    TikTokAPIResponse,
+    UploadImageParams,
+    UploadImageResponse
 } from '@types';
+import FormData from 'form-data';
 
 /**
  * ProductModule provides methods to interact with TikTok Shop's product-related endpoints.
@@ -49,6 +57,7 @@ import {
 export class ProductModule {
     constructor(
         private request: RequestFunction,
+        private requestMultipart: MultipartRequestFunction
     ) { }
 
     /**
@@ -286,6 +295,37 @@ export class ProductModule {
             method: 'DELETE',
             path: `/product/202309/products`,
             body: body
+        });
+    }
+
+    async uploadProductImage(body: UploadImageParams): Promise<TikTokAPIResponse<UploadImageResponse>> {
+
+        const formData = new FormData();
+        formData.append('data', body.data, "product_name");
+        formData.append('use_case', body.use_case);
+
+        return this.requestMultipart({
+            method: 'POST',
+            path: '/product/202309/images/upload',
+            body: formData,
+        });
+    }
+
+    async optimizedImages(body: OptimizedImagesInput): Promise<TikTokAPIResponse<OptimizedImagesResponse | object>> {
+
+        return this.request({
+            method: 'POST',
+            path: '/product/202404/images/optimize',
+            body: body,
+        });
+    }
+
+    async createProduct(body: CreateProductInput): Promise<TikTokAPIResponse<CreateProductResponse | object>> {
+
+        return this.request({
+            method: 'POST',
+            path: '/product/202309/products',
+            body: body,
         });
     }
 }

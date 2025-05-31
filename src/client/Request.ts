@@ -104,7 +104,7 @@ export async function request<T>({
     });
 
 
-    // console.log(url.toString())
+    // console.log(body)
     // return null;
 
     // Prepare request headers, including JSON content type

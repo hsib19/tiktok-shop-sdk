@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 // Represents the result of a prerequisite check
 export type CheckResult = {
     is_failed: boolean;
@@ -803,3 +805,171 @@ export type DeleteProductInput = {
 }
 
 export type Platforms = "TOKOPEDIA" | "TIKTOK_SHOP";
+
+export interface UploadImageParams extends Record<string, unknown> {
+    data: Buffer | fs.ReadStream;
+    use_case: use_case;
+}
+
+type use_case = "MAIN_IMAGE" | "ATTRIBUTE_IMAGE" | "DESCRIPTION_IMAGE" | "CERTIFICATION_IMAGE"
+
+export interface UploadImageResponse {
+    uri: string;
+    url: string;
+    height: number;
+    width: number;
+    use_case: use_case
+}
+
+export type OptimizedImagesInput = {
+    images: {
+        uri: string;
+        optimization_mode: ("WHITE_BACKGROUND")[];
+    }[]
+}
+
+export type OptimizedImage = {
+    height: number;
+    width: number;
+    original_uri: string;
+    original_url: string;
+    optimized_uri: string;
+    optimized_url: string;
+    optimize_status: "SUCCESS" | "FAIL" | string;
+};
+
+export type OptimizedImagesResponse = {
+    images: OptimizedImage[];
+};
+
+export type CreateProductInput = {
+    title: string;
+    description: string;
+    category_id: string;
+    brand_id?: string;
+    save_mode?: 'LISTING' | 'DRAFT';
+    main_images: {
+        uri: string;
+    }[];
+    skus: {
+        sales_attributes: {
+            id: string;
+            value_id: string;
+            value_name: string;
+            sku_img?: {
+                uri: string;
+            };
+            name?: string;
+            supplementary_sku_images?: {
+                uri: string;
+            }[];
+        }[];
+        inventory: {
+            warehouse_id: string;
+            quantity: number;
+        }[];
+        seller_sku?: string;
+        price: {
+            amount: string;
+            currency: string;
+        };
+        external_sku_id?: string;
+        identifier_code?: {
+            code: string;
+            type: string;
+        };
+        combined_skus?: {
+            product_id: string;
+            sku_id: string;
+            sku_count: number;
+        }[];
+        sku_unit_count?: string;
+        external_urls?: string[];
+        extra_identifier_codes?: string[];
+        pre_sale?: {
+            type: string;
+            fulfillment_type: {
+                handling_duration_days: number;
+                release_date: number;
+            };
+        };
+        list_price?: {
+            amount: string;
+            currency: string;
+        };
+        external_list_prices?: {
+            source: string;
+            amount: string;
+            currency: string;
+        }[];
+    }[];
+    is_cod_allowed?: boolean;
+    certifications?: {
+        id: string;
+        images?: {
+            uri: string;
+        }[];
+        files?: {
+            id: string;
+            name: string;
+            format: string;
+        }[];
+        expiration_date?: number;
+    }[];
+    package_dimensions?: {
+        length: string;
+        width: string;
+        height: string;
+        unit: string;
+    };
+    package_weight: {
+        value: string;
+        unit: string;
+    };
+    product_attributes?: {
+        id: string;
+        values: {
+            id: string;
+            name: string;
+        }[];
+    }[];
+    video?: {
+        id: string;
+    };
+    external_product_id?: string;
+    delivery_option_ids?: string[];
+    size_chart?: {
+        image: {
+            uri: string;
+        };
+        template?: {
+            id: string;
+        };
+    };
+    primary_combined_product_id?: string;
+    is_not_for_sale?: boolean;
+    category_version?: string;
+    manufacturer_ids?: string[];
+    responsible_person_ids?: string[];
+    listing_platforms?: string[];
+    shipping_insurance_requirement?: 'REQUIRED' | 'NOT_REQUIRED';
+    minimum_order_quantity?: number;
+    is_pre_owned?: boolean;
+    idempotency_key?: string;
+};
+
+export type CreateProductResponse = {
+    product_id: string;
+    skus: {
+        id: string;
+        seller_sku: string;
+        sales_attributes: {
+            id: string;
+            value_id: string;
+        }[];
+        external_sku_id: string;
+    }[];
+    warnings?: {
+        message: string;
+    }[];
+};
