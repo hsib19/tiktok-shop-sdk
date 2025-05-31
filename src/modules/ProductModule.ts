@@ -4,8 +4,11 @@ import {
     BrandInput,
     CategoriesResponse,
     CheckListingPrerequisitesResponse,
+    CreateManufacturerInput,
+    CreateManufacturerResponse,
     CreateResponsiblePersonInput,
     CreateResponsiblePersonResponse,
+    EditPartialManufacturerParam,
     EditResponsiblePersonInput,
     GetAttributesResponse,
     GetBrandsResponse,
@@ -13,6 +16,11 @@ import {
     GetCategoryAttributes,
     GetCategoryRulesQuery,
     GetCategoryRulesResponse,
+    GetGlobalAttributeResponse,
+    GetGlobalAttributesQuery,
+    GetGlobalCategoriesQuery,
+    GetGlobalCategoriesResponse,
+    GetManufacturersResponse,
     GetProductParams,
     GetProductResponse,
     GetProductSEOWordsResponse,
@@ -22,6 +30,7 @@ import {
     RecommendCategoryByProductParams,
     RecommendCategoryByProductResponse,
     RequestFunction,
+    SearchManufacturerQuery,
     SearchProductInput,
     SearchProductsResponse,
     SearchResponsiblePersonsParam,
@@ -209,6 +218,47 @@ export class ProductModule {
             method: 'GET',
             path: `/product/202405/products/diagnoses`,
             query
+        });
+    }
+
+    getGlobalCategories(query: GetGlobalCategoriesQuery): Promise<TikTokAPIResponse<GetGlobalCategoriesResponse>> {
+        return this.request({
+            method: 'GET',
+            path: `/product/202309/global_categories`,
+            query
+        });
+    }
+
+    getGlobalAttributes(params: GetGlobalAttributesQuery): Promise<TikTokAPIResponse<GetGlobalAttributeResponse>> {
+        return this.request({
+            method: 'GET',
+            path: `/product/202309/categories/${params.category_id}/global_attributes`,
+            query: params.query
+        });
+    }
+
+    createManufacturer(body: CreateManufacturerInput): Promise<TikTokAPIResponse<CreateManufacturerResponse>> {
+        return this.request({
+            method: 'POST',
+            path: `/product/202409/compliance/manufacturers`,
+            body: body
+        });
+    }
+
+    searchManufacturer(params: SearchManufacturerQuery): Promise<TikTokAPIResponse<GetManufacturersResponse>> {
+        return this.request({
+            method: 'POST',
+            path: `/product/202501/compliance/manufacturers/search`,
+            query: params.query,
+            body: params.body
+        });
+    }
+
+    editPartialManufacturer(params: EditPartialManufacturerParam): Promise<TikTokAPIResponse<object>> {
+        return this.request({
+            method: 'POST',
+            path: `/product/202409/compliance/manufacturers/${params.manufacturer_id}/partial_edit`,
+            body: params.body
         });
     }
 }

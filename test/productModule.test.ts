@@ -1,5 +1,5 @@
 import { ProductModule } from '../src/modules/ProductModule';
-import { BrandCreateResponse, BrandFilterInput, BrandInput, CreateResponsiblePersonInput, CreateResponsiblePersonResponse, EditResponsiblePersonInput, GetAttributesResponse, GetBrandsResponse, GetCategoriesQuery, GetCategoryAttributes, GetCategoryRulesQuery, GetCategoryRulesResponse, GetProductParams, GetProductResponse, GetProductSEOWordsResponse, GetRecommendedProductTitleAndDescriptionQuery, GetRecommendedProductTitleAndDescriptionResponse, ProductDiagnosisResponse, RecommendCategoryByProductParams, RecommendCategoryByProductResponse, SearchProductInput, SearchProductsResponse, SearchResponsiblePersonsParam, SearchResponsiblePersonsResponse, SearchSizeChartResponse, SearchSizeChartsInput, TikTokAPIResponse } from '../src/types'
+import { BrandCreateResponse, BrandFilterInput, BrandInput, CreateManufacturerInput, CreateManufacturerResponse, CreateResponsiblePersonInput, CreateResponsiblePersonResponse, EditPartialManufacturerParam, EditResponsiblePersonInput, GetAttributesResponse, GetBrandsResponse, GetCategoriesQuery, GetCategoryAttributes, GetCategoryRulesQuery, GetCategoryRulesResponse, GetGlobalAttributeResponse, GetGlobalAttributesQuery, GetGlobalCategoriesQuery, GetGlobalCategoriesResponse, GetManufacturersResponse, GetProductParams, GetProductResponse, GetProductSEOWordsResponse, GetRecommendedProductTitleAndDescriptionQuery, GetRecommendedProductTitleAndDescriptionResponse, ProductDiagnosisResponse, RecommendCategoryByProductParams, RecommendCategoryByProductResponse, SearchManufacturerQuery, SearchProductInput, SearchProductsResponse, SearchResponsiblePersonsParam, SearchResponsiblePersonsResponse, SearchSizeChartResponse, SearchSizeChartsInput, TikTokAPIResponse } from '../src/types'
 
 describe('ProductModule', () => {
     let mockRequest: jest.Mock;
@@ -76,7 +76,7 @@ describe('ProductModule', () => {
 
     });
 
-    describe('getCategories', () => {
+    describe('Testing Categries Product', () => {
         it('should call request with correct GET path and query params, then return response', async () => {
             const query: GetCategoriesQuery = {
                 locale: 'id-ID',
@@ -257,7 +257,188 @@ describe('ProductModule', () => {
 
             expect(result).toEqual(mockRes);
         });
-        
+
+        it("get global category using getGlobalCategories", async () => {
+            const mockRes: TikTokAPIResponse<GetGlobalCategoriesResponse> = {
+                data: {
+                    "categories": [
+                        {
+                            "id": "600001",
+                            "parent_id": "0",
+                            "local_name": "Home Supplies",
+                            "is_leaf": false,
+                            "permission_statuses": [
+                                "AVAILABLE"
+                            ]
+                        }
+                    ]
+                },
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest);
+
+            const query: GetGlobalCategoriesQuery = {
+                keyword: "T-Shirt"
+            }
+
+            const result = await product.getGlobalCategories(query);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'GET',
+                path: `/product/202309/global_categories`,
+                query
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
+        it("get global category using getGlobalCategories", async () => {
+            const mockRes: TikTokAPIResponse<GetGlobalAttributeResponse> = {
+                data: {
+                    attributes: []
+                },
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest);
+
+            const params: GetGlobalAttributesQuery = {
+                category_id: "600001",
+                query: {
+                    locale: 'id-ID'
+                }
+            }
+
+            const result = await product.getGlobalAttributes(params);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'GET',
+                path: `/product/202309/categories/${params.category_id}/global_attributes`,
+                query: params.query
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
+    });
+
+    describe('Testing Manufactures', () => {
+        it("should call request with correct param in createManufactures", async()  => {
+            const mockRes: TikTokAPIResponse<CreateManufacturerResponse> = {
+                data: { manufacturer_id: '' },
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest);
+
+            const bodyParam: CreateManufacturerInput = {
+                name: "John Doe",
+                registered_trade_name: "TikTok Shop",
+                email: "johndoe@email.com",
+                phone_number: {
+                    country_code: "+65",
+                    local_number: "81234567"
+                },
+                address: "One Raffles Quay, 1 Raffles Quay, Singapore 048583",
+                locale: "en-IE"
+            }
+
+            const result = await product.createManufacturer(bodyParam);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'POST',
+                path: `/product/202409/compliance/manufacturers`,
+                body: bodyParam
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
+        it("should call request with correct param in searchManufactures", async () => {
+            const mockRes: TikTokAPIResponse<GetManufacturersResponse> = {
+                data: { manufacturers: [], next_page_token: '', total_count: 0 },
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest);
+
+            const params: SearchManufacturerQuery = {
+                body: {
+                    manufacturer_ids: ["66d3cbe4d9c8b09ddca932a7"],
+                    keyword: "John"
+                },
+                query: {
+                    page_size: 1
+                }
+            }
+
+            const result = await product.searchManufacturer(params);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'POST',
+                path: `/product/202501/compliance/manufacturers/search`,
+                query: params.query,
+                body: params.body,
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
+        it("edit responsible person using editPartialManufacturer", async () => {
+            const mockRes: TikTokAPIResponse<{}> = {
+                data: {},
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest);
+
+            const paramInput: EditPartialManufacturerParam = {
+                body: {
+                    name: "John Doe Edit",
+                    email: "john.doe@email.com",
+                    phone_number: {
+                        "country_code": "+353",
+                        "local_number": "80915151"
+                    },
+                    registered_trade_name: "Tiktok Shop",
+                    address: "63 Cardiff Ln, Grand Canal Dock, Dublin City, Dublin",
+                    locale: "en-IE"
+                },
+                manufacturer_id: "304950349583045345"
+            };
+
+            const result = await product.editPartialManufacturer(paramInput);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'POST',
+                path: `/product/202409/compliance/manufacturers/${paramInput.manufacturer_id}/partial_edit`,
+                body: paramInput.body
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
     });
 
     describe('Testing Brands', () => {

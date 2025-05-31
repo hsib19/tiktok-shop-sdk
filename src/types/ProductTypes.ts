@@ -95,15 +95,15 @@ export interface GetAttributesResponse {
 }
 
 export interface Attribute {
-    id: string;
-    name: string;
-    type: string; 
-    is_requried: boolean; 
-    values: AttributeValue[];
-    value_data_format: string; 
-    is_customizable: boolean;
-    requirement_conditions: RequirementCondition[];
-    is_multiple_selection: boolean;
+    id?: string;
+    name?: string;
+    type?: string; 
+    is_requried?: boolean; 
+    values?: AttributeValue[];
+    value_data_format?: string; 
+    is_customizable?: boolean;
+    requirement_conditions?: RequirementCondition[];
+    is_multiple_selection?: boolean;
 }
 
 export interface AttributeValue {
@@ -667,4 +667,122 @@ export interface ImageItem {
     url: string;
     optimized_uri: string;
     optimized_url: string;
+}
+
+
+export type GetGlobalCategoriesQuery = {
+    locale?: locale;
+    keyword?: string;
+    category_version?: 'v1' | 'v2'
+}
+
+
+export interface GetGlobalCategoriesResponse {
+    categories: Category[];
+}
+
+export interface Category {
+    id: string;
+    parent_id: string;
+    local_name: string;
+    is_leaf: boolean;
+    permission_statuses: PermissionStatus[];
+}
+
+export type PermissionStatus = 'AVAILABLE' | 'UNAVAILABLE' | string; 
+
+export type GetGlobalAttributesInput = {
+    locale?: locale;
+    category_version?: 'v1' | 'v2'
+}
+
+export type GetGlobalAttributesQuery = {
+    category_id: string;
+    query?: GetGlobalAttributesInput
+}
+
+export interface GetGlobalAttributeResponse {
+    attributes: GetGlobalAttributes[];
+}
+
+export interface GetGlobalAttributes {
+    id: string;
+    name: string;
+    type: string;
+    is_requried: boolean;
+    values: AttributeValue[];
+    is_multiple_selection: boolean;
+    is_customizable: boolean;
+    requirement_conditions: RequirementConditionGlobal[];
+    optional_regions: string[];
+    required_regions: string[];
+}
+
+export interface AttributeValue {
+    id: string;
+    name: string;
+}
+
+export interface RequirementConditionGlobal {
+    region: string;
+    condition_type: string;
+    attribute_id: string;
+    attribute_value_id: string;
+}
+
+export type CreateManufacturerInput = {
+    name: string;
+    email: string;
+    registered_trade_name?: string;
+    phone_number: {
+        country_code: string;
+        local_number: string;
+    };
+    address: string;
+    locale?: locale;
+};
+
+export interface CreateManufacturerResponse {
+    manufacturer_id?: string;
+}
+
+export type ManufacturerInputBody = {
+    manufacturer_ids?: string[];
+    keyword?: string;
+    locales?: locale;
+}
+
+export type SearchManufacturerQuery = {
+    body: ManufacturerInputBody;
+    query: SearchProductsQuery
+};
+
+export interface GetManufacturersResponse {
+    manufacturers: Manufacturer[];
+    total_count: number;
+    next_page_token: string;
+}
+
+export interface Manufacturer {
+    id: string;
+    regional_profiles: RegionalProfile[];
+}
+
+export interface RegionalProfile {
+    locale: string;
+    name: string;
+    registered_trade_name: string;
+    email: string;
+    phone_number: PhoneNumber;
+    address: string;
+}
+
+export interface PhoneNumber {
+    country_code: string;
+    local_number: string;
+}
+
+export type EditPartialManufacturerParam = {
+    manufacturer_id: string;
+    body: CreateManufacturerInput
 }
