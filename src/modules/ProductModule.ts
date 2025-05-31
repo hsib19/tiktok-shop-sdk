@@ -1,4 +1,5 @@
 import {
+    ActivateProductInput,
     BrandCreateResponse,
     BrandFilterInput,
     BrandInput,
@@ -8,6 +9,8 @@ import {
     CreateManufacturerResponse,
     CreateResponsiblePersonInput,
     CreateResponsiblePersonResponse,
+    DeactivateProductInput,
+    DeleteProductInput,
     EditPartialManufacturerParam,
     EditResponsiblePersonInput,
     GetAttributesResponse,
@@ -259,6 +262,30 @@ export class ProductModule {
             method: 'POST',
             path: `/product/202409/compliance/manufacturers/${params.manufacturer_id}/partial_edit`,
             body: params.body
+        });
+    }
+
+    deactivateProducts(body: DeactivateProductInput): Promise<TikTokAPIResponse<object>> {
+        return this.request({
+            method: 'POST',
+            path: `/product/202309/products/deactivate`,
+            body: body
+        });
+    }
+
+    activateProducts(body: ActivateProductInput): Promise<TikTokAPIResponse<object>> {
+        return this.request({
+            method: 'POST',
+            path: `/product/202309/products/activate`,
+            body: body
+        });
+    }
+
+    deleteProducts(body: DeleteProductInput): Promise<TikTokAPIResponse<object>> {
+        return this.request({
+            method: 'DELETE',
+            path: `/product/202309/products`,
+            body: body
         });
     }
 }

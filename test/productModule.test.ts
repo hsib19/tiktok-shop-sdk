@@ -1,5 +1,5 @@
 import { ProductModule } from '../src/modules/ProductModule';
-import { BrandCreateResponse, BrandFilterInput, BrandInput, CreateManufacturerInput, CreateManufacturerResponse, CreateResponsiblePersonInput, CreateResponsiblePersonResponse, EditPartialManufacturerParam, EditResponsiblePersonInput, GetAttributesResponse, GetBrandsResponse, GetCategoriesQuery, GetCategoryAttributes, GetCategoryRulesQuery, GetCategoryRulesResponse, GetGlobalAttributeResponse, GetGlobalAttributesQuery, GetGlobalCategoriesQuery, GetGlobalCategoriesResponse, GetManufacturersResponse, GetProductParams, GetProductResponse, GetProductSEOWordsResponse, GetRecommendedProductTitleAndDescriptionQuery, GetRecommendedProductTitleAndDescriptionResponse, ProductDiagnosisResponse, RecommendCategoryByProductParams, RecommendCategoryByProductResponse, SearchManufacturerQuery, SearchProductInput, SearchProductsResponse, SearchResponsiblePersonsParam, SearchResponsiblePersonsResponse, SearchSizeChartResponse, SearchSizeChartsInput, TikTokAPIResponse } from '../src/types'
+import { ActivateProductInput, BrandCreateResponse, BrandFilterInput, BrandInput, CreateManufacturerInput, CreateManufacturerResponse, CreateResponsiblePersonInput, CreateResponsiblePersonResponse, DeactivateProductInput, DeleteProductInput, EditPartialManufacturerParam, EditResponsiblePersonInput, GetAttributesResponse, GetBrandsResponse, GetCategoriesQuery, GetCategoryAttributes, GetCategoryRulesQuery, GetCategoryRulesResponse, GetGlobalAttributeResponse, GetGlobalAttributesQuery, GetGlobalCategoriesQuery, GetGlobalCategoriesResponse, GetManufacturersResponse, GetProductParams, GetProductResponse, GetProductSEOWordsResponse, GetRecommendedProductTitleAndDescriptionQuery, GetRecommendedProductTitleAndDescriptionResponse, ProductDiagnosisResponse, RecommendCategoryByProductParams, RecommendCategoryByProductResponse, SearchManufacturerQuery, SearchProductInput, SearchProductsResponse, SearchResponsiblePersonsParam, SearchResponsiblePersonsResponse, SearchSizeChartResponse, SearchSizeChartsInput, TikTokAPIResponse } from '../src/types'
 
 describe('ProductModule', () => {
     let mockRequest: jest.Mock;
@@ -1102,6 +1102,92 @@ describe('ProductModule', () => {
                 method: 'GET',
                 path: `/product/202405/products/diagnoses`,
                 query: paramInput,
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
+        it("Deactivate product using deactivateProducts", async () => {
+            const mockRes: TikTokAPIResponse<Object> = {
+                data: {
+                },
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest);
+
+            const paramInput: DeactivateProductInput = {
+                product_ids: ['1731477962415703193'],
+                listing_platforms: ["TIKTOK_SHOP", "TOKOPEDIA"]
+            };
+
+            const result = await product.deactivateProducts(paramInput);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'POST',
+                path: `/product/202309/products/deactivate`,
+                body: paramInput,
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
+        it("Activate product using activateProducts", async () => {
+            const mockRes: TikTokAPIResponse<Object> = {
+                data: {
+                },
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest);
+
+            const paramInput: ActivateProductInput = {
+                product_ids: ['1731477962415703193'],
+                listing_platforms: ["TIKTOK_SHOP", "TOKOPEDIA"]
+            };
+
+            const result = await product.activateProducts(paramInput);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'POST',
+                path: `/product/202309/products/activate`,
+                body: paramInput,
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
+        it("Delete product using deleteProducts", async () => {
+            const mockRes: TikTokAPIResponse<Object> = {
+                data: {
+                },
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest);
+
+            const paramInput: DeleteProductInput = {
+                product_ids: ['1731477962415703193']
+            };
+
+            const result = await product.deleteProducts(paramInput);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'DELETE',
+                path: `/product/202309/products`,
+                body: paramInput,
             });
 
             expect(result).toEqual(mockRes);

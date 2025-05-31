@@ -786,3 +786,20 @@ export type EditPartialManufacturerParam = {
     manufacturer_id: string;
     body: CreateManufacturerInput
 }
+
+
+export type DeactivateProductInput = {
+    product_ids: string[];
+    listing_platforms?: Platforms[];
+}
+
+export type ActivateProductInput = {
+    product_ids: string[];
+    listing_platforms?: Platforms[];
+}
+
+export type DeleteProductInput = {
+    product_ids: string[];
+}
+
+export type Platforms = "TOKOPEDIA" | "TIKTOK_SHOP";
