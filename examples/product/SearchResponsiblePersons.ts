@@ -17,7 +17,7 @@ async function main() {
 
         const response = await sdk.product.searchResponsiblePersons({
             body: {
-                responsible_person_ids: ["66d3cbe4d9c8b09ddca932a7"],
+                responsible_person_ids: ["66d3cbe4d9c8b09ddca932a7", "66d3cbe4d9c8b09ddca93340958037"],
                 keyword: "John"
             },
             query: {

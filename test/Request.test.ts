@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { request } from '../src/client';
 import { generateSignature, handleResponse, TikTokAPIError } from '../src/utils';
+import { RequestOptions } from '../src/types';
 
 jest.mock('axios');
 jest.mock('../src/utils', () => ({
@@ -250,5 +251,161 @@ describe('request', () => {
         expect(calledUrl).toContain('nested2=123');
     });
 
+
+    it('should correctly append nested body object parameters to URL', async () => {
+        mockedGenerateSignature.mockReturnValue('signed-value');
+        mockedHandleResponse.mockReturnValue({ success: true });
+
+        const nestedBody = {
+            query: {
+                responsible_person_ids: ['nestedValue1', 'nestedvalue2'],
+            }
+        };
+
+        await request({
+            method: 'GET',
+            path: '/test/nested-query',
+            query: nestedBody,
+            config: baseConfig,
+        });
+
+        // Ambil URL yang dipakai axios.request
+        const calledUrl = mockedAxios.request.mock.calls[0][0].url;
+        const urlReplace = calledUrl?.replace("%2C", ",");
+
+        expect(calledUrl).toContain('responsible_person_ids=nestedValue1%2Cnestedvalue2');
+        expect(urlReplace).toContain('responsible_person_ids=nestedValue1,nestedvalue2');
+    });
+
+    it('should join array query param values with commas in URL', async () => {
+        // Arrange
+        mockedAxios.request.mockResolvedValueOnce({
+            data: { data: 'ok' },
+        });
+
+        const options: RequestOptions = {
+            method: 'GET',
+            path: '/api/test',
+            query: {
+                product_ids: ['1', '2', '3'],
+            },
+            config: {
+                appKey: 'appkey123',
+                appSecret: 'secret123',
+                baseURL: 'https://example.com',
+            },
+        };
+
+        await request(options);
+
+        expect(mockedAxios.request).toHaveBeenCalledTimes(1);
+
+        const calledUrl = mockedAxios.request.mock.calls[0][0].url;
+
+        expect(calledUrl).toContain('product_ids=1%2C2%2C3');
+    });
+
+    it('should skip query params with undefined values when building URL', async () => {
+        // Mock axios to resolve with dummy data
+        mockedAxios.request.mockResolvedValueOnce({
+            data: { data: 'ok' },
+        });
+
+        const options: RequestOptions = {
+            method: 'GET',
+            path: '/api/test',
+            query: {
+                foo: 'bar',        // valid query param, should be included
+                skipMe: undefined, // undefined query param, should be skipped,
+                boolean1: true,
+                numberval: 123
+            },
+            config: {
+                appKey: 'appkey123',
+                appSecret: 'secret123',
+                baseURL: 'https://example.com',
+            },
+        };
+
+        // Execute the request function
+        await request(options);
+
+        // Get the URL passed to axios.request
+        const calledUrl = mockedAxios.request.mock.calls[0][0].url;
+
+        // Expect the URL to contain the valid query param 'foo=bar'
+        expect(calledUrl).toContain('foo=bar&boolean1=true&numberval=123');
+
+        // Expect the URL NOT to contain the undefined param 'skipMe'
+        expect(calledUrl).not.toContain('skipMe=');
+    });
+
+    it('should skip nested query parameters with undefined values', async () => {
+        mockedAxios.request.mockResolvedValueOnce({
+            data: { data: 'ok' },
+        });
+
+        const options: RequestOptions = {
+            method: 'GET',
+            path: '/api/test',
+            query: {
+                query: {               // nested query object
+                    validKey: 'value',   // should be included
+                    skipKey: undefined,  // should be skipped
+                    boolean1: true,
+                    numberval: 123
+                },
+            },
+            config: {
+                appKey: 'appkey123',
+                appSecret: 'secret123',
+                baseURL: 'https://example.com',
+            },
+        };
+
+        await request(options);
+
+        const calledUrl = mockedAxios.request.mock.calls[0][0].url;
+
+        // The URL should contain 'validKey=value' from the nested query object
+        expect(calledUrl).toContain('validKey=value&boolean1=true&numberval=123');
+
+        // The URL should NOT contain 'skipKey' because its value is undefined
+        expect(calledUrl).not.toContain('skipKey=');
+    });
+
+
+    it('sets requestId to empty string if not provided', async () => {
+        mockedAxios.request.mockRejectedValueOnce({
+            isAxiosError: true,
+            response: {
+                data: {
+                    code: 401,
+                    message: 'Unauthorized',
+                    // optionally request_id omitted
+                },
+            },
+            message: 'Unauthorized',
+        });
+
+        const options: RequestOptions = {
+            method: 'GET',
+            path: '/api/private',
+            query: {},
+            config: {
+                appKey: 'testkey',
+                appSecret: 'testsecret',
+                baseURL: 'https://api.tiktok.com',
+            },
+        };
+
+        await expect(request(options)).rejects.toThrow(TikTokAPIError);
+        await request(options).catch((err) => {
+            expect(err).toBeInstanceOf(TikTokAPIError);
+            expect(err.message).toBe('Unauthorized');
+            expect(err.code).toBe(401);
+            expect(err.requestId).toBe('');
+        });
+    });
 
 });

@@ -1,4 +1,5 @@
 import { generateSignature } from '../src/utils/signature';
+import crypto from 'crypto';
 
 describe('generateSignature', () => {
     const appSecret = 'my-secret';
@@ -37,4 +38,57 @@ describe('generateSignature', () => {
         const sign = generateSignature({ appSecret, path, query });
         expect(typeof sign).toBe('string');
     });
+
+    it('should flatten array inside query.query and join with comma', () => {
+        const input = {
+            appSecret: 'mysecret',
+            path: '/my/path',
+            version: 'v2' as const,
+            query: {
+                query: {
+                    ids: ['1', '2', '3'], // ← ini akan trigger innerVal.join(',')
+                },
+            },
+            body: {},
+        };
+
+        const result = generateSignature(input);
+
+        // Rebuild expected sortedQuery manually
+        const sortedQuery = 'ids=1,2,3';
+        const bodyString = '';
+        const baseString = `mysecret/my/path${sortedQuery}${bodyString}`;
+        const expectedSignature = crypto
+            .createHmac('sha256', 'mysecret')
+            .update(baseString)
+            .digest('hex');
+
+        expect(result).toBe(expectedSignature);
+    });
+
+    it('should flatten array inside query.query and join with comma', () => {
+        const input = {
+            appSecret: 'mysecret',
+            path: '/my/path',
+            version: 'v2' as const,
+            query: {
+                ids: ['1', '2', '3'], // ← ini akan trigger innerVal.join(',')
+            },
+            body: {},
+        };
+
+        const result = generateSignature(input);
+
+        // Rebuild expected sortedQuery manually
+        const sortedQuery = 'ids=1,2,3';
+        const bodyString = '';
+        const baseString = `mysecret/my/path${sortedQuery}${bodyString}`;
+        const expectedSignature = crypto
+            .createHmac('sha256', 'mysecret')
+            .update(baseString)
+            .digest('hex');
+
+        expect(result).toBe(expectedSignature);
+    });
+
 });
