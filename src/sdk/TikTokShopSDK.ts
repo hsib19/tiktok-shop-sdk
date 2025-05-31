@@ -30,7 +30,7 @@ export class TikTokShopSDK {
                 ...params,
                 config: {
                     ...this.config,
-                    baseURL: this.config.baseURL || DEFAULT_BASE_URL,
+                    baseURL: DEFAULT_BASE_URL,
                     accessToken: this.accessToken,
                 },
             });
@@ -40,7 +40,7 @@ export class TikTokShopSDK {
                 ...params,
                 config: {
                     ...this.config,
-                    baseURL: this.config.baseURL || DEFAULT_BASE_URL,
+                    baseURL: DEFAULT_BASE_URL,
                     accessToken: this.accessToken,
                     shopCipher: this.shopCipher,
                 },
@@ -51,7 +51,7 @@ export class TikTokShopSDK {
                 ...params,
                 config: {
                     ...this.config,
-                    baseURL: this.config.baseURL || DEFAULT_BASE_URL,
+                    baseURL: DEFAULT_BASE_URL,
                     accessToken: this.accessToken,
                     shopCipher: this.shopCipher,
                 },

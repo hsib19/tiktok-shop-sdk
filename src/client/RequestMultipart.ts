@@ -31,7 +31,7 @@ export async function requestMultipart({
         timestamp,
     };
 
-    if (config.shopCipher && path.startsWith('/product/')) {
+    if (config.shopCipher) {
         unsignedQuery.shop_cipher = config.shopCipher;
     }
 
