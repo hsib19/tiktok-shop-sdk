@@ -973,3 +973,146 @@ export type CreateProductResponse = {
         message: string;
     }[];
 };
+
+export type EditProductBody = {
+    description: string;
+    category_id: string;
+    main_images: {
+        uri: string;
+    }[];
+    skus: {
+        id: string;
+        sales_attributes: {
+            id: string;
+            name: string;
+            value_id: string;
+            value_name: string;
+            sku_img: {
+                uri: string;
+            };
+            supplementary_sku_images: {
+                uri: string;
+            }[];
+        }[];
+        seller_sku: string;
+        price: {
+            amount: string;
+            currency: string;
+            sale_price: string;
+        };
+        external_sku_id: string;
+        identifier_code: {
+            code: string;
+            type: string;
+        };
+        inventory?: {
+            warehouse_id: string;
+            quantity?: number;
+        }[];
+        combined_skus?: {
+            product_id: string;
+            sku_id: string;
+            sku_count: number;
+        }[];
+        sku_unit_count?: string;
+        external_urls?: string[];
+        extra_identifier_codes?: string[];
+        pre_sale?: {
+            type: string;
+            fulfillment_type: {
+                handling_duration_days: number;
+                release_date: number;
+            };
+        };
+        list_price?: {
+            amount: string;
+            currency: string;
+        };
+        external_list_prices?: {
+            source: string;
+            amount: string;
+            currency: string;
+        }[];
+    }[];
+    title: string;
+    package_weight: {
+        value: string;
+        unit: string;
+    };
+    brand_id?: string;
+    is_cod_allowed?: boolean;
+    certifications?: {
+        id: string;
+        images: {
+            uri: string;
+        }[];
+        files: {
+            id: string;
+            name: string;
+            format: string;
+        }[];
+        expiration_date: number;
+    }[];
+    product_attributes?: {
+        id: string;
+        values: {
+            id: string;
+            name: string;
+        }[];
+    }[];
+    size_chart?: {
+        image: {
+            uri: string;
+        };
+        template?: {
+            id: string;
+        };
+    };
+    package_dimensions?: {
+        length: string;
+        width: string;
+        height: string;
+        unit: string;
+    };
+    external_product_id?: string;
+    delivery_option_ids?: string[];
+    video?: {
+        id: string;
+    };
+    category_version?: string;
+    manufacturer_ids?: string[];
+    responsible_person_ids?: string[];
+    listing_platforms?: string[];
+    shipping_insurance_requirement?: string;
+    is_pre_owned?: boolean;
+    minimum_order_quantity?: number;
+};
+
+
+export type EditProductResponse = {
+    product_id?: string;
+    skus?: {
+        id?: string;
+        seller_sku?: string;
+        sales_attributes?: {
+            id?: string;
+            value_id?: string;
+        }[];
+        external_sku_id?: string;
+    }[];
+    warnings?: {
+        message?: string;
+    }[];
+    audit?: {
+        status?: string | 'AUDITING' | 'REJECTED' | 'APPROVED'; 
+    };
+};
+
+export type EditProductParams = {
+    product_id: string;
+    body: EditProductBody
+}
+
+export type RecoverProductBody = {
+    product_ids: string[];
+}

@@ -1,6 +1,6 @@
 import path from 'path';
 import { ProductModule } from '../src/modules/ProductModule';
-import { ActivateProductInput, BrandCreateResponse, BrandFilterInput, BrandInput, CreateManufacturerInput, CreateManufacturerResponse, CreateProductInput, CreateProductResponse, CreateResponsiblePersonInput, CreateResponsiblePersonResponse, DeactivateProductInput, DeleteProductInput, EditPartialManufacturerParam, EditResponsiblePersonInput, GetAttributesResponse, GetBrandsResponse, GetCategoriesQuery, GetCategoryAttributes, GetCategoryRulesQuery, GetCategoryRulesResponse, GetGlobalAttributeResponse, GetGlobalAttributesQuery, GetGlobalCategoriesQuery, GetGlobalCategoriesResponse, GetManufacturersResponse, GetProductParams, GetProductResponse, GetProductSEOWordsResponse, GetRecommendedProductTitleAndDescriptionQuery, GetRecommendedProductTitleAndDescriptionResponse, OptimizedImagesInput, OptimizedImagesResponse, ProductDiagnosisResponse, RecommendCategoryByProductParams, RecommendCategoryByProductResponse, SearchManufacturerQuery, SearchProductInput, SearchProductsResponse, SearchResponsiblePersonsParam, SearchResponsiblePersonsResponse, SearchSizeChartResponse, SearchSizeChartsInput, TikTokAPIResponse, UploadImageParams, UploadImageResponse } from '../src/types'
+import { ActivateProductInput, BrandCreateResponse, BrandFilterInput, BrandInput, CreateManufacturerInput, CreateManufacturerResponse, CreateProductInput, CreateProductResponse, CreateResponsiblePersonInput, CreateResponsiblePersonResponse, DeactivateProductInput, DeleteProductInput, EditPartialManufacturerParam, EditProductParams, EditProductResponse, EditResponsiblePersonInput, GetAttributesResponse, GetBrandsResponse, GetCategoriesQuery, GetCategoryAttributes, GetCategoryRulesQuery, GetCategoryRulesResponse, GetGlobalAttributeResponse, GetGlobalAttributesQuery, GetGlobalCategoriesQuery, GetGlobalCategoriesResponse, GetManufacturersResponse, GetProductParams, GetProductResponse, GetProductSEOWordsResponse, GetRecommendedProductTitleAndDescriptionQuery, GetRecommendedProductTitleAndDescriptionResponse, OptimizedImagesInput, OptimizedImagesResponse, ProductDiagnosisResponse, RecommendCategoryByProductParams, RecommendCategoryByProductResponse, RecoverProductBody, SearchManufacturerQuery, SearchProductInput, SearchProductsResponse, SearchResponsiblePersonsParam, SearchResponsiblePersonsResponse, SearchSizeChartResponse, SearchSizeChartsInput, TikTokAPIResponse, UploadImageParams, UploadImageResponse } from '../src/types'
 import fs from 'fs';
 
 jest.mock('form-data');
@@ -1347,6 +1347,175 @@ describe('ProductModule', () => {
             expect(mockRequest).toHaveBeenCalledWith({
                 method: 'POST',
                 path: `/product/202309/products`,
+                body: paramInput,
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
+        it("edit product using editProduct", async () => {
+            const mockRes: TikTokAPIResponse<EditProductResponse | object> = {
+                data: {
+                    "product_id": "1729592969712207008",
+                    "skus": [
+                        {
+                            "id": "1729592969712207012",
+                            "seller_sku": "Color-Red-XM001",
+                            "sales_attributes": [
+                                {
+                                    "id": "100000",
+                                    "value_id": "1729592969712207123"
+                                }
+                            ],
+                            "external_sku_id": "1729592969712207234"
+                        }
+                    ],
+                    "warnings": [
+                        {
+                            "message": "The [brand_id]:123 field is incorrect and has been automatically cleared by the system. Reason: [Brand does not exist]. You can edit it later."
+                        }
+                    ],
+                    "audit": {
+                        "status": "AUDITING"
+                    }
+                },
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest, mockRequest);
+
+            const paramInput: EditProductParams = {
+                product_id: "1731560416953664665",
+                body: {
+                    description:
+                        '<p>Please compare above detailed size with your measurement before purchase.</p><ul>   <li>M-Size</li>  <li>XL-Size</li></ul> <img src="https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/181595ea7d26489284b5667488d708c1~tplv-o3syd03w52-origin-jpeg.jpeg?from=1432613627" width=\'100\' height=\'100\' />',
+                    category_id: '601226',
+                    brand_id: '7082427311584347905',
+                    main_images: [
+                        {
+                            uri: 'tos-maliva-i-o3syd03w52-us/b73320c9778b4aeb85dda50aeba1f9e6',
+                        },
+                    ],
+                    skus: [
+                        {
+                            id: '1731560420062823577',
+                            sales_attributes: [
+                                {
+                                    id: '100089',
+                                    name: 'Specification',
+                                    value_id: '1729592969712401100',
+                                    value_name: 'XL',
+                                    sku_img: {
+                                        uri: 'tos-maliva-i-o3syd03w52-us/b73320c9778b4aeb85dda50aeba1f9e6',
+                                    },
+                                    supplementary_sku_images: [
+                                        {
+                                            uri: 'tos-maliva-i-o3syd03w52-us/b73320c9778b4aeb85dda50aeba1f9e6',
+                                        },
+                                    ],
+                                },
+                            ],
+                            seller_sku: 'Color-Red-XM001',
+                            price: {
+                                amount: '180000000',
+                                currency: 'IDR',
+                                sale_price: '180000000',
+                            },
+                            external_sku_id: '1729592969712207012',
+                            identifier_code: {
+                                code: '12345678901234',
+                                type: 'GTIN',
+                            },
+                            inventory: [
+                                {
+                                    warehouse_id: '7505773560071456518',
+                                    quantity: 999,
+                                },
+                            ],
+                        },
+                    ],
+                    title:
+                        "Men's Fashion Sports Low Cut Cotton Breathable Ankle Short Boat Invisible Socks",
+                    is_cod_allowed: false,
+                    package_weight: {
+                        value: '1.32',
+                        unit: 'KILOGRAM',
+                    },
+                    product_attributes: [
+                        {
+                            id: '100392',
+                            values: [
+                                {
+                                    id: '1001533',
+                                    name: 'Birthday',
+                                },
+                            ],
+                        },
+                    ],
+                    size_chart: {
+                        image: {
+                            uri: 'tos-maliva-i-o3syd03w52-us/b73320c9778b4aeb85dda50aeba1f9e6',
+                        },
+                        template: {
+                            id: '7267563252536723205',
+                        },
+                    },
+                    package_dimensions: {
+                        length: '10',
+                        width: '10',
+                        height: '10',
+                        unit: 'CENTIMETER',
+                    },
+                    external_product_id: '172959296971220002',
+                    delivery_option_ids: ['6956553057215710977'],
+                    category_version: 'v1',
+                    manufacturer_ids: ['172959296971220002'],
+                    responsible_person_ids: ['172959296971220003'],
+                    listing_platforms: ['TIKTOK_SHOP'],
+                    shipping_insurance_requirement: 'REQUIRED',
+                    is_pre_owned: false,
+                    minimum_order_quantity: 1,
+                }
+            };
+
+            const result = await product.editProduct(paramInput);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'PUT',
+                path: `/product/202309/products/${paramInput.product_id}`,
+                body: paramInput.body,
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
+        it("recovery product using recoverProduct", async () => {
+            const mockRes: TikTokAPIResponse<CreateProductResponse | object> = {
+                data: {
+                   
+                },
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest, mockRequest);
+
+            const paramInput: RecoverProductBody = {
+                product_ids: ['1731477962415703193']
+            };
+
+            const result = await product.recoverProduct(paramInput);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'POST',
+                path: `/product/202309/products/recover`,
                 body: paramInput,
             });
 

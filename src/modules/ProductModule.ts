@@ -14,6 +14,8 @@ import {
     DeactivateProductInput,
     DeleteProductInput,
     EditPartialManufacturerParam,
+    EditProductParams,
+    EditProductResponse,
     EditResponsiblePersonInput,
     GetAttributesResponse,
     GetBrandsResponse,
@@ -37,6 +39,7 @@ import {
     ProductDiagnosisResponse,
     RecommendCategoryByProductParams,
     RecommendCategoryByProductResponse,
+    RecoverProductBody,
     RequestFunction,
     SearchManufacturerQuery,
     SearchProductInput,
@@ -175,7 +178,9 @@ export class ProductModule {
             query: params.query
         });
     }
-
+    /**
+     * Create a new responsible person for product compliance.
+     */
     createResponsiblePerson(body: CreateResponsiblePersonInput): Promise<TikTokAPIResponse<CreateResponsiblePersonResponse>> {
         return this.request({
             method: 'POST',
@@ -184,6 +189,9 @@ export class ProductModule {
         });
     }
 
+    /**
+     * Search responsible persons based on given query and filters.
+     */
     searchResponsiblePersons(params: SearchResponsiblePersonsParam): Promise<TikTokAPIResponse<SearchResponsiblePersonsResponse>> {
         return this.request({
             method: 'POST',
@@ -193,6 +201,9 @@ export class ProductModule {
         });
     }
 
+    /**
+     * Edit details of a responsible person partially by ID.
+     */
     editResponsiblePersons(params: EditResponsiblePersonInput): Promise<TikTokAPIResponse<object>> {
         return this.request({
             method: 'POST',
@@ -201,6 +212,9 @@ export class ProductModule {
         });
     }
 
+    /**
+     * Create a category upgrade task for products.
+     */
     createCategoryUpgradeTask(): Promise<TikTokAPIResponse<object>> {
         return this.request({
             method: 'POST',
@@ -208,6 +222,9 @@ export class ProductModule {
         });
     }
 
+    /**
+     * Get recommended product titles and descriptions.
+     */
     getRecommendedProductTitleAndDescription(query: GetRecommendedProductTitleAndDescriptionQuery): Promise<TikTokAPIResponse<GetRecommendedProductTitleAndDescriptionResponse>> {
         return this.request({
             method: 'GET',
@@ -216,7 +233,9 @@ export class ProductModule {
         });
     }
 
-
+    /**
+     * Get SEO words recommendations for products.
+     */
     getProductsSEOWords(query: GetRecommendedProductTitleAndDescriptionQuery): Promise<TikTokAPIResponse<GetProductSEOWordsResponse>> {
         return this.request({
             method: 'GET',
@@ -225,6 +244,9 @@ export class ProductModule {
         });
     }
 
+    /**
+     * Diagnose product information issues.
+     */
     productInformationIssueDiagnosis(query: GetRecommendedProductTitleAndDescriptionQuery): Promise<TikTokAPIResponse<ProductDiagnosisResponse>> {
         return this.request({
             method: 'GET',
@@ -233,6 +255,9 @@ export class ProductModule {
         });
     }
 
+    /**
+     * Retrieve global product categories.
+     */
     getGlobalCategories(query: GetGlobalCategoriesQuery): Promise<TikTokAPIResponse<GetGlobalCategoriesResponse>> {
         return this.request({
             method: 'GET',
@@ -241,6 +266,9 @@ export class ProductModule {
         });
     }
 
+    /**
+     * Get global attributes for a specific category.
+     */
     getGlobalAttributes(params: GetGlobalAttributesQuery): Promise<TikTokAPIResponse<GetGlobalAttributeResponse>> {
         return this.request({
             method: 'GET',
@@ -249,6 +277,9 @@ export class ProductModule {
         });
     }
 
+    /**
+     * Create a new manufacturer entry.
+     */
     createManufacturer(body: CreateManufacturerInput): Promise<TikTokAPIResponse<CreateManufacturerResponse>> {
         return this.request({
             method: 'POST',
@@ -257,6 +288,9 @@ export class ProductModule {
         });
     }
 
+    /**
+     * Search manufacturers with filters and query.
+     */
     searchManufacturer(params: SearchManufacturerQuery): Promise<TikTokAPIResponse<GetManufacturersResponse>> {
         return this.request({
             method: 'POST',
@@ -266,6 +300,9 @@ export class ProductModule {
         });
     }
 
+    /**
+     * Partially edit manufacturer information by ID.
+     */
     editPartialManufacturer(params: EditPartialManufacturerParam): Promise<TikTokAPIResponse<object>> {
         return this.request({
             method: 'POST',
@@ -274,6 +311,9 @@ export class ProductModule {
         });
     }
 
+    /**
+     * Deactivate products by given list.
+     */
     deactivateProducts(body: DeactivateProductInput): Promise<TikTokAPIResponse<object>> {
         return this.request({
             method: 'POST',
@@ -282,6 +322,9 @@ export class ProductModule {
         });
     }
 
+    /**
+     * Activate products by given list.
+     */
     activateProducts(body: ActivateProductInput): Promise<TikTokAPIResponse<object>> {
         return this.request({
             method: 'POST',
@@ -290,6 +333,9 @@ export class ProductModule {
         });
     }
 
+    /**
+     * Delete products by given list.
+     */
     deleteProducts(body: DeleteProductInput): Promise<TikTokAPIResponse<object>> {
         return this.request({
             method: 'DELETE',
@@ -298,6 +344,9 @@ export class ProductModule {
         });
     }
 
+    /**
+     * Upload product images using multipart/form-data.
+     */
     async uploadProductImage(body: UploadImageParams): Promise<TikTokAPIResponse<UploadImageResponse>> {
 
         const formData = new FormData();
@@ -311,6 +360,9 @@ export class ProductModule {
         });
     }
 
+    /**
+     * Optimize images for products.
+     */
     async optimizedImages(body: OptimizedImagesInput): Promise<TikTokAPIResponse<OptimizedImagesResponse | object>> {
 
         return this.request({
@@ -320,6 +372,9 @@ export class ProductModule {
         });
     }
 
+    /**
+     * Create a new product with given details.
+     */
     async createProduct(body: CreateProductInput): Promise<TikTokAPIResponse<CreateProductResponse | object>> {
 
         return this.request({
@@ -328,4 +383,26 @@ export class ProductModule {
             body: body,
         });
     }
+
+    /**
+     * Edit a product with given details.
+     */
+    async editProduct(params: EditProductParams): Promise<TikTokAPIResponse<EditProductResponse | object>> {
+
+        return this.request({
+            method: 'PUT',
+            path: `/product/202309/products/${params.product_id}`,
+            body: params.body,
+        });
+    }
+
+    async recoverProduct(body: RecoverProductBody): Promise<TikTokAPIResponse<object>> {
+
+        return this.request({
+            method: 'POST',
+            path: `/product/202309/products/recover`,
+            body: body,
+        });
+    }
+
 }
