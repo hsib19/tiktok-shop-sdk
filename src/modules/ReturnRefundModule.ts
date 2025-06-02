@@ -10,7 +10,6 @@ import {
     GetReturnRecordResponse,
     RejectReturnParams,
     RequestFunction,
-    ReturnRequestInput,
     SearchReturnParams,
     SearchReturnResponse,
     TikTokAPIResponse,
