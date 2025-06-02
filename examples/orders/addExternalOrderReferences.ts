@@ -16,13 +16,28 @@ async function main() {
         sdk.setAccessToken(process.env.TIKTOK_APP_ACCESS_KEY!);
         sdk.setShopCipher(process.env.TIKTOK_SHOP_CIPHER!)
 
-        const response = await sdk.product.getProduct({
-            product_id: "1731477962415703193",
-            query: {
-                return_under_review_version: false
-            }
-        });
-        console.log(JSON.stringify(response))
+        const body = {
+            orders: [
+                {
+                    id: "576461413038785752",
+                    external_order: {
+                        id: "676461413038785752",
+                        platform: "SHOPIFY",
+                        line_items: [
+                            {
+                                id: "577086512123755123",
+                                origin_id: "677086512123755123"
+                            }
+                        ]
+                    }
+                }
+            ]
+        };
+
+
+        const response = await sdk.order.addExternalOrderReferences(body);
+
+        console.log(response.data)
 
     } catch (error) {
         if (error instanceof TikTokAPIError) {
@@ -37,4 +52,4 @@ async function main() {
 
 main();
 
-// npx tsx examples/product/getProduct.ts
+// npx tsx examples/orders/addExternalOrderReferences.ts

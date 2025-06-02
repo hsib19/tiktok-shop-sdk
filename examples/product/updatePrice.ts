@@ -16,13 +16,23 @@ async function main() {
         sdk.setAccessToken(process.env.TIKTOK_APP_ACCESS_KEY!);
         sdk.setShopCipher(process.env.TIKTOK_SHOP_CIPHER!)
 
-        const response = await sdk.product.getProduct({
-            product_id: "1731477962415703193",
-            query: {
-                return_under_review_version: false
+        const response = await sdk.product.updatePrice({
+            product_id: "1731560416953664665",
+            body: {
+                skus: [
+                    {
+                        id: "1731477996877743257",
+                        price: {
+                            amount: "203000",
+                            currency: "IDR",
+                            sale_price: "203000"
+                        }
+                    }
+                ]
             }
         });
-        console.log(JSON.stringify(response))
+
+        console.log(response)
 
     } catch (error) {
         if (error instanceof TikTokAPIError) {
@@ -37,4 +47,4 @@ async function main() {
 
 main();
 
-// npx tsx examples/product/getProduct.ts
+// npx tsx examples/product/updatePrice.ts

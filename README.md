@@ -44,7 +44,7 @@ Whether you're looking to automate product listings, streamline order management
 * **Strongly Typed:** Fully written in TypeScript, offering type safety for API requests and responses, improving code quality and maintainability.
 * **Authentication:** Simplified OAuth 2.0 flow and token management for secure API access.
 * **Product Management:** Easily create, retrieve, update, and delete product listings with typed interfaces.
-* **Order Management:** Fetch order details, update order statuses (e.g., packed, shipped), and manage fulfillment with clear data structures.
+* **Order Management:** Fetch order details, create external order (e.g., shopify, woocomerce), and manage fulfillment with clear data structures.
 * **Inventory Management:** Programmatically update and synchronize stock levels with type-checked inputs.
 * **Reverse Order Management:** Handle return and refund requests through the API using defined types.
 * **Logistics Management:** Interact with shipping and fulfillment services.
@@ -98,7 +98,7 @@ Modules marked as **Completed** are fully implemented and tested, while those ma
 | `Event` | `✅ Completed` |
 | `Seller` | `✅ Completed` |
 | `Products` | `🚧 In Progress` |
-| `Orders` | `⏳ Not Started` |
+| `Orders` | `✅ Completed` |
 | `Logistic` | `⏳ Not Started` |
 | `Return & Refund` | `⏳ Not Started` |
 | `Finance` | `⏳ Not Started` |

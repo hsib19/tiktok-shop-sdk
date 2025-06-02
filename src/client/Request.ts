@@ -2,8 +2,6 @@ import { RequestOptions, TikTokAPIResponse } from '@types';
 import { generateSignature, handleResponse, TikTokAPIError } from '@utils';
 import axios, { AxiosError } from 'axios';
 
-
-
 /**
  * Generic TikTok API request function
  * This function constructs the full API request by:

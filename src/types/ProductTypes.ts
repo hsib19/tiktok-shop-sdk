@@ -1116,3 +1116,169 @@ export type EditProductParams = {
 export type RecoverProductBody = {
     product_ids: string[];
 }
+
+export type Currency = "BRL" | "EUR" | "GBP" | "IDR" | "JPY" | "MXN" | "MYR" | "PHP" | "SGD" | "THB" | "USD" | "VND"
+
+export interface SKUInput {
+    id: string;
+    price: {
+        amount?: string;
+        currency: Currency;
+        sale_price?: string;
+        list_price: {
+            amount: string;
+            currency: string;
+        },
+        external_list_prices: {
+            source: string;
+            amount: string;
+            currency: string | "USD";
+        }
+    }
+
+}
+
+export type UpdatePriceQuery = {
+    product_id: string;
+    body: {
+        skus: SKUInput[]
+    }
+}
+
+
+export type SearchInventoryBody = {
+    product_ids?: string[];
+    sku_ids?: string[];
+}
+
+export interface SearchInventoryResponse {
+    inventory: {
+        product_id: string;
+        skus: {
+            id: string;
+            seller_sku: string;
+            total_available_quantity: number;
+            total_committed_quantity: number;
+            warehouse_inventory: {
+                warehouse_id: string;
+                available_quantity: number;
+                committed_quantity: number;
+            }[];
+            total_available_inventory_distribution: {
+                campaign_inventory: {
+                    quantity: number;
+                    campaign_name: string;
+                }[];
+                creator_inventory: {
+                    quantity: number;
+                    creator_name: string;
+                }[];
+                in_shop_inventory: {
+                    quantity: number;
+                };
+            };
+        }[];
+    }[];
+}
+
+export interface CreateGlobalProductInput {
+    title: string;
+    description: string;
+    category_id: string;
+    brand_id?: string;
+    main_images: {
+        uri: string;
+    }[];
+    skus: {
+        global_quantity: number;
+        sales_attributes: {
+            id: string;
+            name: string;
+            value_id: string;
+            value_name: string;
+            sku_img: {
+                uri: string;
+            };
+        }[];
+        seller_sku: string;
+        price: {
+            amount: string;
+            currency: string;
+        };
+        identifier_code: {
+            code: string;
+            type: 'GTIN' | 'UPC' | 'EAN' | string;
+        };
+        inventory: {
+            global_warehouse_id: string;
+            quantity: number;
+        }[];
+        sku_unit_count: string;
+        extra_identifier_codes?: string[];
+        external_global_sku_id: string;
+    }[];
+    package_weight: {
+        value: string;
+        unit: 'KILOGRAM' | 'GRAM';
+    };
+    certifications?: {
+        id: string;
+        images?: {
+            uri: string;
+        }[];
+        files?: {
+            id: string;
+            name: string;
+            format: string;
+        }[];
+    }[];
+    package_dimensions: {
+        length: string;
+        width: string;
+        height: string;
+        unit: 'CENTIMETER' | 'MILLIMETER';
+    };
+    product_attributes?: {
+        id: string;
+        values: {
+            id: string;
+            name: string;
+        }[];
+    }[];
+    size_chart?: {
+        image: {
+            uri: string;
+        };
+        template: {
+            id: string;
+        };
+    };
+    video?: {
+        id: string;
+    };
+    manufacturer?: {
+        name: string;
+        address: string;
+        phone_number: string;
+        email: string;
+    };
+    category_version?: string;
+    responsible_person_ids?: string[];
+    manufacturer_ids?: string[];
+    source_locale?: string;
+    external_global_product_id?: string;
+}
+
+
+export interface GlobalProductResponse {
+    global_product_id: string;
+    global_skus: {
+        id: string;
+        seller_sku: string;
+        sales_attributes: {
+            id: string;
+            value_id: string;
+        }[];
+        external_global_sku_id: string;
+    }[];
+}

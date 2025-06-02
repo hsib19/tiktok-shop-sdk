@@ -49,6 +49,7 @@ import {
     SearchSizeChartResponse,
     SearchSizeChartsInput,
     TikTokAPIResponse,
+    UpdatePriceQuery,
     UploadImageParams,
     UploadImageResponse
 } from '@types';
