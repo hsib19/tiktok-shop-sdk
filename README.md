@@ -99,8 +99,8 @@ Modules marked as **Completed** are fully implemented and tested, while those ma
 | `Seller` | `✅ Completed` |
 | `Products` | `🚧 In Progress` |
 | `Orders` | `✅ Completed` |
-| `Logistic` | `⏳ Not Started` |
-| `Return & Refund` | `⏳ Not Started` |
+| `Logistic` | `✅ Completed` |
+| `Return & Refund` | `🚧 In Progress` |
 | `Finance` | `⏳ Not Started` |
 
 ## Usage
