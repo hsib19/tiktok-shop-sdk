@@ -47,3 +47,6 @@ Desktop.ini
 examples/.env
 examples/node_modules/
 examples/dist/
+
+# Turborepo cache
+.turbo

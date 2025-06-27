@@ -1,0 +1,48 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "composite": true,
+        "baseUrl": "./src",
+        "paths": {
+            "@modules/*": [
+                "modules/*"
+            ],
+            "@modules": [
+                "modules/index.ts"
+            ],
+            "@sdk": [
+                "sdk/index.ts"
+            ],
+            "@sdk/*": [
+                "sdk/*"
+            ],
+            "@client/*": [
+                "client/*"
+            ],
+            "@client": [
+                "client/index.ts"
+            ],
+            "@types/*": [
+                "types/*"
+            ],
+            "@types": [
+                "types/index.ts"
+            ],
+            "@utils/*": [
+                "utils/*"
+            ],
+            "@utils": [
+                "utils/index.ts"
+            ]
+        },
+        "rootDir": "src",
+        "outDir": "dist"
+    },
+    "include": [
+        "src/**/*",
+    ],
+    "exclude": [
+        "dist",
+        "node_modules"
+    ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "example-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "tiktok-shop-sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.23",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
