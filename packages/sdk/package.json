@@ -17,7 +17,7 @@
   "scripts": {
     "build": "tsup --tsconfig tsconfig.build.json",
     "lint": "eslint .",
-    "test": "jest",
+    "test": "pnpm exec jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "dev": "tsc -w",
