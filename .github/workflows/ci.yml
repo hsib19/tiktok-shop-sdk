@@ -52,7 +52,7 @@ jobs:
         run: pnpm exec turbo run build --dry
 
       - name: Run test coverage
-        run: pnpm exec turbo run test -- --coverage --filter=packages/sdk
+        run: pnpm exec turbo run test -- --coverage --filter=tiktok-shop-sdk
 
       - name: Upload test results to Codecov
         if: ${{ !cancelled() }}
