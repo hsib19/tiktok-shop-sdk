@@ -18,6 +18,7 @@ const config: Config = {
     watchman: false,
     collectCoverage: true,
     coverageDirectory: '<rootDir>/coverage',
+    coverageReporters: ['json', 'lcov', 'text', 'clover'],
     coveragePathIgnorePatterns: ["src/types/"],
     testPathIgnorePatterns: ['/dist/'],
     collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts'],
