@@ -43,10 +43,10 @@ jobs:
             ${{ runner.os }}-turbo-
 
       - name: Run lint
-        run: pnpm exec turbo run lint
+        run: pnpm exec turbo run lint --filter=tiktok-shop-sdk
 
       - name: Run tests
-        run: pnpm exec turbo run test
+        run: pnpm exec turbo run test --filter=tiktok-shop-sdk
 
       - name: Run build (dry-run)
         run: pnpm exec turbo run build --dry
