@@ -8,6 +8,10 @@
       "cache": false
     },
     "test": {},
-    "lint": {}
+    "lint": {},
+    "coverage": {
+      "dependsOn": ["^coverage"],
+      "outputs": []
+    }
   }
 }
