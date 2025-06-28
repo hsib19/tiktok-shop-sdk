@@ -9,13 +9,13 @@ on:
 jobs:
   setup:
     runs-on: ubuntu-22.04
-    outputs:
-      node-version: ${{ steps.set-version.outputs.node-version }}
     strategy:
       matrix:
         node-version: [20]
+    outputs:
+      node-version: ${{ steps.set-version.outputs.node-version }}
     steps:
-      - name: Set matrix node version
+      - name: Set matrix version
         id: set-version
         run: echo "node-version=${{ matrix.node-version }}" >> $GITHUB_OUTPUT
 
@@ -40,8 +40,6 @@ jobs:
   test:
     needs: setup
     runs-on: ubuntu-22.04
-    outputs:
-      coverage-file: ${{ steps.set-coverage.outputs.coverage-file }}
     steps:
       - uses: actions/checkout@v4
 
@@ -57,9 +55,17 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter=tiktok-shop-sdk test
 
-      - name: Set coverage output
-        id: set-coverage
-        run: echo "coverage-file=./packages/sdk/coverage/lcov.info" >> $GITHUB_OUTPUT
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./packages/sdk/coverage/lcov.info
 
   build:
     needs: [lint, test]
@@ -78,17 +84,3 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec turbo run build --dry
-
-  codecov:
-    name: Upload to Codecov
-    needs: test
-    runs-on: ubuntu-22.04
-    if: ${{ !cancelled() }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./packages/sdk/coverage/lcov.info
