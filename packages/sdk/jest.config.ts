@@ -17,7 +17,7 @@ const config: Config = {
     },
     watchman: false,
     collectCoverage: true,
-    coverageDirectory: 'coverage',
+    coverageDirectory: '<rootDir>/coverage',
     coveragePathIgnorePatterns: ["src/types/"],
     testPathIgnorePatterns: ['/dist/'],
     collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts'],
