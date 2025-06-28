@@ -17,14 +17,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js and pnpm
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.12.4
+          run_install: false
+
+      - name: Install Dependencies
+        run: pnpm i --frozen-lockfile
 
       - name: Check Turbo availability
         run: pnpm exec turbo --version
@@ -44,11 +51,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js and pnpm (Restore)
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-          cache: 'pnpm'
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.12.4
+          run_install: false
 
       - name: Restore Turbo cache
         uses: actions/cache@v4
@@ -68,11 +82,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js and pnpm (Restore)
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-          cache: 'pnpm'
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.12.4
+          run_install: false
 
       - name: Lint
         run: pnpm exec turbo run lint --filter=.
@@ -83,11 +104,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js and pnpm (Restore)
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-          cache: 'pnpm'
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.12.4
+          run_install: false
 
       - name: Run tests
         run: pnpm exec turbo run test --filter=.
@@ -98,11 +126,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js and pnpm (Restore)
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-          cache: 'pnpm'
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.12.4
+          run_install: false
 
       - name: Run coverage
         run: pnpm exec turbo run test -- --coverage --filter=packages/sdk
