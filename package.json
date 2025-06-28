@@ -6,7 +6,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "test": "turbo run test",
-    "test:cov": "turbo run test -- --coverage",
+    "test:coverage": "turbo run test -- --coverage",
     "lint": "turbo run lint",
     "prepare": "husky"
   },
