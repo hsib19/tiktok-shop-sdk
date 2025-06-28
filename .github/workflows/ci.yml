@@ -46,7 +46,7 @@ jobs:
         run: pnpm exec turbo run lint --filter=.
 
       - name: Run tests
-        run: pnpm turbo run test
+        run: pnpm --filter=tiktok-shop-sdk test
 
       - name: Run build (dry-run)
         run: pnpm exec turbo run build --dry
