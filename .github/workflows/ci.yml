@@ -17,22 +17,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js and pnpm
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.12.4
-          run_install: false
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Check turbo availability
+      - name: Check Turbo availability
         run: pnpm exec turbo --version
 
       - name: Cache Turbo
@@ -41,6 +35,7 @@ jobs:
           path: .turbo
           key: ${{ runner.os }}-turbo-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ matrix.node-version }}
           restore-keys: |
+            ${{ runner.os }}-turbo-${{ hashFiles('**/pnpm-lock.yaml') }}-
             ${{ runner.os }}-turbo-
 
   build:
@@ -48,14 +43,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      - name: Setup Node.js and pnpm (Restore)
+        uses: actions/setup-node@v4
         with:
           node-version: 20.x
           cache: 'pnpm'
-      - uses: pnpm/action-setup@v4
-        with:
-          run_install: false
-      - run: pnpm install --frozen-lockfile
 
       - name: Restore Turbo cache
         uses: actions/cache@v4
@@ -63,6 +56,7 @@ jobs:
           path: .turbo
           key: ${{ runner.os }}-turbo-${{ hashFiles('**/pnpm-lock.yaml') }}-20.x
           restore-keys: |
+            ${{ runner.os }}-turbo-${{ hashFiles('**/pnpm-lock.yaml') }}-
             ${{ runner.os }}-turbo-
 
       - name: Dry-run build
@@ -73,14 +67,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      - name: Setup Node.js and pnpm (Restore)
+        uses: actions/setup-node@v4
         with:
           node-version: 20.x
           cache: 'pnpm'
-      - uses: pnpm/action-setup@v4
-        with:
-          run_install: false
-      - run: pnpm install --frozen-lockfile
 
       - name: Lint
         run: pnpm exec turbo run lint --filter=.
@@ -90,14 +82,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      - name: Setup Node.js and pnpm (Restore)
+        uses: actions/setup-node@v4
         with:
           node-version: 20.x
           cache: 'pnpm'
-      - uses: pnpm/action-setup@v4
-        with:
-          run_install: false
-      - run: pnpm install --frozen-lockfile
 
       - name: Run tests
         run: pnpm exec turbo run test --filter=.
@@ -107,14 +97,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      - name: Setup Node.js and pnpm (Restore)
+        uses: actions/setup-node@v4
         with:
           node-version: 20.x
           cache: 'pnpm'
-      - uses: pnpm/action-setup@v4
-        with:
-          run_install: false
-      - run: pnpm install --frozen-lockfile
 
       - name: Run coverage
         run: pnpm exec turbo run test -- --coverage --filter=packages/sdk
