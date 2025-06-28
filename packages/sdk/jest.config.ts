@@ -15,6 +15,7 @@ const config: Config = {
         '^@utils$': '<rootDir>/src/utils/index.ts',
         '^@utils/(.*)$': '<rootDir>/src/utils/$1',
     },
+    watchman: false,
     collectCoverage: false,
     coverageDirectory: 'coverage',
     coveragePathIgnorePatterns: ["src/types/"],
