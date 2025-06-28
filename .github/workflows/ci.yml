@@ -7,55 +7,85 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  setup:
     runs-on: ubuntu-22.04
+    outputs:
+      node-version: ${{ steps.set-version.outputs.node-version }}
     strategy:
       matrix:
         node-version: [20]
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Set matrix node version
+        id: set-version
+        run: echo "node-version=${{ matrix.node-version }}" >> $GITHUB_OUTPUT
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+  lint:
+    needs: setup
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
         with:
           version: 10.12.4
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ needs.setup.outputs.node-version }}
           cache: 'pnpm'
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec turbo run lint --filter=.
 
-      - name: Check turbo version
-        run: pnpm exec turbo --version
+  test:
+    needs: setup
+    runs-on: ubuntu-22.04
+    outputs:
+      coverage-file: ${{ steps.set-coverage.outputs.coverage-file }}
+    steps:
+      - uses: actions/checkout@v4
 
-      - name: Restore Turbo cache
-        uses: actions/cache@v4
+      - uses: pnpm/action-setup@v4
         with:
-          path: .turbo
-          key: ${{ runner.os }}-turbo-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ matrix.node-version }}
-          restore-keys: |
-            ${{ runner.os }}-turbo-
+          version: 10.12.4
 
-      - name: Run lint
-        run: pnpm exec turbo run lint --filter=.
-
-      - name: Run tests
-        run: pnpm --filter=tiktok-shop-sdk test
-
-      - name: Run build (dry-run)
-        run: pnpm exec turbo run build --dry
-
-      - name: Upload test results to Codecov
-        if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@v1
+      - uses: actions/setup-node@v4
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          node-version: ${{ needs.setup.outputs.node-version }}
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter=tiktok-shop-sdk test
+
+      - name: Set coverage output
+        id: set-coverage
+        run: echo "coverage-file=./packages/sdk/coverage/lcov.info" >> $GITHUB_OUTPUT
+
+  build:
+    needs: [lint, test]
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.12.4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec turbo run build --dry
+
+  codecov:
+    name: Upload to Codecov
+    needs: test
+    runs-on: ubuntu-22.04
+    if: ${{ !cancelled() }}
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
