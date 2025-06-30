@@ -105,7 +105,7 @@ Modules marked as **Completed** are fully implemented and tested, while those ma
 
 ## Usage
 
-Please refer to the [`examples/`](./examples) directory in this repository. Each file in that folder demonstrates a specific feature or workflow.
+Please refer to the [`apps/examples/`](./apps/examples) directory in this repository. Each file in that folder demonstrates a specific feature or workflow.
 
 ```ts
 import { TikTokShopSDK } from 'tiktok-shop-sdk';
