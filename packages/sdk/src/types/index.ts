@@ -7,3 +7,4 @@ export * from './RequestTypes';
 export * from './OrderTypes';
 export * from './LogisticTypes';
 export * from './ReturnRefundModule';
+export * from './FinanceTypes';
