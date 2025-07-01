@@ -28,7 +28,6 @@ Whether you're looking to automate product listings, streamline order management
 - [Disclaimer](#disclaimer)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
-- [Modules Status](#modules-status)
 - [Usage](#usage)
 - [Error Handling](#error-handling)
 - [Managing Access Token and Shop Cipher](#managing-access-token-and-shop-cipher)
@@ -85,23 +84,6 @@ or with Yarn:
 ```bash
 yarn add tiktok-shop-sdk
 ```
-
-## Modules Status
-
-Below is the current development status of each module within the TikTok Shop SDK.  
-Modules marked as **Completed** are fully implemented and tested, while those marked as **Work in Progress** are still under active development.
-
-| Module | Status |
-| :-------- | :------------ |
-| `Auth` | `✅ Completed` |
-| `Shop` | `✅ Completed` |
-| `Event` | `✅ Completed` |
-| `Seller` | `✅ Completed` |
-| `Products` | `🚧 In Progress` |
-| `Orders` | `✅ Completed` |
-| `Logistic` | `✅ Completed` |
-| `Return & Refund` | `🚧 In Progress` |
-| `Finance` | `✅ Completed` |
 
 ## Usage
 
