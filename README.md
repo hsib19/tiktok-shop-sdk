@@ -101,7 +101,7 @@ Modules marked as **Completed** are fully implemented and tested, while those ma
 | `Orders` | `✅ Completed` |
 | `Logistic` | `✅ Completed` |
 | `Return & Refund` | `🚧 In Progress` |
-| `Finance` | `⏳ Not Started` |
+| `Finance` | `✅ Completed` |
 
 ## Usage
 
