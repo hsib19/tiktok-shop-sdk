@@ -8,3 +8,4 @@ export * from './LogisticModule';
 export * from './ReturnRefundModule';
 export * from './FinanceModule';
 export * from './FulfillmentModule';
+export * from './PromotionModule';

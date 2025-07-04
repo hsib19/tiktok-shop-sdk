@@ -9,3 +9,4 @@ export * from './LogisticTypes';
 export * from './ReturnRefundModule';
 export * from './FinanceTypes';
 export * from './FulfillmentTypes';
+export * from './PromotionTypes';
