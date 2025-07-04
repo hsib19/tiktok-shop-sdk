@@ -8,3 +8,4 @@ export * from './OrderTypes';
 export * from './LogisticTypes';
 export * from './ReturnRefundModule';
 export * from './FinanceTypes';
+export * from './FulfillmentTypes';

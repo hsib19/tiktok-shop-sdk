@@ -13,21 +13,22 @@ async function main() {
 
         // Set Access Token
         sdk.setAccessToken(process.env.TIKTOK_APP_ACCESS_KEY!);
-        sdk.setShopCipher(process.env.TIKTOK_SHOP_CIPHER!)
+        sdk.setShopCipher(process.env.TIKTOK_SHOP_CIPHER!);
 
-        const response = await sdk.order.getOrderList(
-            {
-                query: {
-                    page_size: 10,
+        const response = await sdk.fulfillment.searchPackage({
+            query: {
+                page_size: 10
+            },
+            // body: {
+            //     "create_time_ge": 1623812664,
+            //     "create_time_lt": 1623812664,
+            //     "update_time_ge": 1623812664,
+            //     "update_time_lt": 1623812664,
+            //     "package_status": "PROCESSING"
+            //   }
+        })
 
-                },
-                body: {
-                    order_status: "COMPLETED"
-                }
-            }
-        );
-
-        console.log(response.data?.orders[0].line_items)
+        console.log(JSON.stringify(response))
 
     } catch (error) {
         if (error instanceof TikTokAPIError) {
@@ -38,8 +39,9 @@ async function main() {
             console.error("Unexpected error:", error);
         }
     }
+
 }
 
 main();
 
-// npm exec tsx apps/examples/src/orders/getOrderList.ts
+// npm exec tsx apps/examples/src/fulfillment/searchPackage.ts
