@@ -45,8 +45,9 @@ Modules marked as **Completed** are fully implemented and tested, while those ma
 | `Products` | `🚧 In Progress` |
 | `Orders` | `✅ Completed` |
 | `Logistic` | `✅ Completed` |
-| `Return & Refund` | `🚧 In Progress` |
+| `Return & Refund` | `✅ Completed` |
 | `Finance` | `✅ Completed` |
+| `Promotion` | `✅ Completed` |
 
 ## Usage
 

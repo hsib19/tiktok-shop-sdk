@@ -4,6 +4,43 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v0.7.0] - 2025-07-04
+### Added
+- `ReturnRefundModule` to support Return & Cancellation flow:
+  - `getAftersaleEligibility`
+  - `getRejectReasons`
+  - `createReturn`
+  - `searchReturn`
+  - `getReturnRecord`
+  - `approveReturn`
+  - `rejectReturn`
+  - `cancelOrder`
+  - `approveCancellation`
+  - `rejectCancellation`
+  - `searchCancellation`
+  - `calculateCancellation`
+- `PromotionModule` for managing seller campaigns and coupons:
+  - `createActivity`
+  - `updateActivity`
+  - `deactivateActivity`
+  - `getActivity`
+  - `searchActivity`
+  - `getCoupon`
+  - `searchCoupon`
+  - `updateActivityProduct`
+  - `removeActivityProduct`
+
+### Improvements
+- Added full test coverage for `ReturnRefundModule` endpoints
+- Improved internal typings and documentation (JSDoc) for new modules
+
+### Notes
+- This release expands SDK capabilities to handle post-order operations and promotional campaign management. Refer to official docs for integration details:
+  - https://partner.tiktokshop.com/docv2/page/return-refund-and-cancel-api-overview
+  - https://partner.tiktokshop.com/docv2/page/promotion-api-overview
+
+---
+
 ## [v0.6.0] - 2025-06-30
 ### Added
 - `FinanceModule` to support TikTok Shop Partner API:
