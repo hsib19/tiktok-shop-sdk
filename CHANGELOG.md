@@ -29,6 +29,20 @@ All notable changes to this project will be documented in this file.
   - `searchCoupon`
   - `updateActivityProduct`
   - `removeActivityProduct`
+- `FulfillmentModule` to support package and shipping operations:
+  - `createPackage`
+  - `createFirstMileBundle`
+  - `combinablePackage`
+  - `uncombinePackages`
+  - `splitOrders`
+  - `getEligibleShippingService`
+  - `getPackageHandoverTimeSlots`
+  - `getOrderSplitAttributes`
+  - `searchPackage`
+  - `searchCombinablePackages`
+
+### Notes
+- Adds full support for TikTok Shop's return, refund, and fulfillment workflows.
 
 ### Improvements
 - Added full test coverage for `ReturnRefundModule` endpoints
@@ -38,6 +52,7 @@ All notable changes to this project will be documented in this file.
 - This release expands SDK capabilities to handle post-order operations and promotional campaign management. Refer to official docs for integration details:
   - https://partner.tiktokshop.com/docv2/page/return-refund-and-cancel-api-overview
   - https://partner.tiktokshop.com/docv2/page/promotion-api-overview
+  - https://partner.tiktokshop.com/docv2/page/fulfillment-api-overview
 
 ---
 
