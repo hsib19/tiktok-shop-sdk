@@ -1,11 +1,15 @@
 import { ReturnRefundModule } from '../ReturnRefundModule';
 import {
     ApproveReturnParams,
+    CalculateCancellationParams,
+    CancelOrderBody,
     CreateReturnParams,
     GetAftersaleEligibilityParams,
     GetRejectReasonQuery,
     GetReturnRecordParams,
+    RejectCancellationParams,
     RejectReturnParams,
+    SearchCancellationParams,
     SearchReturnParams
 } from '@types'; 
 
@@ -159,4 +163,140 @@ describe('ReturnRefundModule', () => {
         });
         expect(res).toEqual({ data: 'approved' });
     });
+
+    it('should call cancelOrder', async () => {
+        const body: CancelOrderBody = {
+            order_id: "579489483240146725",
+            order_line_item_ids: ["580196086825061157"],
+            cancel_reason: "ecom_order_to_ship_canceled_reason_change_payment_method"
+        };
+        mockRequest.mockResolvedValue({ data: 'cancelled' });
+
+        const res = await returnModule.cancelOrder(body);
+        expect(mockRequest).toHaveBeenCalledWith({
+            method: 'POST',
+            path: `/return_refund/202309/cancellations`,
+            body
+        });
+        expect(res).toEqual({ data: 'cancelled' });
+    });
+
+    it('should call approveCancellation', async () => {
+        const params = {
+            cancel_id: 'cancel123',
+            query: {
+                idempotency_key: 'idem-key-123'
+            }
+        };
+        mockRequest.mockResolvedValue({ data: 'approved' });
+
+        const res = await returnModule.approveCancellation(params);
+        expect(mockRequest).toHaveBeenCalledWith({
+            method: 'POST',
+            path: `/return_refund/202309/cancellations/cancel123/approve`,
+            query: params.query
+        });
+        expect(res).toEqual({ data: 'approved' });
+    });
+
+    it('should call rejectCancellation', async () => {
+        const params: RejectCancellationParams = {
+            cancel_id: "09830495345435",
+            query: {
+                idempotency_key: "03498530l94056"
+            },
+            body: {
+                reject_reason: "seller_reject_apply_product_has_been_packed",
+                comment: "I have packed the products before cancellation request",
+                images: [
+                    {
+                        image_id: "tos-maliva-i-o3syd03w52-us/57a1c8908fe74572861ea5e50887d8d1",
+                        mime_type: "image/png",
+                        height: 200,
+                        width: 200
+                    }
+                ]
+            }
+        };
+        mockRequest.mockResolvedValue({ data: 'rejected' });
+
+        const res = await returnModule.rejectCancellation(params);
+        expect(mockRequest).toHaveBeenCalledWith({
+            method: 'POST',
+            path: `/return_refund/202309/cancellations/09830495345435/reject`,
+            query: params.query,
+            body: params.body
+        });
+        expect(res).toEqual({ data: 'rejected' });
+    });
+
+    it('should call searchCancellation', async () => {
+        const params: SearchCancellationParams = {
+            query: {
+                page_size: "20",
+            },
+            cancel_id: "9083405345",
+            body: {
+                cancel_ids: [
+                    "577087614418520388"
+                ],
+                order_ids: [
+                    "577087614418520388"
+                ],
+                buyer_user_ids: [
+                    "7494845267308415300"
+                ],
+                cancel_types: [
+                    "CANCEL"
+                ],
+                cancel_status: [
+                    "CANCELLATION_REQUEST_PENDING"
+                ],
+                create_time_ge: 1690340825,
+                create_time_lt: 1690340825,
+                update_time_ge: 1690340825,
+                update_time_lt: 1690340825,
+                locale: "en-US"
+            }
+        };
+        mockRequest.mockResolvedValue({ data: 'search-results' });
+
+        const res = await returnModule.searchCancellation(params);
+        expect(mockRequest).toHaveBeenCalledWith({
+            method: 'POST',
+            path: `/return_refund/202309/cancellations/search`,
+            query: params.query,
+            body: params.body
+        });
+        expect(res).toEqual({ data: 'search-results' });
+    });
+
+    it('should call calculateCancellation', async () => {
+        const body: CalculateCancellationParams = {
+            "order_id": "576469648086175911",
+            "request_type": "REFUND",
+            "shipment_type": "PLATFORM",
+            "handover_method": "DROP_OFF",
+            "reason_name": "ecom_order_delivered_refund_reason_missing_product_seller",
+            "order_line_item_ids": [
+                "576469648086306986"
+            ],
+            "skus": [
+                {
+                    "sku_id": "1729386416015578024",
+                    "quantity": 1
+                }
+            ]
+        };
+        mockRequest.mockResolvedValue({ data: 'calculated' });
+
+        const res = await returnModule.calculateCancellation(body);
+        expect(mockRequest).toHaveBeenCalledWith({
+            method: 'POST',
+            path: `/return_refund/202309/refunds/calculate`,
+            body
+        });
+        expect(res).toEqual({ data: 'calculated' });
+    });
+
 });

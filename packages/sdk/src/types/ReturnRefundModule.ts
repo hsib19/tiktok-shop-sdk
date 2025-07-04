@@ -290,3 +290,141 @@ type ApproveReturnBody = {
     buyer_keep_item?: boolean;
     partial_refund?: PartialRefund;
 }
+
+export type CancelOrderBody = {
+    order_id: string;
+    skus? : {
+        sku_id: string;
+        quantity: number;
+    }[],
+    order_line_item_ids: string[];
+    cancel_reason: string;
+}
+
+export type CancelOrderResponse = {
+    cancel_id?: string;
+    cancel_status?: string;
+}
+
+export type ApproveCancellationParams = {
+    cancel_id: string;
+    query: {
+        idempotency_key?: string;
+    }
+}
+
+export type RejectCancellationParams = {
+    cancel_id: string;
+    query?: {
+        idempotency_key?: string;
+    },
+    body: {
+        reject_reason: string;
+        comment?: string;
+        images: {
+            image_id: string;
+            mime_type?: string;
+            height?: number;
+            width?: number;
+        }[]
+    }
+}
+
+export type SearchCancellationParams = {
+    cancel_id: string;
+    query?: {
+        sort_field?: string;
+        sort_order?: string;
+        page_size?: string;
+        page_token?: string;
+    },
+    body: {
+        cancel_ids: string[];
+        order_ids: string[];
+        buyer_user_ids: string[];
+        cancel_types: string[];
+        cancel_status: ('CANCELLATION_REQUEST_PENDING' | 'CANCELLATION_REQUEST_SUCCESS' | 'CANCELLATION_REQUEST_CANCEL' | 'CANCELLATION_REQUEST_COMPLETE')[];
+        create_time_ge: number;
+        create_time_lt: number;
+        update_time_ge: number;
+        update_time_lt: number;
+        locale: string;
+    }
+}
+
+export type SearchCancellationResponse = {
+    cancellations?: {
+        order_id?: string;
+        cancel_type?: string;
+        cancel_status?: string;
+        role?: string;
+        cancel_reason?: string;
+        cancel_reason_text?: string;
+        create_time?: number;
+        update_time?: number;
+        seller_next_action_response?: {
+            action?: string;
+            deadline?: number;
+        }[];
+        refund_amount?: {
+            currency?: string;
+            refund_total?: string;
+            refund_subtotal?: string;
+            refund_shipping_fee?: string;
+            refund_tax?: string;
+            retail_delivery_fee?: string;
+            buyer_service_fee?: string;
+        };
+        cancel_line_items?: {
+            cancel_line_item_id?: string;
+            order_line_item_id?: string;
+            sku_id?: string;
+            sku_name?: string;
+            product_image?: {
+                url?: string;
+                width?: number;
+                height?: number;
+            };
+            product_name?: string;
+            seller_sku?: string;
+            refund_amount?: {
+                currency?: string;
+                refund_total?: string;
+                refund_subtotal?: string;
+                refund_shipping_fee?: string;
+                refund_tax?: string;
+                retail_delivery_fee?: string;
+                buyer_service_fee?: string;
+            };
+        }[];
+        cancel_id?: string;
+    }[];
+    total_count?: number;
+    next_page_token?: string;
+};
+  
+
+export type CalculateCancellationParams = {
+    order_id: string;
+    request_type: ('CANCEL' | 'REFUND' | 'RETURN_AND_REFUND');
+    shipment_type?: string;
+    handover_method?: string;
+    reason_name: string;
+    order_line_item_ids?: string[];
+    skus?: {
+        sku_id: string;
+        quantity: number;
+    }[];
+}
+
+export type CalculateCancellationResponse = {
+    order_refund_amount?: {
+        currency?: string;
+        refund_total?: string;
+        refund_subtotal?: string;
+        refund_shipping_fee?: string;
+        refund_tax?: string;
+        retail_delivery_fee?: string;
+    };
+};
+  

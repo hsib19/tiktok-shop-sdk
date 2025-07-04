@@ -17,6 +17,8 @@ Leverage the power of TypeScript for robust development, including static typing
 
 Whether you're looking to automate product listings, streamline order management, synchronize inventory, or build custom e-commerce solutions on top of TikTok Shop, this SDK aims to reduce boilerplate code and allow you to focus on your application's core logic.
 
+**[View on npm](https://www.npmjs.com/package/tiktok-shop-sdk)**
+
 ## Disclaimer
 
 This SDK is **not an official** TikTok Shop SDK.

@@ -12,8 +12,6 @@
 ![Downloads](https://img.shields.io/npm/dw/tiktok-shop-sdk)
 [![License](https://img.shields.io/npm/l/tiktok-shop-sdk.svg)](https://www.npmjs.com/package/tiktok-shop-sdk)
 
-**[View on npm](https://www.npmjs.com/package/tiktok-shop-sdk)**
-
 An unofficial, community-driven SDK built with **TypeScript**, designed to simplify integration with the **TikTok Shop API** for Node.js environments. This library provides a convenient, type-safe, and modern JavaScript-friendly way to interact with various TikTok Shop functionalities programmatically.
 
 Leverage the power of TypeScript for robust development, including static typing, autocompletion (IntelliSense), and compile-time checks, reducing runtime errors and improving developer experience.

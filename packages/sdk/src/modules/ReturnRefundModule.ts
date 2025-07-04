@@ -1,5 +1,10 @@
 import {
+    ApproveCancellationParams,
     ApproveReturnParams,
+    CalculateCancellationParams,
+    CalculateCancellationResponse,
+    CancelOrderBody,
+    CancelOrderResponse,
     CreateReturnParams,
     CreateReturnResponse,
     GetAftersaleEligibilityParams,
@@ -8,8 +13,11 @@ import {
     GetRejectReasonResponse,
     GetReturnRecordParams,
     GetReturnRecordResponse,
+    RejectCancellationParams,
     RejectReturnParams,
     RequestFunction,
+    SearchCancellationParams,
+    SearchCancellationResponse,
     SearchReturnParams,
     SearchReturnResponse,
     TikTokAPIResponse,
@@ -148,6 +156,84 @@ export class ReturnRefundModule {
             path: `/return_refund/202309/returns/${params.return_id}/approve`,
             query: params.query,
             body: params.body
+        });
+    }
+
+    /**
+     * Cancel an order by providing a cancellation reason and order_id.
+     * 
+     * POST /return_refund/202309/cancellations
+     * 
+     * This API is used by sellers to request cancellation before the order is shipped.
+     * Cancellation may be rejected by the buyer depending on the status and reason.
+     */
+    cancelOrder(body: CancelOrderBody): Promise<TikTokAPIResponse<CancelOrderResponse>> {
+        return this.request({
+            method: 'POST',
+            path: `/return_refund/202309/cancellations`,
+            body: body
+        });
+    }
+
+    /**
+     * Approve a buyer's cancellation request.
+     * 
+     * POST /return_refund/202309/cancellations/{cancel_id}/approve
+     * 
+     * This method is used by sellers to accept the buyer's request to cancel the order.
+     */
+    approveCancellation(params: ApproveCancellationParams): Promise<TikTokAPIResponse<object>> {
+        return this.request({
+            method: 'POST',
+            path: `/return_refund/202309/cancellations/${params.cancel_id}/approve`,
+            query: params.query
+        });
+    }
+
+    /**
+     * Reject a buyer's cancellation request.
+     * 
+     * POST /return_refund/202309/cancellations/{cancel_id}/reject
+     * 
+     * Sellers can reject the cancellation request with a specific reason.
+     */
+    rejectCancellation(params: RejectCancellationParams): Promise<TikTokAPIResponse<object>> {
+        return this.request({
+            method: 'POST',
+            path: `/return_refund/202309/cancellations/${params.cancel_id}/reject`,
+            query: params.query,
+            body: params.body,
+        });
+    }
+
+    /**
+     * Search cancellation requests made by buyers.
+     * 
+     * POST /return_refund/202309/cancellations/search
+     * 
+     * This method retrieves a list of cancellations based on filter criteria like time range, order ID, and status.
+     */
+    searchCancellation(params: SearchCancellationParams): Promise<TikTokAPIResponse<SearchCancellationResponse>> {
+        return this.request({
+            method: 'POST',
+            path: `/return_refund/202309/cancellations/search`,
+            query: params.query,
+            body: params.body,
+        });
+    }
+
+    /**
+     * Calculate the refund amount for an order cancellation before submitting the request.
+     * 
+     * POST /return_refund/202309/refunds/calculate
+     * 
+     * Useful to preview how much will be refunded if the order is canceled.
+     */
+    calculateCancellation(body: CalculateCancellationParams): Promise<TikTokAPIResponse<CalculateCancellationResponse>> {
+        return this.request({
+            method: 'POST',
+            path: `/return_refund/202309/refunds/calculate`,
+            body: body,
         });
     }
 }
