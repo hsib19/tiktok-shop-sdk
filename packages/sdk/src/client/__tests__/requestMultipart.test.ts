@@ -1,15 +1,16 @@
-import axios from 'axios';
 import FormData from 'form-data';
 import { requestMultipart } from '@client';
 import { generateSignature } from '@utils';
 
-jest.mock('axios');
+// Mock fetch
+global.fetch = jest.fn();
+
 jest.mock('@utils', () => ({
     generateSignature: jest.fn(),
 }));
 
 describe('requestMultipart', () => {
-    const mockedAxios = axios as jest.Mocked<typeof axios>;
+    const mockedFetch = fetch as jest.MockedFunction<typeof fetch>;
     const mockedGenerateSignature = generateSignature as jest.Mock;
 
     it('should send a multipart POST request with signed query and headers', async () => {
@@ -32,13 +33,14 @@ describe('requestMultipart', () => {
 
         mockedGenerateSignature.mockReturnValue('mocked-signature');
 
-        mockedAxios.request.mockResolvedValue({
-            data: {
+        mockedFetch.mockResolvedValue({
+            ok: true,
+            json: async () => ({
                 code: 0,
                 message: 'success',
                 data: { uploaded: true },
-            },
-        });
+            }),
+        } as Response);
 
         const res = await requestMultipart(mockConfig);
 
@@ -56,16 +58,16 @@ describe('requestMultipart', () => {
             version: 'v1',
         });
 
-        // Expect axios to be called with the right URL and headers
-        expect(axios.request).toHaveBeenCalledWith(
+        // Expect fetch to be called with the right URL and headers
+        expect(fetch).toHaveBeenCalledWith(
+            expect.stringContaining('/product/upload'),
             expect.objectContaining({
                 method: 'POST',
-                url: expect.stringContaining('/product/upload'),
                 headers: expect.objectContaining({
                     ...form.getHeaders(),
                     'x-tts-access-token': 'test_token',
                 }),
-                data: form,
+                body: form,
             })
         );
 
@@ -95,7 +97,10 @@ describe('requestMultipart', () => {
         };
 
         (generateSignature as jest.Mock).mockReturnValue('signed');
-        (axios.request as jest.Mock).mockResolvedValue({ data: mockRes });
+        mockedFetch.mockResolvedValue({
+            ok: true,
+            json: async () => mockRes,
+        } as Response);
 
         const res = await requestMultipart({
             method: 'POST',

@@ -1,5 +1,4 @@
 import { generateSignature } from '@utils';
-import axios from 'axios';
 import FormData from 'form-data';
 
 interface MultipartRequestOptions {
@@ -63,12 +62,12 @@ export async function requestMultipart({
         headers['x-tts-access-token'] = config.accessToken;
     }
 
-    const response = await axios.request({
-        url: url.toString(),
+    const response = await fetch(url.toString(), {
         method,
         headers,
-        data: body,
+        body: body as unknown as BodyInit,
     });
 
-    return response.data;
+    const data = await response.json();
+    return data;
 }

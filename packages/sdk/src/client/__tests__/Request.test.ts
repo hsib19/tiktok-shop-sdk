@@ -1,9 +1,10 @@
-import axios, { AxiosError } from 'axios';
 import { request } from '@client';
 import { generateSignature, handleResponse, TikTokAPIError } from '@utils';
 import { RequestOptions } from '@types';
 
-jest.mock('axios');
+// Mock fetch
+global.fetch = jest.fn();
+
 jest.mock('@utils', () => ({
     generateSignature: jest.fn(),
     handleResponse: jest.fn(),
@@ -18,7 +19,7 @@ jest.mock('@utils', () => ({
     },
 }));
 
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+const mockedFetch = fetch as jest.MockedFunction<typeof fetch>;
 const mockedGenerateSignature = generateSignature as jest.Mock;
 const mockedHandleResponse = handleResponse as jest.Mock;
 
@@ -31,20 +32,16 @@ describe('request', () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
-
-        // ✅ Gunakan spyOn agar isAxiosError tetap valid sebagai type predicate
-        jest.spyOn(axios, 'isAxiosError').mockImplementation((err): err is AxiosError => {
-            return !!err?.isAxiosError;
-        });
     });
 
     it('should perform a successful request and return handled response', async () => {
         mockedGenerateSignature.mockReturnValue('signed-value');
         mockedHandleResponse.mockReturnValue({ success: true });
 
-        mockedAxios.request.mockResolvedValue({
-            data: { foo: 'bar' },
-        });
+        mockedFetch.mockResolvedValue({
+            ok: true,
+            json: async () => ({ foo: 'bar' }),
+        } as Response);
 
         const result = await request({
             method: 'GET',
@@ -64,14 +61,16 @@ describe('request', () => {
             version: 'v1',
         }));
 
-        expect(mockedAxios.request).toHaveBeenCalledWith(expect.objectContaining({
-            method: 'GET',
-            url: expect.stringContaining('/test/path'),
-            headers: expect.objectContaining({
-                'Content-Type': 'application/json',
-            }),
-            data: undefined,
-        }));
+        expect(mockedFetch).toHaveBeenCalledWith(
+            expect.stringContaining('/test/path'),
+            expect.objectContaining({
+                method: 'GET',
+                headers: expect.objectContaining({
+                    'Content-Type': 'application/json',
+                }),
+                body: undefined,
+            })
+        );
 
         expect(mockedHandleResponse).toHaveBeenCalledWith({ foo: 'bar' });
         expect(result).toEqual({ success: true });
@@ -80,7 +79,10 @@ describe('request', () => {
     it('should include access token header if provided', async () => {
         mockedGenerateSignature.mockReturnValue('signed-value');
         mockedHandleResponse.mockReturnValue({});
-        mockedAxios.request.mockResolvedValue({ data: {} });
+        mockedFetch.mockResolvedValue({
+            ok: true,
+            json: async () => ({}),
+        } as Response);
 
         await request({
             method: 'POST',
@@ -93,27 +95,27 @@ describe('request', () => {
             body: { some: 'data' },
         });
 
-        expect(mockedAxios.request).toHaveBeenCalledWith(expect.objectContaining({
-            headers: expect.objectContaining({
-                'x-tts-access-token': 'my-access-token',
-            }),
-        }));
+        expect(mockedFetch).toHaveBeenCalledWith(
+            expect.any(String),
+            expect.objectContaining({
+                headers: expect.objectContaining({
+                    'x-tts-access-token': 'my-access-token',
+                }),
+            })
+        );
     });
 
     it('should throw TikTokAPIError on TikTok API error response', async () => {
-        const errorResponse = {
-            isAxiosError: true,
-            response: {
-                data: {
-                    code: 123,
-                    message: 'API error occurred',
-                    request_id: 'req-789',
-                },
-            },
-            message: 'Error message',
-        };
-
-        mockedAxios.request.mockRejectedValue(errorResponse);
+        mockedFetch.mockResolvedValue({
+            ok: false,
+            status: 400,
+            statusText: 'Bad Request',
+            json: async () => ({
+                code: 123,
+                message: 'API error occurred',
+                request_id: 'req-789',
+            }),
+        } as Response);
 
         await expect(request({
             method: 'GET',
@@ -126,24 +128,20 @@ describe('request', () => {
         });
     });
 
-    it('should throw generic error on other axios errors', async () => {
-        const error = {
-            isAxiosError: true,
-            message: 'Network error',
-        };
-
-        mockedAxios.request.mockRejectedValue(error);
+    it('should throw generic error on network errors', async () => {
+        const error = new TypeError('fetch failed');
+        mockedFetch.mockRejectedValue(error);
 
         await expect(request({
             method: 'GET',
             path: '/fail',
             config: baseConfig,
-        })).rejects.toThrow('Axios error: Network error');
+        })).rejects.toThrow('Network error: fetch failed');
     });
 
     it('should re-throw unknown errors', async () => {
         const error = new Error('Unknown error');
-        mockedAxios.request.mockRejectedValue(error);
+        mockedFetch.mockRejectedValue(error);
 
         await expect(request({
             method: 'GET',
@@ -152,59 +150,54 @@ describe('request', () => {
         })).rejects.toThrow('Unknown error');
     });
 
-    it('should throw generic axios error when response is undefined', async () => {
-        const error = {
-            isAxiosError: true,
-            response: undefined,
-            message: 'No response received',
-        };
-
-        mockedAxios.request.mockRejectedValue(error);
+    it('should throw generic HTTP error when response is not ok and no TikTok error format', async () => {
+        mockedFetch.mockResolvedValue({
+            ok: false,
+            status: 500,
+            statusText: 'Internal Server Error',
+            json: async () => ({ error: 'Server error' }),
+        } as Response);
 
         await expect(request({
             method: 'GET',
             path: '/no-response',
             config: baseConfig,
-        })).rejects.toThrow('Axios error: No response received');
+        })).rejects.toThrow('HTTP error: 500 Internal Server Error');
     });
 
-    it('should throw generic axios error when response.data is undefined', async () => {
-        const error = {
-            isAxiosError: true,
-            response: {
-                data: undefined,
+    it('should throw response parsing error when JSON is invalid', async () => {
+        mockedFetch.mockResolvedValue({
+            ok: true,
+            json: async () => {
+                throw new SyntaxError('Unexpected token');
             },
-            message: 'Empty response data',
-        };
-
-        mockedAxios.request.mockRejectedValue(error);
+        } as unknown as Response);
 
         await expect(request({
             method: 'GET',
             path: '/empty-data',
             config: baseConfig,
-        })).rejects.toThrow('Axios error: Empty response data');
+        })).rejects.toThrow('Response parsing error: Unexpected token');
     });
 
-    it('should throw error if error is not axios error', async () => {
-        const error = new Error('Not an axios error');
-
-        // simulate non-axios error by making isAxiosError false
-        (error as any).isAxiosError = false;
-
-        mockedAxios.request.mockRejectedValue(error);
+    it('should throw error for non-fetch errors', async () => {
+        const error = new Error('Not a fetch error');
+        mockedFetch.mockRejectedValue(error);
 
         await expect(request({
             method: 'GET',
-            path: '/not-axios',
+            path: '/not-fetch',
             config: baseConfig,
-        })).rejects.toThrow('Not an axios error');
+        })).rejects.toThrow('Not a fetch error');
     });
 
     it('should include shop_cipher in query if shopCipher is provided', async () => {
         mockedGenerateSignature.mockReturnValue('signed-value');
         mockedHandleResponse.mockReturnValue({ success: true });
-        mockedAxios.request.mockResolvedValue({ data: {} });
+        mockedFetch.mockResolvedValue({
+            ok: true,
+            json: async () => ({}),
+        } as Response);
 
         await request({
             method: 'GET',
@@ -226,7 +219,10 @@ describe('request', () => {
     it('should correctly append nested query parameters to URL', async () => {
         mockedGenerateSignature.mockReturnValue('signed-value');
         mockedHandleResponse.mockReturnValue({ success: true });
-        mockedAxios.request.mockResolvedValue({ data: { foo: 'bar' } });
+        mockedFetch.mockResolvedValue({
+            ok: true,
+            json: async () => ({ foo: 'bar' }),
+        } as Response);
 
         const nestedQuery = {
             param1: 'value1',
@@ -243,8 +239,8 @@ describe('request', () => {
             config: baseConfig,
         });
 
-        // Ambil URL yang dipakai axios.request
-        const calledUrl = mockedAxios.request.mock.calls[0][0].url;
+        // Ambil URL yang dipakai fetch
+        const calledUrl = mockedFetch.mock.calls[0][0] as string;
 
         expect(calledUrl).toContain('param1=value1');
         expect(calledUrl).toContain('nested1=nestedValue1');
@@ -255,6 +251,10 @@ describe('request', () => {
     it('should correctly append nested body object parameters to URL', async () => {
         mockedGenerateSignature.mockReturnValue('signed-value');
         mockedHandleResponse.mockReturnValue({ success: true });
+        mockedFetch.mockResolvedValue({
+            ok: true,
+            json: async () => ({ success: true }),
+        } as Response);
 
         const nestedBody = {
             query: {
@@ -269,8 +269,8 @@ describe('request', () => {
             config: baseConfig,
         });
 
-        // Ambil URL yang dipakai axios.request
-        const calledUrl = mockedAxios.request.mock.calls[0][0].url;
+        // Ambil URL yang dipakai fetch
+        const calledUrl = mockedFetch.mock.calls[0][0] as string;
         const urlReplace = calledUrl?.replace("%2C", ",");
 
         expect(calledUrl).toContain('responsible_person_ids=nestedValue1%2Cnestedvalue2');
@@ -279,9 +279,10 @@ describe('request', () => {
 
     it('should join array query param values with commas in URL', async () => {
         // Arrange
-        mockedAxios.request.mockResolvedValueOnce({
-            data: { data: 'ok' },
-        });
+        mockedFetch.mockResolvedValueOnce({
+            ok: true,
+            json: async () => ({ data: 'ok' }),
+        } as Response);
 
         const options: RequestOptions = {
             method: 'GET',
@@ -298,18 +299,19 @@ describe('request', () => {
 
         await request(options);
 
-        expect(mockedAxios.request).toHaveBeenCalledTimes(1);
+        expect(mockedFetch).toHaveBeenCalledTimes(1);
 
-        const calledUrl = mockedAxios.request.mock.calls[0][0].url;
+        const calledUrl = mockedFetch.mock.calls[0][0] as string;
 
         expect(calledUrl).toContain('product_ids=1%2C2%2C3');
     });
 
     it('should skip query params with undefined values when building URL', async () => {
-        // Mock axios to resolve with dummy data
-        mockedAxios.request.mockResolvedValueOnce({
-            data: { data: 'ok' },
-        });
+        // Mock fetch to resolve with dummy data
+        mockedFetch.mockResolvedValueOnce({
+            ok: true,
+            json: async () => ({ data: 'ok' }),
+        } as Response);
 
         const options: RequestOptions = {
             method: 'GET',
@@ -330,8 +332,8 @@ describe('request', () => {
         // Execute the request function
         await request(options);
 
-        // Get the URL passed to axios.request
-        const calledUrl = mockedAxios.request.mock.calls[0][0].url;
+        // Get the URL passed to fetch
+        const calledUrl = mockedFetch.mock.calls[0][0] as string;
 
         // Expect the URL to contain the valid query param 'foo=bar'
         expect(calledUrl).toContain('foo=bar&boolean1=true&numberval=123');
@@ -341,9 +343,10 @@ describe('request', () => {
     });
 
     it('should skip nested query parameters with undefined values', async () => {
-        mockedAxios.request.mockResolvedValueOnce({
-            data: { data: 'ok' },
-        });
+        mockedFetch.mockResolvedValueOnce({
+            ok: true,
+            json: async () => ({ data: 'ok' }),
+        } as Response);
 
         const options: RequestOptions = {
             method: 'GET',
@@ -365,7 +368,7 @@ describe('request', () => {
 
         await request(options);
 
-        const calledUrl = mockedAxios.request.mock.calls[0][0].url;
+        const calledUrl = mockedFetch.mock.calls[0][0] as string;
 
         // The URL should contain 'validKey=value' from the nested query object
         expect(calledUrl).toContain('validKey=value&boolean1=true&numberval=123');
@@ -376,17 +379,16 @@ describe('request', () => {
 
 
     it('sets requestId to empty string if not provided', async () => {
-        mockedAxios.request.mockRejectedValueOnce({
-            isAxiosError: true,
-            response: {
-                data: {
-                    code: 401,
-                    message: 'Unauthorized',
-                    // optionally request_id omitted
-                },
-            },
-            message: 'Unauthorized',
-        });
+        mockedFetch.mockResolvedValueOnce({
+            ok: false,
+            status: 401,
+            statusText: 'Unauthorized',
+            json: async () => ({
+                code: 401,
+                message: 'Unauthorized',
+                // optionally request_id omitted
+            }),
+        } as Response);
 
         const options: RequestOptions = {
             method: 'GET',
