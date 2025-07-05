@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v0.8.0] - 2025-07-05
+
+### Changed
+- Replaced Axios with native `fetch` for better compatibility (thanks @KeKs0r)
+
+
+---
+
 ## [v0.7.0] - 2025-07-04
 ### Added
 - `ReturnRefundModule` to support Return & Cancellation flow:
