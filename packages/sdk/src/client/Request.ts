@@ -1,6 +1,5 @@
 import { RequestOptions, TikTokAPIResponse } from '@types';
 import { generateSignature, handleResponse, TikTokAPIError } from '@utils';
-import axios, { AxiosError } from 'axios';
 
 /**
  * Generic TikTok API request function
@@ -116,32 +115,41 @@ export async function request<T>({
     }
 
     try {
-        // Send the HTTP request using Axios with the constructed URL, method, headers, and body
-        const response = await axios.request({
-            url: url.toString(),
+        // Send the HTTP request using fetch API with the constructed URL, method, headers, and body
+        const response = await fetch(url.toString(), {
             method,
             headers,
-            data: body?.body ?? body, 
+            body: body?.body ?? body ? JSON.stringify(body?.body ?? body) : undefined,
         });
 
+        // Parse the response data as JSON
+        const data = await response.json();
+
+        // For non-2xx responses, check if we have TikTok API error format
+        if (!response.ok) {
+            if (typeof data.code === 'number' && typeof data.message === 'string') {
+                // Throw a specialized TikTokAPIError with code, message, and request ID
+                throw new TikTokAPIError(data.code, data.message, data.request_id || '');
+            }
+            // Fallback: throw a generic HTTP error
+            throw new Error(`HTTP error: ${response.status} ${response.statusText}`);
+        }
+
         // Handle and return the processed response data
-        return handleResponse<T>(response.data);
+        return handleResponse<T>(data);
 
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            // Attempt to extract detailed TikTok API error info if present
-            const axiosError = error as AxiosError<{ code: number; message: string; request_id: string }>;
-            if (axiosError.response?.data) {
-                const data = axiosError.response.data;
-                if (typeof data.code === 'number' && typeof data.message === 'string') {
-                    // Throw a specialized TikTokAPIError with code, message, and request ID
-                    throw new TikTokAPIError(data.code, data.message, data.request_id || '');
-                }
-            }
-            // Fallback: throw a generic Axios error with message
-            throw new Error(`Axios error: ${error.message}`);
+        if (error instanceof TypeError && error.message.includes('fetch')) {
+            // Handle fetch-specific errors (network issues, etc.)
+            throw new Error(`Network error: ${error.message}`);
         }
-        // Re-throw any other unexpected errors
+        
+        // Check if this is a response parsing error
+        if (error instanceof SyntaxError) {
+            throw new Error(`Response parsing error: ${error.message}`);
+        }
+        
+        // Re-throw any other unexpected errors (including TikTokAPIError from handleResponse)
         throw error;
     }
 }

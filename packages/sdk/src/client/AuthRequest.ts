@@ -1,6 +1,5 @@
 import { handleResponse } from '@utils';
 import { AuthRequestOptions, TikTokAPIResponse } from '@types';
-import axios from 'axios';
 
 const AUTH_BASE_URL = 'https://auth.tiktok-shops.com';
 
@@ -17,12 +16,12 @@ export async function authRequest<T>({ method, path, query, body }: AuthRequestO
         'Content-Type': 'application/json',
     };
 
-    const response = await axios.request({
-        url: url.toString(),
+    const response = await fetch(url.toString(), {
         method,
         headers,
-        data: body,
+        body: body ? JSON.stringify(body) : undefined,
     });
 
-    return handleResponse<T>(response.data);
+    const data = await response.json();
+    return handleResponse<T>(data);
 }
