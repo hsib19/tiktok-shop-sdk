@@ -36,6 +36,8 @@ import {
     MultipartRequestFunction,
     OptimizedImagesInput,
     OptimizedImagesResponse,
+    PartialEditProductParams,
+    PartialEditProductResponse,
     ProductDiagnosisResponse,
     RecommendCategoryByProductParams,
     RecommendCategoryByProductResponse,
@@ -392,6 +394,19 @@ export class ProductModule {
         return this.request({
             method: 'PUT',
             path: `/product/202309/products/${params.product_id}`,
+            body: params.body,
+        });
+    }
+
+    /**
+     * Partially edit a product with given details.
+     * This endpoint allows updating specific fields of a product without requiring all fields.
+     */
+    async partialEditProduct(params: PartialEditProductParams): Promise<TikTokAPIResponse<PartialEditProductResponse | object>> {
+
+        return this.request({
+            method: 'POST',
+            path: `/product/202309/products/${params.product_id}/partial_edit`,
             body: params.body,
         });
     }
