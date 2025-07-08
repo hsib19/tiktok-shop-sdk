@@ -23,5 +23,9 @@
     "tsx": "^4.20.3",
     "turbo": "^2.5.4",
     "typescript-eslint": "^8.35.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hsib19/tiktok-shop-sdk.git"
   }
 }
