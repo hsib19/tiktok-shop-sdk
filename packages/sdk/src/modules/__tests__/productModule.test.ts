@@ -1,6 +1,6 @@
 import path from 'path';
 import { ProductModule } from '../ProductModule';
-import { ActivateProductInput, BrandCreateResponse, BrandFilterInput, BrandInput, CreateManufacturerInput, CreateManufacturerResponse, CreateProductInput, CreateProductResponse, CreateResponsiblePersonInput, CreateResponsiblePersonResponse, DeactivateProductInput, DeleteProductInput, EditPartialManufacturerParam, EditProductParams, EditProductResponse, EditResponsiblePersonInput, GetAttributesResponse, GetBrandsResponse, GetCategoriesQuery, GetCategoryAttributes, GetCategoryRulesQuery, GetCategoryRulesResponse, GetGlobalAttributeResponse, GetGlobalAttributesQuery, GetGlobalCategoriesQuery, GetGlobalCategoriesResponse, GetManufacturersResponse, GetProductParams, GetProductResponse, GetProductSEOWordsResponse, GetRecommendedProductTitleAndDescriptionQuery, GetRecommendedProductTitleAndDescriptionResponse, OptimizedImagesInput, OptimizedImagesResponse, ProductDiagnosisResponse, RecommendCategoryByProductParams, RecommendCategoryByProductResponse, RecoverProductBody, SearchManufacturerQuery, SearchProductInput, SearchProductsResponse, SearchResponsiblePersonsParam, SearchResponsiblePersonsResponse, SearchSizeChartResponse, SearchSizeChartsInput, TikTokAPIResponse, UploadImageParams, UploadImageResponse } from '@types'
+import { ActivateProductInput, BrandCreateResponse, BrandFilterInput, BrandInput, CreateManufacturerInput, CreateManufacturerResponse, CreateProductInput, CreateProductResponse, CreateResponsiblePersonInput, CreateResponsiblePersonResponse, DeactivateProductInput, DeleteProductInput, EditPartialManufacturerParam, EditProductParams, EditProductResponse, EditResponsiblePersonInput, GetAttributesResponse, GetBrandsResponse, GetCategoriesQuery, GetCategoryAttributes, GetCategoryRulesQuery, GetCategoryRulesResponse, GetGlobalAttributeResponse, GetGlobalAttributesQuery, GetGlobalCategoriesQuery, GetGlobalCategoriesResponse, GetManufacturersResponse, GetProductParams, GetProductResponse, GetProductSEOWordsResponse, GetRecommendedProductTitleAndDescriptionQuery, GetRecommendedProductTitleAndDescriptionResponse, OptimizedImagesInput, OptimizedImagesResponse, PartialEditProductParams, PartialEditProductResponse, ProductDiagnosisResponse, RecommendCategoryByProductParams, RecommendCategoryByProductResponse, RecoverProductBody, SearchManufacturerQuery, SearchProductInput, SearchProductsResponse, SearchResponsiblePersonsParam, SearchResponsiblePersonsResponse, SearchSizeChartResponse, SearchSizeChartsInput, TikTokAPIResponse, UploadImageParams, UploadImageResponse } from '@types'
 import fs from 'fs';
 
 jest.mock('form-data');
@@ -1487,6 +1487,81 @@ describe('ProductModule', () => {
             expect(mockRequest).toHaveBeenCalledWith({
                 method: 'PUT',
                 path: `/product/202309/products/${paramInput.product_id}`,
+                body: paramInput.body,
+            });
+
+            expect(result).toEqual(mockRes);
+        });
+
+        it("partial edit product using partialEditProduct", async () => {
+            const mockRes: TikTokAPIResponse<PartialEditProductResponse | object> = {
+                data: {
+                    "product_id": "1729592969712207008",
+                    "skus": [
+                        {
+                            "id": "1729592969712207012",
+                            "seller_sku": "Color-Red-XM001",
+                            "sales_attributes": [
+                                {
+                                    "id": "100000",
+                                    "value_id": "1729592969712207123"
+                                }
+                            ],
+                            "external_sku_id": "1729592969712207234"
+                        }
+                    ],
+                    "warnings": [
+                        {
+                            "message": "The [brand_id]:123 field is incorrect and has been automatically cleared by the system. Reason: [Brand does not exist]. You can edit it later."
+                        }
+                    ],
+                    "audit": {
+                        "status": "AUDITING"
+                    }
+                },
+                code: 0,
+                message: 'success',
+                request_id: "02480480234234"
+            }
+
+            const mockRequest = jest.fn().mockResolvedValue(mockRes);
+
+            const product = new ProductModule(mockRequest, mockRequest);
+
+            const paramInput: PartialEditProductParams = {
+                product_id: "1731560416953664665",
+                body: {
+                    title: "Updated Men's Fashion Sports Low Cut Cotton Breathable Ankle Short Boat Invisible Socks",
+                    description: '<p>Updated description with new features.</p>',
+                    is_cod_allowed: true,
+                    package_weight: {
+                        value: '1.5',
+                        unit: 'KILOGRAM',
+                    },
+                    skus: [
+                        {
+                            id: '1731560420062823577',
+                            price: {
+                                amount: '200000000',
+                                currency: 'IDR',
+                                sale_price: '180000000',
+                            },
+                            inventory: [
+                                {
+                                    warehouse_id: '7505773560071456518',
+                                    quantity: 1500,
+                                },
+                            ],
+                        },
+                    ],
+                }
+            };
+
+            const result = await product.partialEditProduct(paramInput);
+
+            expect(mockRequest).toHaveBeenCalledWith({
+                method: 'POST',
+                path: `/product/202309/products/${paramInput.product_id}/partial_edit`,
                 body: paramInput.body,
             });
 
