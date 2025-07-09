@@ -15,7 +15,7 @@ async function main() {
         sdk.setAccessToken(process.env.TIKTOK_APP_ACCESS_KEY!);
         sdk.setShopCipher(process.env.TIKTOK_SHOP_CIPHER!)
 
-        const response = await sdk.product.updatePrice({
+        const response = await sdk.product.updateProductPrice({
             product_id: "1731560416953664665",
             body: {
                 skus: [

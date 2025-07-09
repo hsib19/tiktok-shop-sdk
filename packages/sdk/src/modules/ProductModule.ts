@@ -5,6 +5,12 @@ import {
     BrandInput,
     CategoriesResponse,
     CheckListingPrerequisitesResponse,
+    CheckProductListingBody,
+    CheckProductListingResponse,
+    CreateGlobalProductInput,
+    CreateGlobalProductResponse,
+    CreateImageTranslationTasksInput,
+    CreateImageTranslationTasksResponse,
     CreateManufacturerInput,
     CreateManufacturerResponse,
     CreateProductInput,
@@ -12,7 +18,11 @@ import {
     CreateResponsiblePersonInput,
     CreateResponsiblePersonResponse,
     DeactivateProductInput,
+    DeleteGlobalProductsInput,
+    DeleteGlobalProductsResponse,
     DeleteProductInput,
+    EditGlobalProductInput,
+    EditGlobalProductResponse,
     EditPartialManufacturerParam,
     EditProductParams,
     EditProductResponse,
@@ -27,6 +37,11 @@ import {
     GetGlobalAttributesQuery,
     GetGlobalCategoriesQuery,
     GetGlobalCategoriesResponse,
+    GetGlobalCategoryRulesParams,
+    GetGlobalCategoryRulesResponse,
+    GetGlobalProductResponse,
+    GetImageTranslationTasksQuery,
+    GetImageTranslationTasksResponse,
     GetManufacturersResponse,
     GetProductParams,
     GetProductResponse,
@@ -39,10 +54,18 @@ import {
     PartialEditProductParams,
     PartialEditProductResponse,
     ProductDiagnosisResponse,
+    PublishGlobalProductInput,
+    PublishGlobalProductResponse,
     RecommendCategoryByProductParams,
     RecommendCategoryByProductResponse,
+    RecommendGlobalCategoryInput,
+    RecommendGlobalCategoryResponse,
     RecoverProductBody,
     RequestFunction,
+    SearchGlobalProductsInput,
+    SearchGlobalProductsResponse,
+    SearchInventoryBody,
+    SearchInventoryResponse,
     SearchManufacturerQuery,
     SearchProductInput,
     SearchProductsResponse,
@@ -51,14 +74,29 @@ import {
     SearchSizeChartResponse,
     SearchSizeChartsInput,
     TikTokAPIResponse,
+    UpdateGlobalInventoryInput,
+    UpdateGlobalInventoryResponse,
+    UpdateProductInventoryInput,
+    UpdateProductInventoryResponse,
+    UpdateProductPriceInput,
+    UpdateProductPriceResponse,
     UploadImageParams,
-    UploadImageResponse
+    UploadImageResponse,
+    UploadProductFileParams,
+    UploadProductFileResponse
 } from '@types';
 import FormData from 'form-data';
 
 /**
  * ProductModule provides methods to interact with TikTok Shop's product-related endpoints.
+ * 
+ * Includes operations such as creating, updating, and retrieving product data,
+ * managing global products, image translations, inventory, and more.
+ * 
+ * @see https://partner.tiktokshop.com/docv2/page/products-api-overview
+ * @class
  */
+
 export class ProductModule {
     constructor(
         private request: RequestFunction,
@@ -411,8 +449,12 @@ export class ProductModule {
         });
     }
 
+    /**
+ * Recover deleted product using product ID.
+ * @see https://partner.tiktokshop.com/doc/page/661176
+ * @param body - Payload containing the product_id to recover.
+ */
     async recoverProduct(body: RecoverProductBody): Promise<TikTokAPIResponse<object>> {
-
         return this.request({
             method: 'POST',
             path: `/product/202309/products/recover`,
@@ -420,4 +462,217 @@ export class ProductModule {
         });
     }
 
+    /**
+     * Check product listing prerequisites before publishing.
+     * @see https://partner.tiktokshop.com/docv2/page/recover-products-202309
+     * @param body - Payload containing product details to check listing eligibility.
+     */
+    async checkProductListing(body: CheckProductListingBody): Promise<TikTokAPIResponse<CheckProductListingResponse>> {
+        return this.request({
+            method: 'POST',
+            path: `/product/202309/products/listing_check`,
+            body: body,
+        });
+    }
+
+    /**
+     * Upload a file (e.g., product image or certificate).
+     * @see https://partner.tiktokshop.com/docv2/page/upload-product-file-202309
+     * @param body - File and metadata required for upload.
+     */
+    async uploadProductFile(body: UploadProductFileParams): Promise<TikTokAPIResponse<UploadProductFileResponse>> {
+        const formData = new FormData();
+        formData.append('data', body.data, body.name);
+        formData.append('name', body.name);
+
+        return this.requestMultipart({
+            method: 'POST',
+            path: '/product/202309/files/upload',
+            body: formData,
+        });
+    }
+
+    /**
+     * Search inventory by filters like product_id or status.
+     * @see https://partner.tiktokshop.com/docv2/page/inventory-search-202309
+     * @param body - Payload to filter and search product inventory.
+     */
+    async searchInventory(body: SearchInventoryBody): Promise<TikTokAPIResponse<SearchInventoryResponse>> {
+        return this.request({
+            method: 'POST',
+            path: '/product/202309/inventory/search',
+            body
+        });
+    }
+
+    /**
+     * Update price of a product SKU.
+     * @see https://partner.tiktokshop.com/docv2/page/update-price-202309
+     * @param params - Object containing product_id and body with price data.
+     */
+    async updateProductPrice(params: UpdateProductPriceInput): Promise<TikTokAPIResponse<UpdateProductPriceResponse>> {
+        return this.request({
+            method: 'POST',
+            path: `/product/202309/products/${params.product_id}/prices/update`,
+            body: params.body
+        });
+    }
+
+    /**
+     * Update inventory of a product SKU.
+     * @see https://partner.tiktokshop.com/docv2/page/update-inventory-202309
+     * @param params - Object containing product_id and inventory data.
+     */
+    async updateProductInventory(params: UpdateProductInventoryInput): Promise<TikTokAPIResponse<UpdateProductInventoryResponse>> {
+        return this.request({
+            method: 'POST',
+            path: `/product/202309/products/${params.product_id}/inventory/update`,
+            body: params.body,
+        });
+    }
+
+    /**
+     * Get recommended global categories for a product.
+     * @see https://partner.tiktokshop.com/docv2/page/recommend-global-categories-202309
+     * @param body - Object with product information to get category suggestions.
+     */
+    async recommendGlobalCategory(body: RecommendGlobalCategoryInput): Promise<TikTokAPIResponse<RecommendGlobalCategoryResponse>> {
+        return this.request({
+            method: 'POST',
+            path: '/product/202309/global_categories/recommend',
+            body,
+        });
+    }
+
+    /**
+     * Get global category rules (e.g., attributes, requirements).
+     * @see https://partner.tiktokshop.com/docv2/page/get-global-category-rules-202309
+     * @param params - Params containing category_id and optional query.
+     */
+    async getGlobalCategoryRules(params: GetGlobalCategoryRulesParams): Promise<TikTokAPIResponse<GetGlobalCategoryRulesResponse>> {
+        return this.request({
+            method: 'GET',
+            path: `/product/202309/categories/${params.category_id}/global_rules`,
+            query: params.query,
+        });
+    }
+
+    /**
+     * Create a new global product.
+     * @see https://partner.tiktokshop.com/docv2/page/create-global-product-202309
+     * @param body - Payload for creating a global product.
+     */
+    async createGlobalProduct(body: CreateGlobalProductInput): Promise<TikTokAPIResponse<CreateGlobalProductResponse>> {
+        return this.request({
+            method: 'POST',
+            path: '/product/202309/global_products',
+            body,
+        });
+    }
+
+    /**
+     * Edit a global product by ID.
+     * @see https://partner.tiktokshop.com/docv2/page/edit-global-product-202309
+     * @param params - Object containing global_product_id and updated product body.
+     */
+    async editGlobalProduct(params: EditGlobalProductInput): Promise<TikTokAPIResponse<EditGlobalProductResponse>> {
+        return this.request({
+            method: 'PUT',
+            path: `/product/202309/global_products/${params.global_product_id}`,
+            body: params.body
+        });
+    }
+
+    /**
+     * Delete one or multiple global products.
+     * @see https://partner.tiktokshop.com/docv2/page/delete-global-products-202309
+     * @param body - Payload containing IDs of global products to delete.
+     */
+    async deleteGlobalProducts(body: DeleteGlobalProductsInput): Promise<TikTokAPIResponse<DeleteGlobalProductsResponse>> {
+        return this.request({
+            method: 'DELETE',
+            path: '/product/202309/global_products',
+            body
+        });
+    }
+
+    /**
+     * Search for global products using filters and pagination.
+     * @see https://partner.tiktokshop.com/docv2/page/search-global-products-202312
+     * @param params - Object with query and body filters.
+     */
+    async searchGlobalProducts(params: SearchGlobalProductsInput): Promise<TikTokAPIResponse<SearchGlobalProductsResponse>> {
+        return this.request({
+            method: 'POST',
+            path: '/product/202312/global_products/search',
+            query: params.query,
+            body: params.body,
+        });
+    }
+    /**
+     * Update inventory for a specific global product.
+     * @see https://partner.tiktokshop.com/docv2/page/update-global-inventory-202309
+     * @param params - Params containing global_product_id and new inventory data.
+     */
+    async updateGlobalInventory(params: UpdateGlobalInventoryInput): Promise<TikTokAPIResponse<UpdateGlobalInventoryResponse>> {
+        return this.request({
+            method: 'POST',
+            path: `/product/202309/global_products/${params.global_product_id}/inventory/update`,
+            body: params.body,
+        });
+    }
+
+    /**
+     * Get a specific global product by ID.
+     * @see https://partner.tiktokshop.com/docv2/page/get-global-product-202309
+     * @param global_product_id - ID of the global product to retrieve.
+     */
+    async getGlobalProduct(global_product_id: string): Promise<TikTokAPIResponse<GetGlobalProductResponse>> {
+        return this.request({
+            method: 'GET',
+            path: `/product/202309/global_products/${global_product_id}`,
+        });
+    }
+
+    /**
+     * Publish a global product to a specific market or all markets.
+     * @see https://partner.tiktokshop.com/docv2/page/publish-global-product-202309
+     * @param params - Object containing global_product_id and publish config.
+     */
+    async publishGlobalProduct(params: PublishGlobalProductInput): Promise<TikTokAPIResponse<PublishGlobalProductResponse>> {
+        return this.request({
+            method: 'POST',
+            path: `/product/202309/global_products/${params.global_product_id}/publish`,
+            body: params.body,
+        });
+    }
+
+    /**
+     * Create image translation tasks for multiple product images.
+     * @see https://partner.tiktokshop.com/docv2/page/create-image-translation-tasks-202505
+     * @param body - List of image URLs and target languages.
+     */
+    async createImageTranslationTasks(body: CreateImageTranslationTasksInput): Promise<TikTokAPIResponse<CreateImageTranslationTasksResponse>> {
+        return this.request({
+            method: 'POST',
+            path: '/product/202505/images/translation_tasks',
+            body,
+        });
+    }
+
+    /**
+     * Get status of image translation tasks.
+     * @see https://partner.tiktokshop.com/docv2/page/get-image-translation-tasks-202506
+     * @param query - Object containing task_ids for status lookup.
+     */
+    async getImageTranslationTasks(query: GetImageTranslationTasksQuery): Promise<TikTokAPIResponse<GetImageTranslationTasksResponse>> {
+        return this.request({
+            method: 'GET',
+            path: '/product/202506/images/translation_tasks',
+            query: query,
+        });
+    }
+
+
+      
 }

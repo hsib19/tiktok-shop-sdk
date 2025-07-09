@@ -1,14 +1,27 @@
+class MockFormData {
+    private data: Record<string, { value: any; filename?: string }> = {};
+    append(key: string, value: any, filename?: string) {
+        this.data[key] = { value, filename };
+    }
+    get(key: string) {
+        return this.data[key]?.value;
+    }
+}
+(global as any).FormData = MockFormData;
+
 import path from 'path';
 import { ProductModule } from '../ProductModule';
-import { ActivateProductInput, BrandCreateResponse, BrandFilterInput, BrandInput, CreateManufacturerInput, CreateManufacturerResponse, CreateProductInput, CreateProductResponse, CreateResponsiblePersonInput, CreateResponsiblePersonResponse, DeactivateProductInput, DeleteProductInput, EditPartialManufacturerParam, EditProductParams, EditProductResponse, EditResponsiblePersonInput, GetAttributesResponse, GetBrandsResponse, GetCategoriesQuery, GetCategoryAttributes, GetCategoryRulesQuery, GetCategoryRulesResponse, GetGlobalAttributeResponse, GetGlobalAttributesQuery, GetGlobalCategoriesQuery, GetGlobalCategoriesResponse, GetManufacturersResponse, GetProductParams, GetProductResponse, GetProductSEOWordsResponse, GetRecommendedProductTitleAndDescriptionQuery, GetRecommendedProductTitleAndDescriptionResponse, OptimizedImagesInput, OptimizedImagesResponse, PartialEditProductParams, PartialEditProductResponse, ProductDiagnosisResponse, RecommendCategoryByProductParams, RecommendCategoryByProductResponse, RecoverProductBody, SearchManufacturerQuery, SearchProductInput, SearchProductsResponse, SearchResponsiblePersonsParam, SearchResponsiblePersonsResponse, SearchSizeChartResponse, SearchSizeChartsInput, TikTokAPIResponse, UploadImageParams, UploadImageResponse } from '@types'
+import { ActivateProductInput, BrandCreateResponse, BrandFilterInput, BrandInput, CheckProductListingBody, CheckProductListingResponse, CreateGlobalProductInput, CreateGlobalProductResponse, CreateImageTranslationTasksInput, CreateImageTranslationTasksResponse, CreateManufacturerInput, CreateManufacturerResponse, CreateProductInput, CreateProductResponse, CreateResponsiblePersonInput, CreateResponsiblePersonResponse, DeactivateProductInput, DeleteGlobalProductsInput, DeleteGlobalProductsResponse, DeleteProductInput, EditGlobalProductInput, EditGlobalProductResponse, EditPartialManufacturerParam, EditProductParams, EditProductResponse, EditResponsiblePersonInput, GetAttributesResponse, GetBrandsResponse, GetCategoriesQuery, GetCategoryAttributes, GetCategoryRulesQuery, GetCategoryRulesResponse, GetGlobalAttributeResponse, GetGlobalAttributesQuery, GetGlobalCategoriesQuery, GetGlobalCategoriesResponse, GetGlobalCategoryRulesParams, GetGlobalCategoryRulesResponse, GetGlobalProductResponse, GetManufacturersResponse, GetProductParams, GetProductResponse, GetProductSEOWordsResponse, GetRecommendedProductTitleAndDescriptionQuery, GetRecommendedProductTitleAndDescriptionResponse, OptimizedImagesInput, OptimizedImagesResponse, PartialEditProductParams, PartialEditProductResponse, ProductDiagnosisResponse, PublishGlobalProductInput, RecommendCategoryByProductParams, RecommendCategoryByProductResponse, RecommendGlobalCategoryInput, RecommendGlobalCategoryResponse, RecoverProductBody, SearchGlobalProductsBody, SearchGlobalProductsQuery, SearchInventoryBody, SearchInventoryResponse, SearchManufacturerQuery, SearchProductInput, SearchProductsResponse, SearchResponsiblePersonsParam, SearchResponsiblePersonsResponse, SearchSizeChartResponse, SearchSizeChartsInput, TikTokAPIResponse, UpdateGlobalInventoryInput, UpdateProductInventoryInput, UpdateProductInventoryResponse, UpdateProductPriceInput, UpdateProductPriceResponse, UploadImageParams, UploadImageResponse, UploadProductFileParams, UploadProductFileResponse } from '@types'
 import fs from 'fs';
 
+jest.mock('@client/RequestMultipart');
+
 jest.mock('form-data');
-import * as FormData from 'form-data';
 
 jest.mock('fs');
 
 describe('ProductModule', () => {
+
     let mockRequest: jest.Mock;
     let productModule: ProductModule;
 
@@ -16,6 +29,532 @@ describe('ProductModule', () => {
         mockRequest = jest.fn();
         productModule = new ProductModule(mockRequest, mockRequest);
     });
+
+    it('should search inventory', async () => {
+        const mockBody: SearchInventoryBody = {
+            product_ids: ["123", "321"],
+            sku_ids: ["111", "222"]
+        };
+
+        const mockResponse: TikTokAPIResponse<SearchInventoryResponse> = {
+            code: 0,
+            message: "Success",
+            request_id: "203947204234",
+            data: {
+                inventory: [{}]
+            }
+        };
+
+        mockRequest.mockResolvedValueOnce(mockResponse);
+
+        const res = await productModule.searchInventory(mockBody);
+
+        expect(res).toEqual(mockResponse);
+        expect(mockRequest).toHaveBeenCalledWith({
+            method: 'POST',
+            path: '/product/202309/inventory/search',
+            body: mockBody
+        });
+      });
+
+    it('should update product price', async () => {
+        const params: UpdateProductPriceInput = {
+            product_id: '123456',
+            body: {
+                skus: [
+                    {
+                        id: "123",
+                        price: {
+                            currency: "IDR",
+                            amount: "100000"
+                        }
+                    },
+                ],
+            },
+        };
+
+        const mockResponse: TikTokAPIResponse<UpdateProductPriceResponse> = {
+            code: 0,
+            message: "Success",
+            request_id: "203947204234",
+            data: {
+                result: true,
+            },
+        };
+
+        mockRequest.mockResolvedValueOnce(mockResponse);
+
+        const res = await productModule.updateProductPrice(params);
+
+        expect(res).toEqual(mockResponse);
+        expect(mockRequest).toHaveBeenCalledWith({
+            method: 'POST',
+            path: '/product/202309/products/123456/prices/update',
+            body: params.body,
+        });
+      });
+
+    it('should update product inventory', async () => {
+        const params: UpdateProductInventoryInput = {
+            product_id: '789123',
+            body: {
+                skus: [
+                    {
+                        id: "112233",
+                        inventory: [{
+                            quantity: 1,
+                            warehouse_id: "2309842034"
+                        }]
+                    },
+                ],
+            },
+        };
+
+        const mockResponse: TikTokAPIResponse<UpdateProductInventoryResponse> = {
+            code: 0,
+            message: "Success",
+            request_id: "203947204234",
+            data: {},
+        };
+
+        mockRequest.mockResolvedValueOnce(mockResponse);
+
+        const res = await productModule.updateProductInventory(params);
+
+        expect(res).toEqual(mockResponse);
+        expect(mockRequest).toHaveBeenCalledWith({
+            method: 'POST',
+            path: '/product/202309/products/789123/inventory/update',
+            body: params.body,
+        });
+      });
+
+
+    it('should recommend global category', async () => {
+        const body: RecommendGlobalCategoryInput = {
+            product_title: 'Wireless Bluetooth Headphones',
+            description: 'High quality noise-cancelling headphones',
+        };
+
+        const mockResponse: TikTokAPIResponse<RecommendGlobalCategoryResponse> = {
+            code: 0,
+            message: "Success",
+            request_id: "203947204234",
+            data: {
+                recommended_categories: [
+                    { category_id: '123', category_name: 'Audio Devices' },
+                ],
+            },
+        };
+
+        mockRequest.mockResolvedValueOnce(mockResponse);
+
+        const res = await productModule.recommendGlobalCategory(body);
+
+        expect(res).toEqual(mockResponse);
+        expect(mockRequest).toHaveBeenCalledWith({
+            method: 'POST',
+            path: '/product/202309/global_categories/recommend',
+            body,
+        });
+      });
+
+    it('should get global product by ID', async () => {
+        const globalProductId = 'global-abc123';
+
+        const mockResponse: TikTokAPIResponse<GetGlobalProductResponse> = {
+            code: 0,
+            message: "Success",
+            request_id: "203947204234",
+            data: {},
+        };
+
+        mockRequest.mockResolvedValueOnce(mockResponse);
+
+        const res = await productModule.getGlobalProduct(globalProductId);
+
+        expect(res).toEqual(mockResponse);
+        expect(mockRequest).toHaveBeenCalledWith({
+            method: 'GET',
+            path: `/product/202309/global_products/${globalProductId}`,
+        });
+      });
+
+    it('should create image translation tasks', async () => {
+        const body: CreateImageTranslationTasksInput = {
+            images: [
+                {
+                    image_uri: 'https://example.com/image.jpg',
+                    target_languages: ['en', 'id'],
+                },
+            ],
+        };
+
+        const mockResponse: TikTokAPIResponse<CreateImageTranslationTasksResponse> = {
+            code: 0,
+            message: "Success",
+            request_id: "203947204234",
+            data: {
+                translation_tasks: [{ id: "100" }]
+            },
+        };
+
+        mockRequest.mockResolvedValueOnce(mockResponse);
+
+        const res = await productModule.createImageTranslationTasks(body);
+
+        expect(res).toEqual(mockResponse);
+        expect(mockRequest).toHaveBeenCalledWith({
+            method: 'POST',
+            path: '/product/202505/images/translation_tasks',
+            body,
+        });
+      });
+
+
+    it('should get global category rules', async () => {
+        const params: GetGlobalCategoryRulesParams = {
+            category_id: 'cat-123',
+            query: {
+                locale: 'en-US',
+            },
+        };
+
+        const mockResponse: TikTokAPIResponse<GetGlobalCategoryRulesResponse> = {
+            code: 0,
+            message: "Success",
+            request_id: "203947204234",
+            data: {
+                manufacturer: {
+                    is_required: false
+                }
+            },
+        };
+
+        mockRequest.mockResolvedValueOnce(mockResponse);
+
+        const res = await productModule.getGlobalCategoryRules(params);
+
+        expect(res).toEqual(mockResponse);
+        expect(mockRequest).toHaveBeenCalledWith({
+            method: 'GET',
+            path: `/product/202309/categories/${params.category_id}/global_rules`,
+            query: params.query,
+        });
+      });
+
+    it('should create a global product', async () => {
+        const body: CreateGlobalProductInput = {
+            title: 'Example Product',
+            category_id: 'cat-123',
+            brand_id: 'brand-999',
+            main_images: [{ uri: "https://google.com" }],            
+            package_weight: {
+                unit: "GRAM",
+                value: "10"
+            },
+            skus: [{
+                global_quantity: 100
+            }]
+        };
+
+        const mockResponse: TikTokAPIResponse<CreateGlobalProductResponse> = {
+            code: 0,
+            message: "Success",
+            request_id: "203947204234",
+            data: {
+                global_product_id: 'gp-001',
+            },
+        };
+
+        mockRequest.mockResolvedValueOnce(mockResponse);
+
+        const res = await productModule.createGlobalProduct(body);
+
+        expect(res).toEqual(mockResponse);
+        expect(mockRequest).toHaveBeenCalledWith({
+            method: 'POST',
+            path: '/product/202309/global_products',
+            body,
+        });
+      });
+
+    it('should edit a global product', async () => {
+        const params: EditGlobalProductInput = {
+            global_product_id: 'gp-001',
+            body: {
+                title: 'Example Product',
+                category_id: 'cat-123',
+                brand_id: 'brand-999',
+                main_images: [{ uri: "https://google.com" }],
+                package_weight: {
+                    unit: "GRAM",
+                    value: "10"
+                },
+                skus: [{
+                    global_quantity: 100
+                }]
+            },
+        };
+
+        const mockResponse: TikTokAPIResponse<EditGlobalProductResponse> = {
+            code: 0,
+            data: {
+                global_skus: [{
+                    id: "100"
+                }]
+            },
+            message: 'Success',
+            request_id: '203947204234',
+        };
+
+        mockRequest.mockResolvedValueOnce(mockResponse);
+
+        const res = await productModule.editGlobalProduct(params);
+
+        expect(res).toEqual(mockResponse);
+        expect(mockRequest).toHaveBeenCalledWith({
+            method: 'PUT',
+            path: `/product/202309/global_products/${params.global_product_id}`,
+            body: params.body,
+        });
+      });
+
+    it('should delete global products', async () => {
+        const body: DeleteGlobalProductsInput = {
+            global_product_ids: ['gp-001', 'gp-002'],
+        };
+
+        const mockResponse: TikTokAPIResponse<DeleteGlobalProductsResponse> = {
+            code: 0,
+            data: {  },
+            message: 'Success',
+            request_id: '203947204234',
+        };
+
+        mockRequest.mockResolvedValueOnce(mockResponse);
+
+        const res = await productModule.deleteGlobalProducts(body);
+
+        expect(res).toEqual(mockResponse);
+        expect(mockRequest).toHaveBeenCalledWith({
+            method: 'DELETE',
+            path: '/product/202309/global_products',
+            body,
+        });
+      });
+
+
+    it('should search global products', async () => {
+        const mockResponse = { data: { products: [] } };
+        mockRequest.mockResolvedValue(mockResponse);
+
+        const bodyParam: SearchGlobalProductsBody = {
+            status: "PUBLISHED",
+            seller_skus: [
+                "Color-Red-001"
+            ],
+            create_time_ge: 1694576429,
+            create_time_le: 1694576429,
+            update_time_ge: 1694576429,
+            update_time_le: 1694576429
+        }
+
+        const query: SearchGlobalProductsQuery = {
+            page_size: 10,
+          };
+
+        const res = await productModule.searchGlobalProducts({
+            query: query,
+            body: bodyParam,
+        });
+
+        expect(res).toEqual(mockResponse);
+        expect(mockRequest).toHaveBeenCalledWith({
+            method: 'POST',
+            path: '/product/202312/global_products/search',
+            body: bodyParam,
+            query
+        });
+
+    });
+
+    it('should upload a product file', async () => {
+        const fakeBuffer = Buffer.from('dummy-file-data');
+        const filePath = path.join(process.cwd(), 'files/sample.csv');
+
+        jest.spyOn(fs, 'readFileSync').mockReturnValue(fakeBuffer);
+
+        const mockRes: TikTokAPIResponse<UploadProductFileResponse> = {
+            code: 0,
+            data: {
+                url: 'https://example.com/files/sample.csv',
+            },
+            message: 'success',
+            request_id: '92834928479234',
+        };
+
+        const uploadSpy = jest.spyOn(productModule, 'uploadProductFile').mockResolvedValue(mockRes);
+
+        const fileBuffer = fs.readFileSync(filePath);
+
+        const response = await productModule.uploadProductFile({
+            data: fileBuffer,
+            name: 'sample.csv',
+            required: true,
+        });
+
+        expect(fs.readFileSync).toHaveBeenCalledWith(filePath);
+        expect(uploadSpy).toHaveBeenCalledWith({
+            data: fakeBuffer,
+            name: 'sample.csv',
+            required: true,
+        });
+        expect(response).toEqual(mockRes);
+      });
+
+    it('should checkProductListing send correct request and return response', async () => {
+        const mockResponse: TikTokAPIResponse<CheckProductListingResponse> = {
+            code: 0,
+            message: 'success',
+            request_id: 'mocked-request-id',
+            data: {},
+        };
+
+        const mockRequest = jest
+            .spyOn(productModule as any, 'request')
+            .mockResolvedValue(mockResponse);
+
+        const body: CheckProductListingBody = {
+            category_id: "123",
+            description: "Desc here",
+            main_images: [{uri: "htps://images.com/"}],
+            title: "Title here",
+        };
+
+        const res = await productModule.checkProductListing(body);
+
+        expect(res).toEqual(mockResponse);
+
+        expect(mockRequest).toHaveBeenCalledWith({
+            method: 'POST',
+            path: '/product/202309/products/listing_check',
+            body,
+        });
+    });
+
+    it('should update global inventory', async () => {
+        const mockResponse = { data: {} };
+        mockRequest.mockResolvedValue(mockResponse);
+
+        const bodyParam: UpdateGlobalInventoryInput ={
+            global_product_id: '123',
+            body: {
+                global_skus: [
+                    {
+                        id: "1729592969712207013",
+                        inventory: [
+                            {
+                                global_warehouse_id: "7068517275539719942",
+                                quantity: 999
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+
+        const res = await productModule.updateGlobalInventory(bodyParam);
+
+        expect(res).toEqual(mockResponse);
+        expect(mockRequest).toHaveBeenCalledWith(
+            {
+                path: `/product/202309/global_products/${bodyParam.global_product_id}/inventory/update`,
+                method: 'POST',
+                body: bodyParam.body
+            }
+        );
+    });
+
+    it('should publish global product', async () => {
+        const mockResponse = { data: {} };
+        mockRequest.mockResolvedValue(mockResponse);
+
+        const body: PublishGlobalProductInput = {
+            global_product_id: '123',
+            body: {
+                publish_target: [
+                    {
+                        region: 'MY',
+                        responsible_person_ids: ['id1'],
+                        manufacturer_ids: ['id1'],
+                        skus: [
+                            {
+                                related_global_sku_id: 'sku_id',
+                                price: { amount: '10.01', currency: 'MYR', sale_price: '100.00' },
+                                inventory: { warehouse_id: 'wh_1', quantity: 999 },
+                            },
+                        ],
+                    },
+                ],
+            },
+        }
+
+        const res = await productModule.publishGlobalProduct(body);
+
+        expect(res).toEqual(mockResponse);
+        expect(mockRequest).toHaveBeenCalledWith({
+
+            path: `/product/202309/global_products/${body.global_product_id}/publish`,
+            method: 'POST',
+            body: body.body
+
+        });
+    });
+
+    it('should create image translation tasks', async () => {
+        const mockResponse: TikTokAPIResponse<CreateImageTranslationTasksResponse> = {
+            code: 0,
+            message: 'success',
+            request_id: 'mocked-request-id',
+            data: {},
+        };
+
+        const mockCreate = jest
+            .spyOn(productModule, 'createImageTranslationTasks')
+            .mockResolvedValue(mockResponse);
+
+        const input = {
+            images: [
+                {
+                    image_uri: 'test_image_url',
+                    target_languages: ['en', 'id'],
+                },
+            ],
+        };
+
+        const res = await productModule.createImageTranslationTasks(input);
+
+        expect(res).toEqual(mockResponse);
+        expect(mockCreate).toHaveBeenCalledWith(input);
+          
+      });
+    it('should get image translation tasks', async () => {
+        const mockResponse = { data: {} };
+        mockRequest.mockResolvedValue(mockResponse);
+
+        const res = await productModule.getImageTranslationTasks({
+            translation_task_ids: ['03495703459345', '2034720340234']
+        });
+
+        expect(res).toEqual(mockResponse);
+        expect(mockRequest).toHaveBeenCalledWith({
+            path: '/product/202506/images/translation_tasks',
+            method: 'GET',
+            query: { translation_task_ids: ['03495703459345', '2034720340234'] } 
+
+        });
+      });
 
     describe('Other Product Module', () => {
         it('should call request with correct GET path and return response', async () => {
@@ -523,7 +1062,6 @@ describe('ProductModule', () => {
         });
 
     })
-
 
     describe("Testing Products", () => {
         it("Search products using searchProducts", async () => {
@@ -1750,3 +2288,43 @@ describe('ProductModule', () => {
 
 });
 
+describe('ProductModule.uploadProductFile', () => {
+    let productModule: ProductModule;
+    let mockRequest: jest.Mock;
+    let mockRequestMultipart: jest.Mock;
+
+    beforeEach(() => {
+        mockRequest = jest.fn();
+        mockRequestMultipart = jest.fn();
+        productModule = new ProductModule(mockRequest, mockRequestMultipart);
+    });
+
+    it('should upload a product file', async () => {
+        const fakeBuffer = Buffer.from('dummy-file-data');
+
+        const mockResponse = {
+            code: 0,
+            data: {
+                file_id: 'file-123',
+                url: 'https://example.com/files/sample.csv',
+            },
+            message: 'success',
+            request_id: 'req-12345',
+        };
+
+        mockRequestMultipart.mockResolvedValueOnce(mockResponse);
+
+        const res = await productModule.uploadProductFile({
+            data: fakeBuffer,
+            name: 'sample.csv',
+        });
+
+        expect(mockRequestMultipart).toHaveBeenCalledTimes(1);
+
+        const calledArg = mockRequestMultipart.mock.calls[0][0];
+        expect(calledArg.method).toBe('POST');
+        expect(calledArg.path).toBe('/product/202309/files/upload');
+
+        expect(res).toEqual(mockResponse);
+    });
+});

@@ -15,11 +15,25 @@ async function main() {
         sdk.setAccessToken(process.env.TIKTOK_APP_ACCESS_KEY!);
         sdk.setShopCipher(process.env.TIKTOK_SHOP_CIPHER!)
 
-        const response = await sdk.product.searchInventory({
-            product_ids: ["1731560416953664665"],
-        });
+        const response = await sdk.product.updateProductInventory(
+        {
+            product_id: "1009238424",
+            body: {
+                skus: [
+                    {
+                        id: "1729592969712207013",
+                        inventory: [
+                            {
+                                warehouse_id: "7068517275539719942",
+                                quantity: 999
+                            }
+                        ]
+                    }
+                ]
+            }
+    });
 
-        console.log(JSON.stringify(response))
+        console.log(response)
 
     } catch (error) {
         if (error instanceof TikTokAPIError) {
@@ -34,4 +48,4 @@ async function main() {
 
 main();
 
-// npm exec tsx apps/examples/src/product/searchInventory.ts
+// npm exec tsx apps/examples/src/product/updateProductInventory.ts

@@ -15,11 +15,11 @@ async function main() {
         sdk.setAccessToken(process.env.TIKTOK_APP_ACCESS_KEY!);
         sdk.setShopCipher(process.env.TIKTOK_SHOP_CIPHER!)
 
-        const response = await sdk.product.searchInventory({
-            product_ids: ["1731560416953664665"],
+        const response = await sdk.product.getImageTranslationTasks({
+            translation_task_ids: ['0239402984024', '20472042423423']
         });
 
-        console.log(JSON.stringify(response))
+        console.log(response)
 
     } catch (error) {
         if (error instanceof TikTokAPIError) {
@@ -34,4 +34,4 @@ async function main() {
 
 main();
 
-// npm exec tsx apps/examples/src/product/searchInventory.ts
+// npm exec tsx apps/examples/src/product/getImageTranslationTasks.ts

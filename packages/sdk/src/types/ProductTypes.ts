@@ -1151,125 +1151,6 @@ export type SearchInventoryBody = {
     sku_ids?: string[];
 }
 
-export interface SearchInventoryResponse {
-    inventory: {
-        product_id: string;
-        skus: {
-            id: string;
-            seller_sku: string;
-            total_available_quantity: number;
-            total_committed_quantity: number;
-            warehouse_inventory: {
-                warehouse_id: string;
-                available_quantity: number;
-                committed_quantity: number;
-            }[];
-            total_available_inventory_distribution: {
-                campaign_inventory: {
-                    quantity: number;
-                    campaign_name: string;
-                }[];
-                creator_inventory: {
-                    quantity: number;
-                    creator_name: string;
-                }[];
-                in_shop_inventory: {
-                    quantity: number;
-                };
-            };
-        }[];
-    }[];
-}
-
-export interface CreateGlobalProductInput {
-    title: string;
-    description: string;
-    category_id: string;
-    brand_id?: string;
-    main_images: {
-        uri: string;
-    }[];
-    skus: {
-        global_quantity: number;
-        sales_attributes: {
-            id: string;
-            name: string;
-            value_id: string;
-            value_name: string;
-            sku_img: {
-                uri: string;
-            };
-        }[];
-        seller_sku: string;
-        price: {
-            amount: string;
-            currency: string;
-        };
-        identifier_code: {
-            code: string;
-            type: 'GTIN' | 'UPC' | 'EAN' | string;
-        };
-        inventory: {
-            global_warehouse_id: string;
-            quantity: number;
-        }[];
-        sku_unit_count: string;
-        extra_identifier_codes?: string[];
-        external_global_sku_id: string;
-    }[];
-    package_weight: {
-        value: string;
-        unit: 'KILOGRAM' | 'GRAM';
-    };
-    certifications?: {
-        id: string;
-        images?: {
-            uri: string;
-        }[];
-        files?: {
-            id: string;
-            name: string;
-            format: string;
-        }[];
-    }[];
-    package_dimensions: {
-        length: string;
-        width: string;
-        height: string;
-        unit: 'CENTIMETER' | 'MILLIMETER';
-    };
-    product_attributes?: {
-        id: string;
-        values: {
-            id: string;
-            name: string;
-        }[];
-    }[];
-    size_chart?: {
-        image: {
-            uri: string;
-        };
-        template: {
-            id: string;
-        };
-    };
-    video?: {
-        id: string;
-    };
-    manufacturer?: {
-        name: string;
-        address: string;
-        phone_number: string;
-        email: string;
-    };
-    category_version?: string;
-    responsible_person_ids?: string[];
-    manufacturer_ids?: string[];
-    source_locale?: string;
-    external_global_product_id?: string;
-}
-
-
 export interface GlobalProductResponse {
     global_product_id: string;
     global_skus: {
@@ -1420,3 +1301,746 @@ export type PartialEditProductResponse = {
         status?: string | 'AUDITING' | 'REJECTED' | 'APPROVED';
     };
 };
+
+type PackageWeight = 'GRAM' | 'KILOGRAM' | 'POUND';
+
+export type CheckProductListingBody = {
+    category_id: string;
+    description: string;
+    main_images: { uri: string }[];
+    title: string;
+
+    brand_id?: string;
+    skus?: {
+        sales_attributes: {
+            id: string;
+            name: string;
+            value_id: string;
+            value_name: string;
+            sku_img: { uri: string };
+            supplementary_sku_images: { uri: string }[];
+        }[];
+        seller_sku: string;
+        price: { amount: string; currency: string };
+        external_sku_id: string;
+        identifier_code: { code: string; type: string };
+        inventory: { warehouse_id: string; quantity: number }[];
+        combined_skus: { product_id: string; sku_id: string; sku_count: number }[];
+        sku_unit_count: string;
+        external_urls: string[];
+        extra_identifier_codes: string[];
+        pre_sale: {
+            type: string;
+            fulfillment_type: { handling_duration_days: number; release_date: number };
+        };
+        list_price: { amount: string; currency: string };
+        external_list_prices: { source: string; amount: string; currency: string }[];
+    }[];
+    is_cod_allowed?: boolean;
+    certifications?: {
+        id: string;
+        images: { uri: string }[];
+        files: { id: string; name: string; format: string }[];
+        expiration_date: number;
+    }[];
+    package_weight?: { value: string; unit: string };
+    product_attributes?: { id: string; values: { id: string; name: string }[] }[];
+    size_chart?: {
+        image: { uri: string };
+        template: { id: string };
+    };
+    package_dimensions?: {
+        length: string;
+        width: string;
+        height: string;
+        unit: string;
+    };
+    external_product_id?: string;
+    delivery_option_ids?: string[];
+    video?: { id: string };
+    primary_combined_product_id?: string;
+    manufacturer_ids?: string[];
+    responsible_person_ids?: string[];
+    listing_platforms?: string[];
+    shipping_insurance_requirement?: string;
+    is_pre_owned?: boolean;
+    minimum_order_quantity?: number;
+};
+  
+
+interface SKU {
+    sales_attributes?: SalesAttribute[];
+    seller_sku?: string;
+    price: {
+        amount: string;
+        currency: Currency;
+        external_sku_id?: string;
+    };
+    external_sku_id?: string;
+    identifier_code?: {
+        code?: string;
+        type?: string;
+    };
+    inventory: {
+        warehouse_id: string;
+        quantity?: number;
+    }[];
+    combined_product_id?: string;
+    package_dimensions?: Dimensions;
+    package_weight?: Measurement;
+}
+
+interface SalesAttribute {
+    id?: string;
+    value_id?: string;
+}
+
+interface Certification {
+    type?: string;
+    file?: { uri?: string };
+}
+
+interface ProductAttribute {
+    attribute_id?: string;
+    value?: string;
+}
+
+interface Measurement {
+    value?: number;
+    unit?: PackageWeight;
+}
+
+interface PackageW {
+    value?: string;
+    unit?: PackageWeight;
+}
+
+interface Dimensions {
+    height?: Measurement;
+    length?: Measurement;
+    width?: Measurement;
+}
+
+
+export interface CheckProductListingResponse {
+    check_result?: 'PASSED' | 'FAILED';
+    fail_reasons?: FailReason[];
+    warnings?: {
+        message?: string;
+    };
+    listing_quality?: {
+        current_tier?: 'EXCELLENT' | 'GOOD' | 'POOR';
+        remaining_recommendations?: number;
+    };
+    diagnoses?: Diagnosis[];
+}
+
+interface FailReason {
+    code?: number;
+    message?: string;
+}
+
+
+export interface UploadProductFileParams {
+    data: Buffer | Blob; 
+    name: string;
+    required?: boolean;
+}
+  
+export interface UploadProductFileResponse {
+    id?: string;
+    url?: string;
+    name?: string;
+    format?: string;
+}
+  
+export interface SearchInventoryResponse {
+    inventory?: ProductInventory[]; 
+}
+
+interface ProductInventory {
+    product_id?: string;
+    skus?: SKUInventory[];
+}
+
+interface SKUInventory {
+    id?: string;
+    seller_sku?: string;
+    total_available_quantity?: number;
+    total_committed_quantity?: number;
+    warehouse_inventory?: WarehouseStock[];
+    total_available_inventory_distribution?: InventoryDistribution;
+}
+
+interface WarehouseStock {
+    warehouse_id?: string;
+    available_quantity?: number;
+    committed_quantity?: number;
+}
+
+interface InventoryDistribution {
+    campaign_inventory?: {
+        quantity?: number;
+        campaign_name?: string;
+    }[];
+    creator_inventory?: {
+        quantity?: number;
+        creator_name?: string;
+    }[];
+    in_shop_inventory?: {
+        quantity?: number;
+    };
+}
+
+export type UpdateProductPriceInput = {
+    product_id: string;
+    body: {
+        skus: SKUPriceUpdate[];
+    };
+}
+
+interface SKUPriceUpdate {
+    id: string;
+    price: {
+        amount?: string;
+        currency: Currency;
+        sale_price?: string;
+    };
+    list_price?: {
+        amount: string;
+        currency: string;
+    };
+    external_list_prices?: ExternalListPrice[];
+}
+
+interface ExternalListPrice {
+    source: string;
+    amount: string;
+    currency: string;
+}
+  
+  
+export type UpdateProductPriceResponse = object;
+
+export interface UpdateProductInventoryInput {
+    product_id: string;
+    body: {
+        skus: {
+            id: string;
+            inventory: {
+                quantity: number;
+                warehouse_id?: string;
+            }[];
+        }[];
+    };
+}
+  
+export interface UpdateProductInventoryResponse {
+    errors?: InventoryUpdateError[];
+}
+
+interface InventoryUpdateError {
+    code?: number;
+    message?: string;
+    detail?: {
+        sku_id?: string;
+        extra_errors?: {
+            warehouse_id?: string;
+            code?: number;
+            message?: string;
+        }[];
+    };
+}
+  
+export type RecommendGlobalCategoryInput = {
+    product_title: string; 
+    description?: string;
+    images?: { uri: string }[];
+    category_version?: string;
+}
+  
+export interface RecommendGlobalCategoryResponse {
+    recommended_categories?: {
+        category_id?: string;
+        category_name?: string;
+        level?: number;
+        score?: number;
+        full_path?: string;
+    }[];
+}
+  
+
+export type GetGlobalCategoryRulesQuery = {
+    locale?: string;
+    category_version?: string;
+}
+  
+export interface GetGlobalCategoryRulesParams {
+    category_id: string;
+    query?: GetGlobalCategoryRulesQuery;
+}
+  
+export interface GetGlobalCategoryRulesResponse {
+    product_certifications?: ProductCertificationGlobal[];
+    size_chart?: {
+        is_supported?: boolean;
+        is_required?: boolean;
+    };
+    responsible_person?: RegionRequirement;
+    manufacturer?: RegionRequirement;
+}
+
+interface ProductCertificationGlobal {
+    id?: string;
+    name?: string;
+    is_required?: boolean;
+    sample_image_url?: string;
+    required_regions?: string[];
+    optional_regions?: string[];
+    requirement_conditions?: RequirementConditionGlobal[];
+}
+
+interface RegionRequirement {
+    is_required?: boolean;
+    optional_regions?: string[];
+    required_regions?: string[];
+}
+
+export type CreateGlobalProductInput = {
+    title: string;
+    description?: string;
+    category_id: string;
+    brand_id?: string;
+    main_images: { uri: string }[];
+    skus: GlobalProductSKU[];
+    package_weight: PackageW;
+    certifications?: CertificationItem[];
+    package_dimensions?: {
+        length: string;
+        width: string;
+        height: string;
+        unit: string;
+    };
+    product_attributes?: ProductAttributeInput[];
+    size_chart?: {
+        image?: { uri: string };
+        template?: { id: string };
+    };
+    video?: { id: string };
+    manufacturer?: ManufacturerDetails;
+    category_version?: string;
+    responsible_person_ids?: string[];
+    manufacturer_ids?: string[];
+    source_locale?: string;
+    external_global_product_id?: string;
+}
+
+interface GlobalProductSKU {
+    id?: string;
+    global_quantity: number;
+    sales_attributes?: SalesAttributeInput[];
+    seller_sku?: string;
+    price?: {
+        amount: string;
+        currency: Currency;
+    };
+    identifier_code?: {
+        code?: string;
+        type?: string;
+    };
+    inventory?: {
+        global_warehouse_id?: string;
+        quantity?: number;
+    }[];
+    sku_unit_count?: string;
+    extra_identifier_codes?: string[];
+    external_global_sku_id?: string;
+    sale_prices?: 
+        {
+            region: string;
+            amount: string;
+        }[]
+    
+}
+
+interface SalesAttributeInput {
+    id?: string;
+    name?: string;
+    value_id?: string;
+    value_name?: string;
+    sku_img?: { uri: string };
+}
+
+interface CertificationItem {
+    id?: string;
+    images?: { uri: string }[];
+    files?: {
+        id?: string;
+        name?: string;
+        format?: string;
+    }[];
+}
+
+interface ProductAttributeInput {
+    id?: string;
+    values?: {
+        id?: string;
+        name?: string;
+    }[];
+}
+
+interface ManufacturerDetails {
+    name?: string;
+    address?: string;
+    phone_number?: string;
+    email?: string;
+}
+
+interface DimensionsWithUnit {
+    length?: string;
+    width?: string;
+    height?: string;
+    unit?: string;
+}
+
+export interface CreateGlobalProductResponse {
+    global_product_id?: string;
+    global_skus?: {
+        id?: string;
+        seller_sku?: string;
+        sales_attributes?: {
+            id?: string;
+            value_id?: string;
+        }[];
+        external_global_sku_id?: string;
+    }[];
+}
+  
+export interface EditGlobalProductInput {
+    global_product_id: string;
+    body: CreateGlobalProductInput; 
+}
+  
+export interface EditGlobalProductResponse {
+    global_skus?: {
+        id?: string;
+        seller_sku?: string;
+        sales_attributes?: {
+            id?: string;
+            value_id?: string;
+        }[];
+        external_global_sku_id?: string;
+    }[];
+    publish_results?: {
+        region?: string;
+        status?: 'SUCCESS' | 'FAILURE';
+        fail_reasons?: {
+            message?: string;
+        }[];
+    }[];
+}
+  
+
+export type DeleteGlobalProductsInput = {
+    global_product_ids: string[];
+}
+  
+export interface DeleteGlobalProductsResponse {
+    errors?: {
+        message?: string;
+        code?: number;
+        detail?: {
+            global_product_id?: string;
+        };
+    }[];
+}
+  
+export type SearchGlobalProductsQuery = {
+    page_token?: string;
+    page_size: number;
+}
+  
+export type SearchGlobalProductsBody = {
+    status?: 'PUBLISHED' | 'DRAFT' | string;
+    seller_skus?: string[];
+    create_time_ge?: number;
+    create_time_le?: number;
+    update_time_ge?: number;
+    update_time_le?: number;
+}
+  
+export interface SearchGlobalProductsResponse {
+    next_page_token?: string;
+    total_count?: number;
+    global_products?: {
+        id?: string;
+        title?: string;
+        status?: string;
+        skus?: {
+            id?: string;
+            seller_sku?: string;
+        }[];
+        create_time?: number;
+        update_time?: number;
+    }[];
+}
+  
+export interface SearchGlobalProductsInput {
+    query: SearchGlobalProductsQuery;
+    body: SearchGlobalProductsBody;
+}
+  
+export interface UpdateGlobalInventoryInput {
+    global_product_id: string;
+    body: {
+        global_skus: {
+            id: string;
+            inventory: {
+                global_warehouse_id: string;
+                quantity: number;
+            }[];
+        }[];
+    };
+}
+  
+export interface UpdateGlobalInventoryResponse {
+    errors?: {
+        code?: number;
+        message?: string;
+        detail?: {
+            global_sku_id?: string;
+            extra_errors?: {
+                global_warehouse_id?: string;
+                code?: number;
+                message?: string;
+            }[];
+        };
+    }[];
+}
+  
+export interface GetGlobalProductInput {
+    global_product_id: string;
+}
+  
+export interface GetGlobalProductResponse {
+    id?: string;
+    title?: string;
+    main_images?: Image[];
+    video?: { id?: string };
+    description?: string;
+    package_dimensions?: DimensionsWithUnit;
+    package_weight?: Measurement;
+    certifications?: CertificationItemDetail[];
+    skus?: GlobalSKU[];
+    update_time?: number;
+    create_time?: number;
+    product_attributes?: ProductAttributeDetail[];
+    size_chart?: {
+        image?: Image;
+        template?: { id?: string };
+    };
+    products?: RegionProduct[];
+    global_seller_id?: string;
+    brand?: { id?: string };
+    category?: { id?: string };
+    manufacturer?: ManufacturerDetails;
+    responsible_person_ids?: string[];
+    manufacturer_ids?: string[];
+    source_locale?: string;
+    external_global_product_id?: string;
+}
+
+interface Image {
+    height?: number;
+    width?: number;
+    uri?: string;
+    urls?: string[];
+    thumb_urls?: string[];
+}
+
+interface DimensionsWithUnit {
+    length?: string;
+    width?: string;
+    height?: string;
+    unit?: string;
+}
+
+interface CertificationItemDetail {
+    id?: string;
+    title?: string;
+    files?: {
+        id?: string;
+        name?: string;
+        format?: string;
+        urls?: string[];
+    }[];
+    images?: Image[];
+}
+
+interface GlobalSKU {
+    id?: string;
+    seller_sku?: string;
+    price?: {
+        amount?: string;
+        currency?: string;
+        unit_price?: string;
+    };
+    global_quantity?: number;
+    identifier_code?: {
+        code?: string;
+        type?: string;
+    };
+    sales_attributes?: {
+        id?: string;
+        name?: string;
+        value_id?: string;
+        value_name?: string;
+        sku_img?: Image;
+    }[];
+    inventory?: {
+        global_warehouse_id?: string;
+        quantity?: number;
+    }[];
+    sku_unit_count?: string;
+    extra_identifier_codes?: string[];
+    external_global_sku_id?: string;
+}
+
+interface ProductAttributeDetail {
+    id?: string;
+    name?: string;
+    values?: {
+        id?: string;
+        name?: string;
+    }[];
+}
+
+interface RegionProduct {
+    region?: string;
+    id?: string;
+    sku_mappings?: {
+        global_sku_id?: string;
+        local_sku_id?: string;
+        sales_attribute_mappings?: {
+            global_attribute_id?: string;
+            local_attribute_id?: string;
+            global_value_id?: string;
+            local_value_id?: string;
+        }[];
+    }[];
+}
+
+interface ManufacturerDetails {
+    name?: string;
+    address?: string;
+    phone_number?: string;
+    email?: string;
+}
+  
+export interface PublishGlobalProductInput {
+    global_product_id: string;
+    body: {
+        publish_target: PublishTarget[];
+    };
+}
+
+export type Region =
+    | 'DE' // Germany
+    | 'ES' // Spain
+    | 'FR' // France
+    | 'GB' // United Kingdom
+    | 'ID' // Indonesia
+    | 'IE' // Ireland
+    | 'IT' // Italy
+    | 'JP' // Japan
+    | 'MY' // Malaysia
+    | 'PH' // Philippines
+    | 'SG' // Singapore
+    | 'TH' // Thailand
+    | 'US' // United States
+    | 'VN' // Vietnam
+    | 'MX'; // Mexico
+
+
+interface PublishTarget {
+    region: Region;
+    responsible_person_ids?: string[];
+    manufacturer_ids?: string[];
+    skus: PublishSKU[];
+}
+
+interface PublishSKU {
+    related_global_sku_id: string;
+    price?: {
+        amount?: string;
+        currency: Currency;
+        sale_price?: string;
+    };
+    inventory?: {
+        warehouse_id?: string;
+        quantity?: number;
+    };
+}
+  
+
+export interface PublishGlobalProductResponse {
+    products?: {
+        region?: string;
+        shop_id?: string;
+        id?: string;
+        skus?: {
+            related_global_sku_id?: string;
+            id?: string;
+            seller_sku?: string;
+            sale_attributes?: {
+                id?: string;
+                value_id?: string;
+            }[];
+        }[];
+    }[];
+    publish_result?: {
+        region?: string;
+        status?: 'SUCCESS' | 'FAILURE';
+        fail_reasons?: {
+            message?: string;
+        }[];
+    }[];
+}
+  
+export type CreateImageTranslationTasksInput = {
+    images: {
+        image_uri: string;
+        target_languages: string[]; // e.g. ["it-IT", "fr-FR"]
+    }[];
+}
+  
+export interface CreateImageTranslationTasksResponse {
+    translation_tasks?: {
+        image_uri?: string;
+        target_language?: string;
+        id?: string;
+    }[];
+}
+
+export type GetImageTranslationTasksQuery = {
+    translation_task_ids?: string[];
+}
+  
+export interface GetImageTranslationTasksResponse {
+    translation_tasks?: TranslationTask[];
+}
+
+interface TranslationTask {
+    id?: string;
+    target_language?: string;
+    status?: 'COMPLETED' | 'FAILED' | 'IN_PROGRESS' | string;
+    fail_reason?: string;
+    original_image?: ImageData;
+    translated_image?: ImageData;
+}
+
+interface ImageData {
+    uri?: string;
+    url?: string;
+}
+  
