@@ -25,6 +25,10 @@ export class TikTokShopSDK {
     private accessToken?: string;
     private shopCipher?: string
 
+    request: RequestFunction;
+    requestCipher: RequestFunction;
+    requestMultipart: MultipartRequestFunction;
+
     constructor(private config: SDKConfig) {
         /**
          * Wrapper function for all requests.
@@ -62,6 +66,10 @@ export class TikTokShopSDK {
                     shopCipher: this.shopCipher,
                 },
             });
+
+        this.request = requestWithConfig;
+        this.requestCipher = requestWithConfigCipher;
+        this.requestMultipart = requestMultipartWithConfigCipher;
 
         // Initialize each module with necessary configuration or request wrapper
         this.auth = new AuthModule(this.config); // Auth doesn't use access token
