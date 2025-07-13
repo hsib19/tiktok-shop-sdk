@@ -1368,43 +1368,6 @@ export type CheckProductListingBody = {
 };
   
 
-interface SKU {
-    sales_attributes?: SalesAttribute[];
-    seller_sku?: string;
-    price: {
-        amount: string;
-        currency: Currency;
-        external_sku_id?: string;
-    };
-    external_sku_id?: string;
-    identifier_code?: {
-        code?: string;
-        type?: string;
-    };
-    inventory: {
-        warehouse_id: string;
-        quantity?: number;
-    }[];
-    combined_product_id?: string;
-    package_dimensions?: Dimensions;
-    package_weight?: Measurement;
-}
-
-interface SalesAttribute {
-    id?: string;
-    value_id?: string;
-}
-
-interface Certification {
-    type?: string;
-    file?: { uri?: string };
-}
-
-interface ProductAttribute {
-    attribute_id?: string;
-    value?: string;
-}
-
 interface Measurement {
     value?: number;
     unit?: PackageWeight;
@@ -1415,11 +1378,6 @@ interface PackageW {
     unit?: PackageWeight;
 }
 
-interface Dimensions {
-    height?: Measurement;
-    length?: Measurement;
-    width?: Measurement;
-}
 
 
 export interface CheckProductListingResponse {

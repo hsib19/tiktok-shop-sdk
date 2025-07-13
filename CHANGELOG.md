@@ -4,6 +4,39 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v1.0.0] – 2025-07-13
+
+This release marks the first stable version of `tiktok-shop-sdk`, building on the foundation set in `v0.1.0`. It includes comprehensive support for product-related operations, covering both local and global product management features.
+
+### Added
+
+#### Local Product Features
+- `checkProductListing` – Check the listing status of a product.
+- `uploadProductFile` – Upload a product file (e.g., CSV/XLSX).
+- `searchInventory` – Search inventory by keyword or filter.
+- `updatePrice` – Update the price of a product.
+- `updateInventory` – Update the stock quantity of a product.
+
+#### Global Product Features
+- `recommendGlobalCategories` – Get category recommendations based on product name.
+- `getGlobalCategoryRules` – Retrieve rules and attributes for a specific category.
+- `createGlobalProduct` – Create a new global product.
+- `publishGlobalProduct` – Publish a global product to the shop.
+- `editGlobalProduct` – Edit an existing global product.
+- `deleteGlobalProducts` – Delete one or multiple global products.
+- `getGlobalProduct` – Get detailed information about a global product.
+- `searchGlobalProducts` – Search global products using filters.
+- `updateGlobalInventory` – Update inventory for global products.
+
+#### Image Translation Features
+- `createImageTranslationTasks` – Create tasks to translate text in product images.
+- `getImageTranslationTasks` – Retrieve results of image translation tasks.
+
+#### SDK Structure
+- Exposed all request functions as class properties on `TikTokShopSDK` for improved usability and modular integration.
+
+---
+
 ## [v0.8.0] - 2025-07-05
 
 ### Changed
