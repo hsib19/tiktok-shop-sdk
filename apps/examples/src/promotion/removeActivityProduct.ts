@@ -3,41 +3,33 @@ import 'dotenv/config';
 import { TikTokShopSDK, TikTokAPIError } from 'tiktok-shop-sdk';
 
 const sdk = new TikTokShopSDK({
-    appKey: process.env.TIKTOK_APP_KEY!,
-    appSecret: process.env.TIKTOK_APP_SECRET!,
+  appKey: process.env.TIKTOK_APP_KEY!,
+  appSecret: process.env.TIKTOK_APP_SECRET!,
 });
 export async function main() {
+  try {
+    // Set Access Token
+    sdk.setAccessToken(process.env.TIKTOK_APP_ACCESS_KEY!);
+    sdk.setShopCipher(process.env.TIKTOK_SHOP_CIPHER!);
 
-    try {
+    const response = await sdk.promotion.removeActivityProduct({
+      body: {
+        product_ids: ['7493989962827597361'],
+        sku_ids: ['7135657830438176513'],
+      },
+      activity_id: '7136104288010372865',
+    });
 
-        // Set Access Token
-        sdk.setAccessToken(process.env.TIKTOK_APP_ACCESS_KEY!);
-        sdk.setShopCipher(process.env.TIKTOK_SHOP_CIPHER!);
-
-        const response = await sdk.promotion.removeActivityProduct({
-            body: {
-                product_ids: [
-                    "7493989962827597361"
-                ],
-                sku_ids: [
-                    "7135657830438176513"
-                ]
-            },
-            activity_id: "7136104288010372865"
-        })
-
-        console.log(response)
-
-    } catch (error) {
-        if (error instanceof TikTokAPIError) {
-            console.error("TikTok API Error:", error.message);
-            console.error("Status Code:", error.code);
-            console.log("Request Id: ", error.request_id)
-        } else {
-            console.error("Unexpected error:", error);
-        }
+    console.log(response);
+  } catch (error) {
+    if (error instanceof TikTokAPIError) {
+      console.error('TikTok API Error:', error.message);
+      console.error('Status Code:', error.code);
+      console.log('Request Id: ', error.request_id);
+    } else {
+      console.error('Unexpected error:', error);
     }
-
+  }
 }
 
 // npm exec tsx apps/examples/src/promotion/removeActivityProduct.ts

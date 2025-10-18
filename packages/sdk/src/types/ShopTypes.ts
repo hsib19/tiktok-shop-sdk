@@ -1,41 +1,41 @@
 export interface GetAuthorizedShopListParams {
-    page_size?: number;
-    page_number?: number;
+  page_size?: number;
+  page_number?: number;
 }
 
 export interface AuthorizedShopList {
-    shop_id: string;
-    region: string;
-    authorize_time: number;
+  shop_id: string;
+  region: string;
+  authorize_time: number;
 }
 
 export interface GetAuthorizedShopListResponse {
-    total: number;
-    shop_list: AuthorizedShopList[];
+  total: number;
+  shop_list: AuthorizedShopList[];
 }
 
 export interface AuthorizedShop {
-    cipher: string; 
-    code: string;
-    id: string;
-    name: string;
-    region: string;
-    seller_type: string;
+  cipher: string;
+  code: string;
+  id: string;
+  name: string;
+  region: string;
+  seller_type: string;
 }
 
 export interface AuthorizedShopsResponse {
-    shops: AuthorizedShop[];
+  shops: AuthorizedShop[];
 }
 
 export interface CategoryAsset {
-    cipher: string;
-    target_market: string;
-    category: {
-        id: number,
-        name: string
-    }
+  cipher: string;
+  target_market: string;
+  category: {
+    id: number;
+    name: string;
+  };
 }
 
 export interface CategoryAssetsResponse {
-    category_assets: CategoryAsset[];
+  category_assets: CategoryAsset[];
 }

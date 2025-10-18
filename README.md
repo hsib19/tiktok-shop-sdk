@@ -36,21 +36,21 @@ yarn add tiktok-shop-sdk
 Below is the current development status of each module within the TikTok Shop SDK.  
 Modules marked as **Completed** are fully implemented and tested, while those marked as **Work in Progress** are still under active development.
 
-| Module | Status |
-| :-------- | :------------ |
-| `Auth` | `✅ Completed` |
-| `Shop` | `✅ Completed` |
-| `Event` | `✅ Completed` |
-| `Seller` | `✅ Completed` |
-| `Products` | `✅ Completed` |
-| `Orders` | `✅ Completed` |
-| `Logistic` | `✅ Completed` |
-| `Return & Refund` | `✅ Completed` |
-| `Finance` | `✅ Completed` |
-| `Fulfillment` | `✅ Completed` |
-| `Promotion` | `✅ Completed` |
+| Module             | Status         |
+| :----------------- | :------------- |
+| `Auth`             | `✅ Completed` |
+| `Shop`             | `✅ Completed` |
+| `Event`            | `✅ Completed` |
+| `Seller`           | `✅ Completed` |
+| `Products`         | `✅ Completed` |
+| `Orders`           | `✅ Completed` |
+| `Logistic`         | `✅ Completed` |
+| `Return & Refund`  | `✅ Completed` |
+| `Finance`          | `✅ Completed` |
+| `Fulfillment`      | `✅ Completed` |
+| `Promotion`        | `✅ Completed` |
 | `Affiliate Seller` | `✅ Completed` |
-| `Analaytics` | `✅ Completed` |
+| `Analaytics`       | `✅ Completed` |
 
 ## Usage
 
@@ -86,12 +86,12 @@ pnpm build
 
 This project uses TurboRepo to run scripts across all packages:
 
-- `pnpm run build` – Build all packages  
-- `pnpm run dev` – Run development mode  
-- `pnpm run test` – Run tests  
-- `pnpm run test:cov` – Run tests with coverage report  
-- `pnpm run lint` – Run linter  
-- `pnpm run prepare` – Prepare Git hooks with Husky  
+- `pnpm run build` – Build all packages
+- `pnpm run dev` – Run development mode
+- `pnpm run test` – Run tests
+- `pnpm run test:cov` – Run tests with coverage report
+- `pnpm run lint` – Run linter
+- `pnpm run prepare` – Prepare Git hooks with Husky
 
 ### Run the CLI from the monorepo root
 
