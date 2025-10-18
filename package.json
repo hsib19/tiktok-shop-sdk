@@ -15,6 +15,12 @@
     "lint": "turbo run lint",
     "prepare": "husky"
   },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
   "devDependencies": {
     "@eslint/js": "^9.30.0",
     "@jest/globals": "^30.0.3",
@@ -24,6 +30,7 @@
     "eslint": "^9.30.0",
     "globals": "^16.2.0",
     "husky": "^9.1.7",
+    "lint-staged": "^16.2.4",
     "pnpm": "^10.12.4",
     "prettier": "^3.6.2",
     "tsx": "^4.20.3",
