@@ -104,6 +104,8 @@ pnpm run dev:examples
 
 ## Contributing
 
-Contributions are welcome! Please open a pull request and follow the contribution guidelines.
+Contributions are welcome! Please open a pull request and follow the [contribution guidelines](./CONTRIBUTING.md).
+
+You can also see all contributors to this project [here](https://github.com/hsib19/tiktok-shop-sdk/graphs/contributors).
 
 ---
