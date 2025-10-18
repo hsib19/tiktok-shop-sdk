@@ -6,6 +6,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "dev:examples": "pnpm --filter examples run dev",
     "test": "turbo run test",
     "test:cov": "turbo run test -- --coverage",
     "lint": "turbo run lint",
