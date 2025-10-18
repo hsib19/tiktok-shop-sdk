@@ -93,6 +93,15 @@ This project uses TurboRepo to run scripts across all packages:
 - `pnpm run lint` – Run linter  
 - `pnpm run prepare` – Prepare Git hooks with Husky  
 
+### Run the CLI from the monorepo root
+
+```bash
+pnpm run dev:examples
+```
+
+> This runs the CLI in the `examples` package only, displaying a list of available modules under `src/`.
+> Select a module with arrow keys and press Enter to execute it.
+
 ## Contributing
 
 Contributions are welcome! Please open a pull request and follow the contribution guidelines.
