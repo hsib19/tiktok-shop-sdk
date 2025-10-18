@@ -11,3 +11,4 @@ export * from './FinanceTypes';
 export * from './FulfillmentTypes';
 export * from './PromotionTypes';
 export * from './AnalyticsType';
+export * from './AffiliateSellerTypes';

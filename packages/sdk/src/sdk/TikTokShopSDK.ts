@@ -1,7 +1,7 @@
 import { request, requestMultipart } from '@client';
 import { MultipartRequestFunction, RequestFunction } from '@types';
 import { DEFAULT_BASE_URL, SDKConfig } from '@sdk';
-import { AuthModule, EventModule, ShopModule, SellerModule, ProductModule, OrderModule, LogisticModule, ReturnRefundModule, FinanceModule, FulfillmentModule, PromotionModule, AnalyticsModule } from '@modules';
+import { AuthModule, EventModule, ShopModule, SellerModule, ProductModule, OrderModule, LogisticModule, ReturnRefundModule, FinanceModule, FulfillmentModule, PromotionModule, AnalyticsModule, AffiliateSellerModule } from '@modules';
 
 /**
  * TikTokShopSDK is the main entry point to interact with TikTok Shop API.
@@ -21,6 +21,7 @@ export class TikTokShopSDK {
     public fulfillment: FulfillmentModule;
     public promotion: PromotionModule;
     public analytics: AnalyticsModule;
+    public affiliateSeller: AffiliateSellerModule;
 
     // Internally stored access token (used in headers)
     private accessToken?: string;
@@ -85,6 +86,7 @@ export class TikTokShopSDK {
         this.fulfillment = new FulfillmentModule(requestWithConfigCipher);
         this.promotion = new PromotionModule(requestWithConfigCipher);
         this.analytics = new AnalyticsModule(requestWithConfigCipher);
+        this.affiliateSeller = new AffiliateSellerModule(requestWithConfigCipher);
     }
 
     /**

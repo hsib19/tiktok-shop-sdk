@@ -10,3 +10,4 @@ export * from './FinanceModule';
 export * from './FulfillmentModule';
 export * from './PromotionModule';
 export * from './AnalyticsModule';
+export * from './AffiliateSellerModule';
