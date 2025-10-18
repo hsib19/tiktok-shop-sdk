@@ -30,6 +30,4 @@ async function main(){
 
 }
 
-main();
-
 // npm exec tsx apps/examples/src/shop/getCategoryAssets.ts

@@ -6,8 +6,7 @@ const sdk = new TikTokShopSDK({
     appKey: process.env.TIKTOK_APP_KEY!,
     appSecret: process.env.TIKTOK_APP_SECRET!,
 });
-
-async function main() {
+export async function main() {
 
     try {
 
@@ -31,7 +30,5 @@ async function main() {
         }
     }
 }
-
-main();
 
 // npm exec tsx apps/examples/src/product/deleteProducts.ts

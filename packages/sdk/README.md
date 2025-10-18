@@ -96,7 +96,7 @@ const sdk = new TikTokShopSDK({
     appSecret: ""     // Your TikTok Shop App Secret
 });
 
-async function main() {
+export async function main() {
 
     // Example 1: Request an access token using authorization code grant
     // This step is necessary to obtain a valid access token for authenticated API calls

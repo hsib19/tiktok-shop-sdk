@@ -7,7 +7,7 @@ const sdk = new TikTokShopSDK({
     appSecret: process.env.TIKTOK_APP_SECRET!,
 });
 
-async function main() {
+export async function main() {
 
     try {
 
@@ -33,7 +33,3 @@ async function main() {
     }
 
 }
-
-main();
-
-// npm exec tsx apps/examples/src/affiliate_seller/createConversationwithCreator.ts

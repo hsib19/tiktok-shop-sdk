@@ -31,6 +31,4 @@ async function main(){
 
 }
 
-main();
-
 // npm exec tsx apps/examples/src/event/getShopWebhooks.ts
