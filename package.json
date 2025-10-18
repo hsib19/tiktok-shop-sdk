@@ -2,6 +2,7 @@
   "name": "tiktok-shop-sdk-monorepo",
   "private": true,
   "packageManager": "pnpm@10.12.4",
+  "workspaces": ["apps/*", "packages/*"],
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",

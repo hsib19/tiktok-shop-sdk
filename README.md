@@ -49,6 +49,8 @@ Modules marked as **Completed** are fully implemented and tested, while those ma
 | `Finance` | `✅ Completed` |
 | `Fulfillment` | `✅ Completed` |
 | `Promotion` | `✅ Completed` |
+| `Affiliate Seller` | `✅ Completed` |
+| `Analaytics` | `✅ Completed` |
 
 ## Usage
 
@@ -84,12 +86,12 @@ pnpm build
 
 This project uses TurboRepo to run scripts across all packages:
 
-- `npm run build` – Build all packages  
-- `npm run dev` – Run development mode  
-- `npm run test` – Run tests  
-- `npm run test:cov` – Run tests with coverage report  
-- `npm run lint` – Run linter  
-- `npm run prepare` – Prepare Git hooks with Husky  
+- `pnpm run build` – Build all packages  
+- `pnpm run dev` – Run development mode  
+- `pnpm run test` – Run tests  
+- `pnpm run test:cov` – Run tests with coverage report  
+- `pnpm run lint` – Run linter  
+- `pnpm run prepare` – Prepare Git hooks with Husky  
 
 ## Contributing
 
