@@ -5,7 +5,7 @@ import { defineConfig } from 'eslint/config';
 
 export default defineConfig([
   {
-    ignores: ['dist', 'dist/**'],
+    ignores: ['dist', 'dist/**', '.svelte-kit/**'],
   },
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
