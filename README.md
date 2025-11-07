@@ -6,7 +6,7 @@
 ![Made with TypeScript](https://img.shields.io/badge/Made%20with-TypeScript-3178c6?logo=typescript&logoColor=white)
 [![codecov](https://codecov.io/gh/hsib19/tiktok-shop-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/hsib19/tiktok-shop-sdk)
 ![Open Source](https://badgen.net/badge/status/open%20source/green)
-![Downloads](https://img.shields.io/npm/dw/tiktok-shop-sdk)
+![Downloads](https://img.shields.io/npm/dt/tiktok-shop-sdk)
 [![License](https://img.shields.io/npm/l/tiktok-shop-sdk.svg)](https://www.npmjs.com/package/tiktok-shop-sdk)
 
 This is the **TikTok Shop SDK** designed to simplify integration with the TikTok Shop API using TypeScript.
