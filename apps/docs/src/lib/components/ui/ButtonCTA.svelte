@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { clsx } from 'clsx';
+	import { theme } from '$lib/stores/theme';
 
 	export let href: string = '/docs/getting-started';
 	export let label: string = 'Get Started';
@@ -7,7 +8,13 @@
 	export let variant: 'primary' | 'outline' = 'primary';
 	export let className: string = '';
 
-	const shadowColor = variant === 'primary' ? 'rgba(37, 99, 235, 0.35)' : 'rgba(0, 0, 0, 0.15)';
+	// reactive shadow color berdasarkan store $theme
+	$: shadowColor =
+		$theme === 'dark'
+			? 'rgba(37, 99, 235, 0.35)' // dark mode
+			: variant === 'primary'
+				? 'rgba(37, 99, 235, 0.35)' // primary light
+				: 'rgba(0, 0, 0, 0.15)'; // outline light
 </script>
 
 <a

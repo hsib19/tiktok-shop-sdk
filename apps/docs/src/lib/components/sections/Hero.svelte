@@ -3,7 +3,7 @@
 	import { ArrowRight, Github } from 'lucide-svelte';
 </script>
 
-<section class="w-full bg-white py-26 dark:bg-neutral-950">
+<section class="w-full bg-white pt-35 md:pt-40 dark:bg-neutral-950">
 	<div
 		class="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 sm:px-6 md:grid-cols-[50%_50%] lg:px-8"
 	>
@@ -18,7 +18,7 @@
 			</p>
 
 			<!-- CTA Buttons -->
-			<div class="flex w-full flex-col gap-4 md:flex-row">
+			<div class="flex flex-row gap-4">
 				<ButtonCTA
 					href="/docs/getting-started"
 					label="Get Started"
@@ -26,24 +26,24 @@
 					variant="primary"
 					className="w-full md:w-auto"
 				>
-					<ArrowRight class="ml-2 h-4 w-4" />
+					<ArrowRight class="ml-2 hidden h-4 w-4 md:flex" />
 				</ButtonCTA>
 
 				<ButtonCTA
-					href="https://github.com/your-org/tiktok-shop-sdk"
-					label="View on GitHub"
+					href="https://github.com/hsib19/tiktok-shop-sdk"
+					label="See Code"
 					size="lg"
 					variant="outline"
 					className="w-full md:w-auto"
 				>
-					<Github class="ml-2 h-4 w-4" />
+					<Github class="ml-2 hidden h-4 w-4 md:flex" />
 				</ButtonCTA>
 			</div>
 		</div>
 
 		<!-- Right: Code Example -->
 		<div
-			class="rounded-xl bg-white p-8 font-mono text-sm leading-relaxed shadow-[0px_10px_50px_rgba(0,0,0,0.1)] dark:bg-neutral-900"
+			class="interactive-shadow rounded-xl bg-white p-8 font-mono text-sm leading-relaxed dark:bg-neutral-900"
 		>
 			<pre class="whitespace-pre-wrap text-neutral-800 dark:text-neutral-100"><code
 					><span class="text-purple-600">import</span> &#123; <span class="text-blue-500"

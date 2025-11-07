@@ -33,21 +33,21 @@
 				<ul class="space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
 					<li>
 						<a
-							href="https://github.com/your-org/tiktok-shop-sdk"
+							href="https://github.com/hsib19/tiktok-shop-sdk"
 							target="_blank"
 							class="flex items-center gap-2 hover:underline">Source on GitHub</a
 						>
 					</li>
 					<li>
 						<a
-							href="https://github.com/your-org/tiktok-shop-sdk/issues"
+							href="https://github.com/hsib19/tiktok-shop-sdk/issues"
 							target="_blank"
 							class="flex items-center gap-2 hover:underline">Issues</a
 						>
 					</li>
 					<li>
 						<a
-							href="https://github.com/your-org/tiktok-shop-sdk/pulls"
+							href="https://github.com/hsib19/tiktok-shop-sdk/pulls"
 							target="_blank"
 							class="flex items-center gap-2 hover:underline">Pull Request</a
 						>
@@ -66,21 +66,21 @@
 				<ul class="space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
 					<li>
 						<a
-							href="https://github.com/your-org/tiktok-shop-sdk/fork"
+							href="https://github.com/hsib19/tiktok-shop-sdk/fork"
 							target="_blank"
 							class="flex items-center gap-2 hover:underline">Fork on GitHub</a
 						>
 					</li>
 					<li>
 						<a
-							href="https://github.com/your-org/tiktok-shop-sdk/fork?target=website"
+							href="https://github.com/hsib19/tiktok-shop-sdk/fork?target=website"
 							target="_blank"
 							class="flex items-center gap-2 hover:underline">Fork the Website</a
 						>
 					</li>
 					<li>
 						<a
-							href="https://github.com/your-org/tiktok-shop-sdk/issues/new"
+							href="https://github.com/hsib19/tiktok-shop-sdk/issues/new"
 							target="_blank"
 							class="flex items-center gap-2 hover:underline">Create an Issue</a
 						>
@@ -98,18 +98,22 @@
 				</h3>
 				<ul class="space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
 					<li>
-						<a href="https://open.tiktokglobalshop.com" target="_blank" class="hover:underline"
-							>Official Portal</a
-						>
-					</li>
-					<li>
-						<a href="https://open.tiktokglobalshop.com/docs" target="_blank" class="hover:underline"
-							>API Docs</a
+						<a
+							href="htthttps://partner.tiktokshop.com/docv2/page/tts-developer-guide"
+							target="_blank"
+							class="hover:underline">Official Portal</a
 						>
 					</li>
 					<li>
 						<a
-							href="https://open.tiktokglobalshop.com/docs/webhook"
+							href="https://partner.tiktokshop.com/docv2/page/get-authorized-category-assets-202405"
+							target="_blank"
+							class="hover:underline">API Docs</a
+						>
+					</li>
+					<li>
+						<a
+							href="https://partner.tiktokshop.com/docv2/page/17-shoppable-content-posting"
 							target="_blank"
 							class="hover:underline">Webhook Guide</a
 						>
@@ -120,7 +124,7 @@
 
 		<!-- Copyright -->
 		<div
-			class="border-t border-neutral-200 pt-12 text-center text-xs text-neutral-500 dark:border-neutral-800 dark:text-neutral-400"
+			class="border-t border-neutral-200 pt-10 text-center text-sm text-neutral-500 dark:border-neutral-800 dark:text-neutral-400"
 		>
 			© 2025 Hasib Muharam. All content is MIT licensed and open for contribution.
 		</div>

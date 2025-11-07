@@ -1,12 +1,14 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { Moon, Sun, ChevronDown } from 'lucide-svelte';
 	import { theme } from '$lib/stores/theme';
 	import { get } from 'svelte/store';
-
 	import { resolve } from '$app/paths';
 
 	let lang = 'EN';
 	let showLangDropdown = false;
+	let lastScroll = 0;
+	let showNavbar = true;
 
 	const toggleDark = () => {
 		theme.set(get(theme) === 'dark' ? 'light' : 'dark');
@@ -20,9 +22,31 @@
 		lang = value;
 		showLangDropdown = false;
 	};
+
+	onMount(() => {
+		const handleScroll = () => {
+			const currentScroll = window.scrollY;
+
+			if (currentScroll < lastScroll) {
+				showNavbar = true;
+			} else if (currentScroll > lastScroll + 10) {
+				showNavbar = false;
+			}
+
+			lastScroll = currentScroll;
+		};
+
+		window.addEventListener('scroll', handleScroll);
+
+		return () => window.removeEventListener('scroll', handleScroll);
+	});
 </script>
 
-<nav class="sticky top-0 z-50 bg-white py-3 dark:bg-neutral-950">
+<nav
+	class="fixed top-0 right-0 left-0 z-50 bg-white py-4 shadow-[0px_10px_50px_rgba(0,0,0,0.1)]
+            transition-transform duration-300 ease-in-out dark:bg-neutral-950"
+	class:!-translate-y-full={!showNavbar}
+>
 	<div
 		class="mx-auto flex h-auto max-w-7xl flex-wrap items-center justify-between gap-4 px-4 sm:px-6 md:h-16 md:gap-0 lg:px-8"
 	>

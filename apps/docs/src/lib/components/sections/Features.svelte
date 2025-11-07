@@ -2,7 +2,7 @@
 	import { Boxes, PackageCheck, ShieldCheck, RefreshCcw, Bug, PackagePlus } from 'lucide-svelte';
 </script>
 
-<section class="w-full bg-white py-16 dark:bg-neutral-950">
+<section class="w-full bg-white pt-10 dark:bg-neutral-950">
 	<div class="mx-auto max-w-7xl space-y-12 px-4 sm:px-6 lg:px-8">
 		<!-- Title -->
 		<div class="space-y-4 text-center">
@@ -18,9 +18,7 @@
 		<!-- Feature Grid -->
 		<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
 			<!-- Order API -->
-			<div
-				class="space-y-3 rounded-xl bg-white p-6 shadow-[0px_10px_50px_rgba(0,0,0,0.1)] dark:bg-neutral-900"
-			>
+			<div class="interactive-shadow space-y-3 rounded-xl bg-white p-6 dark:bg-neutral-900">
 				<Boxes class="h-6 w-6 text-blue-600 dark:text-blue-400" />
 				<h3 class="text-lg font-semibold text-blue-600 dark:text-blue-400">Order API</h3>
 				<p class="text-sm text-neutral-700 dark:text-neutral-300">
@@ -29,9 +27,7 @@
 			</div>
 
 			<!-- Product Sync -->
-			<div
-				class="space-y-3 rounded-xl bg-white p-6 shadow-[0px_10px_50px_rgba(0,0,0,0.1)] dark:bg-neutral-900"
-			>
+			<div class="interactive-shadow space-y-3 rounded-xl bg-white p-6 dark:bg-neutral-900">
 				<PackageCheck class="h-6 w-6 text-blue-600 dark:text-blue-400" />
 				<h3 class="text-lg font-semibold text-blue-600 dark:text-blue-400">Product Sync</h3>
 				<p class="text-sm text-neutral-700 dark:text-neutral-300">
@@ -40,9 +36,7 @@
 			</div>
 
 			<!-- Webhook Verification -->
-			<div
-				class="space-y-3 rounded-xl bg-white p-6 shadow-[0px_10px_50px_rgba(0,0,0,0.1)] dark:bg-neutral-900"
-			>
+			<div class="interactive-shadow space-y-3 rounded-xl bg-white p-6 dark:bg-neutral-900">
 				<ShieldCheck class="h-6 w-6 text-blue-600 dark:text-blue-400" />
 				<h3 class="text-lg font-semibold text-blue-600 dark:text-blue-400">Webhook Verification</h3>
 				<p class="text-sm text-neutral-700 dark:text-neutral-300">
@@ -51,9 +45,7 @@
 			</div>
 
 			<!-- Token Refresh -->
-			<div
-				class="space-y-3 rounded-xl bg-white p-6 shadow-[0px_10px_50px_rgba(0,0,0,0.1)] dark:bg-neutral-900"
-			>
+			<div class="interactive-shadow space-y-3 rounded-xl bg-white p-6 dark:bg-neutral-900">
 				<RefreshCcw class="h-6 w-6 text-blue-600 dark:text-blue-400" />
 				<h3 class="text-lg font-semibold text-blue-600 dark:text-blue-400">Token Refresh</h3>
 				<p class="text-sm text-neutral-700 dark:text-neutral-300">
@@ -62,9 +54,7 @@
 			</div>
 
 			<!-- Error Types -->
-			<div
-				class="space-y-3 rounded-xl bg-white p-6 shadow-[0px_10px_50px_rgba(0,0,0,0.1)] dark:bg-neutral-900"
-			>
+			<div class="interactive-shadow space-y-3 rounded-xl bg-white p-6 dark:bg-neutral-900">
 				<Bug class="h-6 w-6 text-blue-600 dark:text-blue-400" />
 				<h3 class="text-lg font-semibold text-blue-600 dark:text-blue-400">Error Types</h3>
 				<p class="text-sm text-neutral-700 dark:text-neutral-300">
@@ -73,9 +63,7 @@
 			</div>
 
 			<!-- Modular Imports -->
-			<div
-				class="space-y-3 rounded-xl bg-white p-6 shadow-[0px_10px_50px_rgba(0,0,0,0.1)] dark:bg-neutral-900"
-			>
+			<div class="interactive-shadow space-y-3 rounded-xl bg-white p-6 dark:bg-neutral-900">
 				<PackagePlus class="h-6 w-6 text-blue-600 dark:text-blue-400" />
 				<h3 class="text-lg font-semibold text-blue-600 dark:text-blue-400">Modular Imports</h3>
 				<p class="text-sm text-neutral-700 dark:text-neutral-300">

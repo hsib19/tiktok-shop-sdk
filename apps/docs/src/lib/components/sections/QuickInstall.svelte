@@ -18,7 +18,7 @@
 	}
 </script>
 
-<section class="w-full bg-white py-16 dark:bg-neutral-950">
+<section class="w-full bg-white pt-8 dark:bg-neutral-950">
 	<div
 		class="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 sm:px-6 md:grid-cols-[60%_40%] lg:px-8"
 	>
@@ -43,12 +43,12 @@
 			<!-- pnpm -->
 			<div>
 				<h3
-					class="mb-2 text-sm font-semibold tracking-wide text-neutral-500 uppercase dark:text-neutral-400"
+					class="dark:text-neutral-400interactive-shadow mb-2 text-sm font-semibold tracking-wide text-neutral-500 uppercase"
 				>
 					pnpm
 				</h3>
 				<div
-					class="relative overflow-auto rounded-xl bg-white p-6 font-mono text-sm leading-relaxed shadow-[0px_10px_50px_rgba(0,0,0,0.1)] dark:bg-neutral-900"
+					class="interactive-shadow relative overflow-auto rounded-xl bg-white p-6 font-mono text-sm leading-relaxed dark:bg-neutral-900"
 				>
 					<button
 						on:click={() => copyToClipboard('pnpm', 'pnpm add tiktok-shop-sdk')}
@@ -76,7 +76,7 @@
 					npm
 				</h3>
 				<div
-					class="relative overflow-auto rounded-xl bg-white p-6 font-mono text-sm leading-relaxed shadow-[0px_10px_50px_rgba(0,0,0,0.1)] dark:bg-neutral-900"
+					class="interactive-shadow relative overflow-auto rounded-xl bg-white p-6 font-mono text-sm leading-relaxed dark:bg-neutral-900"
 				>
 					<button
 						on:click={() => copyToClipboard('npm', 'npm install tiktok-shop-sdk')}
@@ -99,12 +99,12 @@
 			<!-- yarn -->
 			<div>
 				<h3
-					class="mb-2 text-sm font-semibold tracking-wide text-neutral-500 uppercase dark:text-neutral-400"
+					class="mb-2 text-sm font-semibold tracking-wide text-neutral-500 uppercase transition-shadow duration-300 ease-in-out dark:text-neutral-400"
 				>
 					yarn
 				</h3>
 				<div
-					class="relative overflow-auto rounded-xl bg-white p-6 font-mono text-sm leading-relaxed shadow-[0px_10px_50px_rgba(0,0,0,0.1)] dark:bg-neutral-900"
+					class="interactive-shadow relative overflow-auto rounded-xl bg-white p-6 font-mono text-sm leading-relaxed dark:bg-neutral-900"
 				>
 					<button
 						on:click={() => copyToClipboard('yarn', 'yarn add tiktok-shop-sdk')}
