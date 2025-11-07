@@ -2,7 +2,7 @@
 	import { Boxes, PackageCheck, ShieldCheck, RefreshCcw, Bug, PackagePlus } from 'lucide-svelte';
 </script>
 
-<section class="w-full bg-white pt-10 dark:bg-neutral-950">
+<section class="w-full bg-white pt-13 dark:bg-neutral-950">
 	<div class="mx-auto max-w-7xl space-y-12 px-4 sm:px-6 lg:px-8">
 		<!-- Title -->
 		<div class="space-y-4 text-center">

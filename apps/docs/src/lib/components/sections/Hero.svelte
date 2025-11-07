@@ -3,7 +3,7 @@
 	import { ArrowRight, Github } from 'lucide-svelte';
 </script>
 
-<section class="w-full bg-white pt-35 md:pt-40 dark:bg-neutral-950">
+<section class="w-full bg-white pt-23 md:pt-40 dark:bg-neutral-950">
 	<div
 		class="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 sm:px-6 md:grid-cols-[50%_50%] lg:px-8"
 	>
@@ -26,7 +26,7 @@
 					variant="primary"
 					className="w-full md:w-auto"
 				>
-					<ArrowRight class="ml-2 hidden h-4 w-4 md:flex" />
+					<ArrowRight class="ml-2 h-5 w-5" />
 				</ButtonCTA>
 
 				<ButtonCTA
@@ -36,7 +36,7 @@
 					variant="outline"
 					className="w-full md:w-auto"
 				>
-					<Github class="ml-2 hidden h-4 w-4 md:flex" />
+					<Github class="ml-2 h-5 w-5" />
 				</ButtonCTA>
 			</div>
 		</div>

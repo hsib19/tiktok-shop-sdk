@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Moon, Sun, ChevronDown } from 'lucide-svelte';
+	import { Moon, Sun, ChevronDown, Menu, X } from 'lucide-svelte';
 	import { theme } from '$lib/stores/theme';
 	import { get } from 'svelte/store';
 	import { resolve } from '$app/paths';
@@ -9,6 +9,7 @@
 	let showLangDropdown = false;
 	let lastScroll = 0;
 	let showNavbar = true;
+	let mobileMenuOpen = false;
 
 	const toggleDark = () => {
 		theme.set(get(theme) === 'dark' ? 'light' : 'dark');
@@ -23,32 +24,33 @@
 		showLangDropdown = false;
 	};
 
+	const toggleMobileMenu = () => {
+		mobileMenuOpen = !mobileMenuOpen;
+	};
+
 	onMount(() => {
 		const handleScroll = () => {
 			const currentScroll = window.scrollY;
-
 			if (currentScroll < lastScroll) {
 				showNavbar = true;
 			} else if (currentScroll > lastScroll + 10) {
 				showNavbar = false;
 			}
-
 			lastScroll = currentScroll;
 		};
 
 		window.addEventListener('scroll', handleScroll);
-
 		return () => window.removeEventListener('scroll', handleScroll);
 	});
 </script>
 
 <nav
 	class="fixed top-0 right-0 left-0 z-50 bg-white py-4 shadow-[0px_10px_50px_rgba(0,0,0,0.1)]
-            transition-transform duration-300 ease-in-out dark:bg-neutral-950"
+           transition-transform duration-300 ease-in-out dark:bg-neutral-950"
 	class:!-translate-y-full={!showNavbar}
 >
 	<div
-		class="mx-auto flex h-auto max-w-7xl flex-wrap items-center justify-between gap-4 px-4 sm:px-6 md:h-16 md:gap-0 lg:px-8"
+		class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 sm:px-6 md:h-16 lg:px-8"
 	>
 		<!-- Brand -->
 		<a
@@ -62,8 +64,8 @@
 			>
 		</a>
 
-		<!-- Toggles -->
-		<div class="relative flex items-center gap-4">
+		<!-- Desktop menu -->
+		<div class="hidden items-center gap-4 md:flex">
 			<!-- Dark Mode Toggle -->
 			<button
 				on:click={toggleDark}
@@ -108,5 +110,45 @@
 				{/if}
 			</div>
 		</div>
+
+		<!-- Mobile hamburger -->
+		<div class="flex items-center md:hidden">
+			<button on:click={toggleMobileMenu} class="rounded p-2 text-neutral-800 dark:text-white">
+				{#if mobileMenuOpen}
+					<X class="h-6 w-6" />
+				{:else}
+					<Menu class="h-6 w-6" />
+				{/if}
+			</button>
+		</div>
 	</div>
+
+	<!-- Mobile menu -->
+	{#if mobileMenuOpen}
+		<div
+			class="mt-5 border-t border-neutral-200 bg-white pt-3 shadow-lg md:hidden dark:border-neutral-700 dark:bg-neutral-950"
+		>
+			<div class="text-dark flex flex-col gap-2 px-4 py-4 dark:text-white">
+				<button
+					on:click={toggleDark}
+					class="flex items-center gap-2 rounded p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+				>
+					{#if $theme === 'dark'}<Sun class="h-5 w-5" />{:else}<Moon class="h-5 w-5" />{/if}
+				</button>
+				<!-- Language options -->
+				<button
+					on:click={() => setLang('EN')}
+					class="rounded p-2 text-left hover:bg-neutral-100 dark:hover:bg-neutral-800"
+				>
+					English
+				</button>
+				<button
+					on:click={() => setLang('ID')}
+					class="rounded p-2 text-left hover:bg-neutral-100 dark:hover:bg-neutral-800"
+				>
+					Indonesia
+				</button>
+			</div>
+		</div>
+	{/if}
 </nav>
