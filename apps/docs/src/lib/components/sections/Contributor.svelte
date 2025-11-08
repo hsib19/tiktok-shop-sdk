@@ -32,7 +32,7 @@
 		</div>
 
 		<!-- Contributor List -->
-		<div class="space-y-6">
+		<div class="flex items-center gap-4">
 			{#if loading}
 				{#each Array(4) as _, i (i)}
 					<div class="flex animate-pulse items-center gap-4">
