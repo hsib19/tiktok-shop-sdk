@@ -1,6 +1,10 @@
 <script lang="ts">
+	import { _ } from '$lib/i18n';
+	import { json } from 'svelte-i18n';
 	import { Copy, Check } from 'lucide-svelte';
 	import { tick } from 'svelte';
+
+	$: features = $json('quickLinks.features') as string[];
 
 	let copied = {
 		npm: false,
@@ -25,16 +29,16 @@
 		<!-- Left: Install Instructions -->
 		<div class="space-y-6">
 			<h2 class="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
-				Quick Install
+				{$_('quickLinks.title')}
 			</h2>
 			<p class="text-lg text-neutral-700 dark:text-neutral-300">
-				Start using the SDK in seconds. Just install and import—no boilerplate, no config.
+				{$_('quickLinks.subtitle')}
 			</p>
 
 			<ul class="list-disc space-y-2 pl-6 text-neutral-700 dark:text-neutral-300">
-				<li>Supports Node.js, SvelteKit, Next.js, and other modern frameworks</li>
-				<li>TypeScript-first with built-in types and error helpers</li>
-				<li>Lightweight and modular—only import what you need</li>
+				{#each features as feature (feature)}
+					<li>{feature}</li>
+				{/each}
 			</ul>
 		</div>
 

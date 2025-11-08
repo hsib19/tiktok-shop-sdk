@@ -2,8 +2,17 @@
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import type { SeoData } from '$lib/types/seo';
+	import { onMount, type Snippet } from 'svelte';
+	import { preload } from '$lib/i18n';
 
-	let { data, children }: { data?: { seo?: SeoData }; children: unknown } = $props();
+	let loading: boolean = $state(true);
+
+	onMount(async () => {
+		await preload();
+		loading = false;
+	});
+
+	let { data, children }: { data?: { seo?: SeoData }; children: Snippet<[]> } = $props();
 </script>
 
 <svelte:head>
@@ -50,4 +59,12 @@
 	<meta name="twitter:image" content={data?.seo?.image ?? '/images/tiktok-shop-og.png'} />
 </svelte:head>
 
-{@render children()}
+<div class="bg-white dark:bg-neutral-950">
+	{#if loading}
+		<div class="flex min-h-screen items-center justify-center bg-white dark:bg-neutral-950"></div>
+	{:else}
+		<div class="bg-white dark:bg-neutral-950">
+			{@render children()}
+		</div>
+	{/if}
+</div>
