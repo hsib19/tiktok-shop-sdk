@@ -6,7 +6,9 @@
 	import { _ } from '$lib/i18n';
 
 	onMount(async () => {
-		await import('@lottiefiles/lottie-player');
+		if (typeof window !== 'undefined') {
+			await import('@lottiefiles/lottie-player');
+		}
 	});
 </script>
 
