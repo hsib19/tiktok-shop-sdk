@@ -121,5 +121,9 @@
 			]
 		},
 		"copyright": "© 2025 Hasib Muharam. Semua konten berlisensi MIT dan terbuka untuk kontribusi."
+	},
+	"pages": {
+		"404_message": "Hai kapten! Sepertinya kamu sedang menuju planet yang salah!",
+		"404_back": "Kembalikan aku ke halaman utama"
 	}
 }

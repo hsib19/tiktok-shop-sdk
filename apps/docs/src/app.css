@@ -12,3 +12,9 @@
 		@apply shadow-[0px_10px_50px_rgba(0,0,0,0.1)] transition-shadow duration-300 ease-in-out hover:shadow-[0px_15px_60px_rgba(0,0,0,0.15)];
 	}
 }
+
+html,
+body {
+	height: 100%;
+	margin: 0;
+}

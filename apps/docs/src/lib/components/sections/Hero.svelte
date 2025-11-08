@@ -10,7 +10,7 @@
 	>
 		<!-- Left: Text -->
 		<div class="space-y-6">
-			<h1 class="text-xl font-bold tracking-tight text-neutral-900 md:text-4xl dark:text-white">
+			<h1 class="text-2xl font-bold tracking-tight text-neutral-900 md:text-4xl dark:text-white">
 				{$_('hero.tagline')}
 			</h1>
 			<p class="my-5 text-base text-neutral-700 md:my-10 md:text-xl dark:text-neutral-300">
