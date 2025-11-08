@@ -1,18 +1,19 @@
 <script lang="ts">
-	import '../app.css';
+	import '../../app.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import type { SeoData } from '$lib/types/seo';
 	import { onMount, type Snippet } from 'svelte';
-	import { preload } from '$lib/i18n';
+	import { locale, preload } from '$lib/i18n';
 
 	let loading: boolean = $state(true);
+	let { data, children }: { data?: { seo?: SeoData; lang?: string }; children: Snippet<[]> } =
+		$props();
 
 	onMount(async () => {
 		await preload();
+		locale.set(data?.lang);
 		loading = false;
 	});
-
-	let { data, children }: { data?: { seo?: SeoData }; children: Snippet<[]> } = $props();
 </script>
 
 <svelte:head>

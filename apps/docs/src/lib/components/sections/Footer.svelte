@@ -2,6 +2,8 @@
 	import { _ } from '$lib/i18n';
 	import { json } from 'svelte-i18n';
 	import { Github, GitFork, Languages, ExternalLink } from 'lucide-svelte';
+	import { changeLanguage } from '$lib/i18n/lang';
+	import { goto } from '$app/navigation';
 
 	interface FooterLink {
 		label: string;
@@ -11,6 +13,7 @@
 	interface FooterOption {
 		label: string;
 		href: string;
+		code: string;
 	}
 
 	interface FooterSection {
@@ -31,6 +34,12 @@
 		{ icon: GitFork, data: contributeSection },
 		{ icon: ExternalLink, data: tiktokAPISection }
 	];
+
+	function handleClick(lang: string, href: string, event: MouseEvent) {
+		event.preventDefault();
+		changeLanguage(lang);
+		goto(href);
+	}
 </script>
 
 <footer
@@ -66,7 +75,11 @@
 						<ul class="space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
 							{#each section.data.options as option (option.href)}
 								<li>
-									<a href={option.href} class="hover:underline">{option.label}</a>
+									<a
+										href={option.href}
+										on:click={(e) => handleClick(option.code, option.href, e)}
+										class="hover:underline">{option.label}</a
+									>
 								</li>
 							{/each}
 						</ul>

@@ -8,6 +8,7 @@
 	// i18n imports
 	import { _, locale, locales } from '$lib/i18n';
 	import { changeLanguage } from '$lib/i18n/lang';
+	import { goto } from '$app/navigation';
 
 	let showLangDropdown = false;
 	let lastScroll = 0;
@@ -36,6 +37,13 @@
 		window.addEventListener('scroll', handleScroll);
 		return () => window.removeEventListener('scroll', handleScroll);
 	});
+
+	function switchLang(lang: string) {
+		changeLanguage(lang);
+		showLangDropdown = false;
+
+		goto(`/${lang}${window.location.pathname.replace(/^\/(en|id)/, '')}`, { replaceState: true });
+	}
 </script>
 
 <nav
@@ -91,10 +99,7 @@
 					>
 						{#each $locales as langOption (langOption)}
 							<button
-								on:click={() => {
-									changeLanguage(langOption);
-									showLangDropdown = false;
-								}}
+								on:click={() => switchLang(langOption)}
 								class="w-full px-3 py-2 text-left text-sm hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-800"
 							>
 								{langOption === 'en' ? 'English' : 'Indonesia'}
@@ -133,10 +138,7 @@
 				<!-- Mobile language options -->
 				{#each $locales as langOption (langOption)}
 					<button
-						on:click={() => {
-							changeLanguage(langOption);
-							showLangDropdown = false;
-						}}
+						on:click={() => switchLang(langOption)}
 						class="rounded p-2 text-left hover:bg-neutral-100 dark:hover:bg-neutral-800"
 					>
 						{langOption === 'en' ? 'English' : 'Indonesia'}

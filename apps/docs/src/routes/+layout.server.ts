@@ -1,7 +1,9 @@
-import type { LayoutServerLoad } from './$types';
+import { redirect } from '@sveltejs/kit';
 
-export const load: LayoutServerLoad = async ({ locals }) => {
-	return {
-		locale: locals.locale
-	};
+export const load = ({ url }) => {
+	const pathname = url.pathname;
+
+	if (!/^\/(en|id)(\/|$)/.test(pathname)) {
+		throw redirect(307, `/en${pathname}`);
+	}
 };

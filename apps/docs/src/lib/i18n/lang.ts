@@ -10,7 +10,9 @@ export function changeLanguage(lang: string) {
 	locale.set(lang);
 
 	// Update the cookie so the language preference persists across reloads
-	document.cookie = `locale=${lang}; Path=/; SameSite=Lax`;
+	if (typeof document !== 'undefined') {
+		document.cookie = `locale=${lang}; Path=/; Max-Age=${60 * 60 * 24 * 365}; SameSite=Lax`;
+	}
 }
 
 /**
@@ -18,6 +20,7 @@ export function changeLanguage(lang: string) {
  * @returns Language code string if cookie exists, otherwise null
  */
 export function getLanguageFromCookie(): string | null {
+	if (typeof document === 'undefined') return null;
 	const match = document.cookie.match(/locale=([^;]+)/);
 	return match ? match[1] : null;
 }

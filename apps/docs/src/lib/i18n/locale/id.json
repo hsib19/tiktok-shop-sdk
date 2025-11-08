@@ -80,8 +80,8 @@
 		"languages": {
 			"title": "Bahasa",
 			"options": [
-				{ "label": "English", "href": "/en" },
-				{ "label": "Indonesia", "href": "/id" }
+				{ "label": "English", "href": "/en", "code": "en" },
+				{ "label": "Indonesia", "href": "/id", "code": "id" }
 			]
 		},
 		"openSource": {
