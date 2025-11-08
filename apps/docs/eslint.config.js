@@ -41,7 +41,10 @@ export default [
 			'svelte/no-at-html-tags': 'off',
 			'svelte/no-unused-svelte-ignore': 'off',
 			'svelte/no-inline-styles': 'off',
-			'@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }]
+			'@typescript-eslint/no-unused-vars': [
+				'warn',
+				{ argsIgnorePattern: '^_', varsIgnorePattern: '^_' }
+			]
 		}
 	},
 

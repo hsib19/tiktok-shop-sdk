@@ -1,0 +1,125 @@
+{
+	"hero": {
+		"tagline": "SDK TikTok Shop Modular untuk Node.js dan Framework Web",
+		"subtitle": "SDK ringan yang memudahkan penggunaan TikTok Shop API bagi developer—tanpa boilerplate, tanpa tebakan.",
+		"cta": {
+			"getStarted": "Mulai Sekarang",
+			"seeCode": "Lihat Kode"
+		}
+	},
+	"quickLinks": {
+		"title": "Instal Cepat",
+		"subtitle": "Mulai menggunakan SDK dalam hitungan detik. Cukup instal dan import—tanpa boilerplate, tanpa konfigurasi.",
+		"features": [
+			"Mendukung Node.js, SvelteKit, Next.js, dan framework modern lainnya",
+			"Berbasis TypeScript dengan tipe bawaan dan helper error",
+			"Ringan dan modular—hanya import yang Anda butuhkan"
+		]
+	},
+	"featuresSection": {
+		"title": "Fitur yang Didukung",
+		"subtitle": "SDK mencakup API TikTok Shop penting dengan metode jelas dan tipe bawaan—siap digunakan di produksi.",
+		"items": [
+			{
+				"title": "API Pesanan",
+				"description": "Ambil, filter, dan paginate pesanan dengan tipe aman dan penanganan error penuh."
+			},
+			{
+				"title": "Sinkronisasi Produk",
+				"description": "Sinkronkan listing produk, perbarui inventori, dan kelola SKU secara programatik."
+			},
+			{
+				"title": "Verifikasi Webhook",
+				"description": "Verifikasi webhook masuk dengan validasi signature dan timestamp bawaan."
+			},
+			{
+				"title": "Pembaruan Token",
+				"description": "Refresh token yang kadaluarsa secara otomatis menggunakan OAuth2 yang aman."
+			},
+			{
+				"title": "Tipe Error",
+				"description": "Tangkap dan klasifikasikan error API dengan exception bertipe seperti TikTokAPIError."
+			},
+			{
+				"title": "Import Modular",
+				"description": "Import hanya yang diperlukan—tidak ada kode yang tidak terpakai, tidak ada bundle yang bengkak."
+			}
+		]
+	},
+	"githubSection": {
+		"title": "Open Source & GitHub",
+		"subtitle": "SDK ini sepenuhnya open source—dibangun untuk transparansi, kolaborasi, dan iterasi cepat. Kontribusi sangat diterima!",
+		"cta": "Lihat di GitHub"
+	},
+	"contributorsSection": {
+		"title": "Kontributor",
+		"subtitle": "Bergabunglah di GitHub dan bantu tingkatkan SDK.",
+		"cta": "Berkontribusi Sekarang"
+	},
+	"githubContentSection": {
+		"items": [
+			{
+				"title": "Berlisensi MIT",
+				"description": "Sepenuhnya open source di bawah lisensi MIT."
+			},
+			{
+				"title": "Beri Bintang di GitHub",
+				"description": "Tunjukkan dukungan Anda dan ikuti pengembangan."
+			},
+			{
+				"title": "Aktif Dipelihara",
+				"description": "Update dan perbaikan rutin oleh tim inti."
+			},
+			{
+				"title": "Terbuka untuk Kontributor",
+				"description": "Kontribusi dari developer di seluruh dunia sangat diterima."
+			}
+		]
+	},
+	"footer": {
+		"languages": {
+			"title": "Bahasa",
+			"options": [
+				{ "label": "English", "href": "/en" },
+				{ "label": "Indonesia", "href": "/id" }
+			]
+		},
+		"openSource": {
+			"title": "Open Source",
+			"links": [
+				{ "label": "Source di GitHub", "href": "https://github.com/hsib19/tiktok-shop-sdk" },
+				{ "label": "Issue", "href": "https://github.com/hsib19/tiktok-shop-sdk/issues" },
+				{ "label": "Pull Request", "href": "https://github.com/hsib19/tiktok-shop-sdk/pulls" }
+			]
+		},
+		"contribute": {
+			"title": "Kontribusi",
+			"links": [
+				{ "label": "Fork di GitHub", "href": "https://github.com/hsib19/tiktok-shop-sdk/fork" },
+				{
+					"label": "Fork Website",
+					"href": "https://github.com/hsib19/tiktok-shop-sdk/fork?target=website"
+				},
+				{ "label": "Buat Issue", "href": "https://github.com/hsib19/tiktok-shop-sdk/issues/new" }
+			]
+		},
+		"tiktokAPI": {
+			"title": "TikTok Shop API",
+			"links": [
+				{
+					"label": "Portal Resmi",
+					"href": "https://partner.tiktokshop.com/docv2/page/tts-developer-guide"
+				},
+				{
+					"label": "Dokumen API",
+					"href": "https://partner.tiktokshop.com/docv2/page/get-authorized-category-assets-202405"
+				},
+				{
+					"label": "Panduan Webhook",
+					"href": "https://partner.tiktokshop.com/docv2/page/17-shoppable-content-posting"
+				}
+			]
+		},
+		"copyright": "© 2025 Hasib Muharam. Semua konten berlisensi MIT dan terbuka untuk kontribusi."
+	}
+}

@@ -1,0 +1,128 @@
+{
+	"hero": {
+		"tagline": "Modular TikTok Shop SDK for Node.js and Web Frameworks",
+		"subtitle": "A lightweight SDK that simplifies TikTok Shop API usage for developers—no boilerplate, no guesswork.",
+		"cta": {
+			"getStarted": "Get Started",
+			"seeCode": "See Code"
+		}
+	},
+	"quickLinks": {
+		"title": "Quick Install",
+		"subtitle": "Start using the SDK in seconds. Just install and import—no boilerplate, no config.",
+		"features": [
+			"Supports Node.js, SvelteKit, Next.js, and other modern frameworks",
+			"TypeScript-first with built-in types and error helpers",
+			"Lightweight and modular—only import what you need"
+		]
+	},
+	"featuresSection": {
+		"title": "Supported Features",
+		"subtitle": "The SDK covers essential TikTok Shop APIs with clear methods and built-in types—ready for production use.",
+		"items": [
+			{
+				"title": "Order API",
+				"description": "Fetch, filter, and paginate orders with full type safety and error handling."
+			},
+			{
+				"title": "Product Sync",
+				"description": "Sync product listings, update inventory, and manage SKUs programmatically."
+			},
+			{
+				"title": "Webhook Verification",
+				"description": "Verify incoming webhooks with built-in signature validation and timestamp checks."
+			},
+			{
+				"title": "Token Refresh",
+				"description": "Automatically refresh expired tokens using secure OAuth2 flows."
+			},
+			{
+				"title": "Error Types",
+				"description": "Catch and classify API errors with typed exceptions like TikTokAPIError."
+			},
+			{
+				"title": "Modular Imports",
+				"description": "Import only what you need—no unused code, no bloated bundles."
+			}
+		]
+	},
+	"githubSection": {
+		"title": "Open Source & GitHub",
+		"subtitle": "This SDK is fully open source—built for transparency, collaboration, and rapid iteration. Contributions are welcome!",
+		"cta": "View on GitHub"
+	},
+	"contributorsSection": {
+		"title": "Contributors",
+		"subtitle": "Join us on GitHub and help improve the SDK.",
+		"cta": "Contribute Now"
+	},
+	"githubContentSection": {
+		"items": [
+			{
+				"title": "MIT Licensed",
+				"description": "Fully open source under the MIT License."
+			},
+			{
+				"title": "Star us on GitHub",
+				"description": "Show your support and follow the development."
+			},
+			{
+				"title": "Actively maintained",
+				"description": "Regular updates and improvements by the core team."
+			},
+			{
+				"title": "Open to contributors",
+				"description": "Contributions are welcome from developers worldwide."
+			}
+		]
+	},
+	"footer": {
+		"languages": {
+			"title": "Languages",
+			"options": [
+				{ "label": "English", "href": "/en" },
+				{ "label": "Indonesia", "href": "/id" }
+			]
+		},
+		"openSource": {
+			"title": "Open Source",
+			"links": [
+				{ "label": "Source on GitHub", "href": "https://github.com/hsib19/tiktok-shop-sdk" },
+				{ "label": "Issues", "href": "https://github.com/hsib19/tiktok-shop-sdk/issues" },
+				{ "label": "Pull Request", "href": "https://github.com/hsib19/tiktok-shop-sdk/pulls" }
+			]
+		},
+		"contribute": {
+			"title": "Contribute",
+			"links": [
+				{ "label": "Fork on GitHub", "href": "https://github.com/hsib19/tiktok-shop-sdk/fork" },
+				{
+					"label": "Fork the Website",
+					"href": "https://github.com/hsib19/tiktok-shop-sdk/fork?target=website"
+				},
+				{
+					"label": "Create an Issue",
+					"href": "https://github.com/hsib19/tiktok-shop-sdk/issues/new"
+				}
+			]
+		},
+		"tiktokAPI": {
+			"title": "TikTok Shop API",
+			"links": [
+				{
+					"label": "Official Portal",
+					"href": "https://partner.tiktokshop.com/docv2/page/tts-developer-guide"
+				},
+				{
+					"label": "API Docs",
+					"href": "https://partner.tiktokshop.com/docv2/page/get-authorized-category-assets-202405"
+				},
+				{
+					"label": "Webhook Guide",
+					"href": "https://partner.tiktokshop.com/docv2/page/17-shoppable-content-posting"
+				}
+			]
+		},
+		"copyright": "© 2025 Hasib Muharam. All content is MIT licensed and open for contribution."
+	}
+}

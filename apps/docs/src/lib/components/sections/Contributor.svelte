@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { _ } from '$lib/i18n';
 	import { onMount } from 'svelte';
 
 	type Contributor = {
@@ -24,10 +25,10 @@
 		<!-- Title -->
 		<div class="space-y-2">
 			<h2 class="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
-				Contributors
+				{$_('contributorsSection.title')}
 			</h2>
 			<p class="text-lg text-neutral-700 dark:text-neutral-300">
-				Join us on GitHub and help improve the SDK.
+				{$_('contributorsSection.subtitle')}
 			</p>
 		</div>
 
