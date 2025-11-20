@@ -68,6 +68,9 @@ importers:
       lucide-svelte:
         specifier: ^0.553.0
         version: 0.553.0(svelte@5.43.4)
+      svelte-flag-icons:
+        specifier: ^3.0.0
+        version: 3.0.0(svelte@5.43.4)
       svelte-highlight:
         specifier: ^7.9.0
         version: 7.9.0
@@ -3524,6 +3527,11 @@ packages:
     peerDependenciesMeta:
       svelte:
         optional: true
+
+  svelte-flag-icons@3.0.0:
+    resolution: {integrity: sha512-vPiUAF6xHQWRJCbKpyQqUEc/6AIN9/mWqRV/xW5AIbeg8/uygCg5Vbi/526SuCe2Tk7ZL/7EIW3ujL4R9vVORA==}
+    peerDependencies:
+      svelte: ^5.0.0
 
   svelte-highlight@7.9.0:
     resolution: {integrity: sha512-226LBTtvTnM2L2JkQq8mZeKEeMfPLYyta7VxZatFT4UPX5zdHEerKeMTvrfbxm7MVTWc7TPThsNoVdhWC177KQ==}
@@ -7534,6 +7542,10 @@ snapshots:
       postcss-scss: 4.0.9(postcss@8.5.6)
       postcss-selector-parser: 7.1.0
     optionalDependencies:
+      svelte: 5.43.4
+
+  svelte-flag-icons@3.0.0(svelte@5.43.4):
+    dependencies:
       svelte: 5.43.4
 
   svelte-highlight@7.9.0:

@@ -42,6 +42,7 @@
 		"@lottiefiles/lottie-player": "^2.0.12",
 		"clsx": "^2.1.1",
 		"lucide-svelte": "^0.553.0",
+		"svelte-flag-icons": "^3.0.0",
 		"svelte-highlight": "^7.9.0",
 		"svelte-i18n": "^4.0.1"
 	}
