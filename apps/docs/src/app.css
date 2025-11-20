@@ -7,8 +7,19 @@
 	--primary-shadow-color: rgba(90, 41, 228, 0.6);
 }
 
+@theme {
+	--color-border-dark: #2b3039;
+	--color-border-light: ##d8dee4;
+	--color-dark-secondary: #14171d;
+}
+
 @layer utilities {
 	.interactive-shadow {
 		@apply shadow-[0px_10px_50px_rgba(0,0,0,0.1)] transition-shadow duration-300 ease-in-out hover:shadow-[0px_15px_60px_rgba(0,0,0,0.15)];
 	}
+}
+
+.active {
+	background-color: #e5e7eb;
+	color: #2563eb;
 }

@@ -3,21 +3,14 @@
 	import Navbar from '$lib/components/layouts/docs/Navbar.svelte';
 	import Footer from '$lib/components/layouts/docs/Footer.svelte';
 
-	const sidebarLinks = [
-		{ title: 'Introduction', href: '#intro' },
-		{ title: 'Getting Started', href: '#getting-started' },
-		{ title: 'API Reference', href: '#api' },
-		{ title: 'FAQ', href: '#faq' }
-	];
-
 	// Sidebar toggle mobile
 	let sidebarOpen = false;
 	const toggleSidebar = () => (sidebarOpen = !sidebarOpen);
 </script>
 
-<div class="flex min-h-screen">
+<div class="flex min-h-screen bg-white dark:bg-dark-secondary">
 	<!-- Sidebar -->
-	<Sidebar links={sidebarLinks} {sidebarOpen} {toggleSidebar} />
+	<Sidebar {sidebarOpen} {toggleSidebar} />
 
 	<!-- Main content -->
 	<div class="mt-16 flex flex-1 flex-col md:ml-[250px]">

@@ -20,7 +20,7 @@
 			<!-- CTA Buttons -->
 			<div class="flex flex-row gap-4">
 				<ButtonCTA
-					href="/docs/getting-started"
+					href="/docs/get-started"
 					label={$_('hero.cta.getStarted')}
 					size="lg"
 					variant="primary"

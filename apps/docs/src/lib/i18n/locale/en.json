@@ -128,5 +128,28 @@
 	"pages": {
 		"404_message": "Hey captain! Looks like you're heading to a wrong planet!",
 		"404_back": "Take me back to the homepage"
+	},
+	"sidebar": {
+		"introduction": "Introduction",
+		"get_started": "Get Started",
+		"authentication": "Authentication",
+		"errors": "Errors",
+		"core_api": "Core API",
+		"event": "Event",
+		"seller": "Seller",
+		"products": "Products",
+		"promotion": "Promotion",
+		"orders": "Orders",
+		"fulfilment": "Fulfilment",
+		"logistic": "Logistic",
+		"return_refund": "Return and Refund",
+		"finance": "Finance",
+		"analytics": "Analytics",
+		"customer_service": "Customer Service",
+		"customer_engagement": "Customer Engagement",
+		"affiliate_creator": "Affiliate Creator",
+		"affiliate_partner": "Affiliate Partner",
+		"affiliate_seller": "Affiliate Seller",
+		"supply_chain": "Supply Chain"
 	}
 }

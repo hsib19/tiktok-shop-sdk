@@ -125,5 +125,28 @@
 	"pages": {
 		"404_message": "Hai kapten! Sepertinya kamu sedang menuju planet yang salah!",
 		"404_back": "Kembalikan aku ke halaman utama"
+	},
+	"sidebar": {
+		"introduction": "Pendahuluan",
+		"get_started": "Mulai",
+		"authentication": "Autentikasi",
+		"errors": "Kesalahan",
+		"core_api": "API Inti",
+		"event": "Event",
+		"seller": "Penjual",
+		"products": "Produk",
+		"promotion": "Promosi",
+		"orders": "Pesanan",
+		"fulfilment": "Pemenuhan",
+		"logistic": "Logistik",
+		"return_refund": "Pengembalian & Refund",
+		"finance": "Keuangan",
+		"analytics": "Analitik",
+		"customer_service": "Layanan Pelanggan",
+		"customer_engagement": "Keterlibatan Pelanggan",
+		"affiliate_creator": "Kreator Afiliasi",
+		"affiliate_partner": "Partner Afiliasi",
+		"affiliate_seller": "Penjual Afiliasi",
+		"supply_chain": "Rantai Pasokan"
 	}
 }
