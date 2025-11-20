@@ -137,6 +137,6 @@
 		</button>
 
 		<!-- Version -->
-		<div class="text-lg text-gray-700 dark:text-gray-200">v1.0.0</div>
+		<div class="text-lg text-gray-700 dark:text-gray-200">v1.0.2</div>
 	</div>
 {/if}

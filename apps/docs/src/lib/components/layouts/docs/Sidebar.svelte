@@ -86,12 +86,47 @@
 						<ul class="mt-1 space-y-1 border-l border-gray-700/30 pl-3">
 							{#each link.children as child (child.titleKey)}
 								<li>
-									<a
-										href={localized(child.href ?? '/')}
-										class="transition-colorstext-gray-600 block w-full cursor-pointer rounded px-2 py-1 text-left text-sm dark:text-gray-300"
-									>
-										{$_(child.titleKey)}
-									</a>
+									{#if child.children}
+										<!-- tombol untuk expand/collapse child -->
+										<button
+											on:click={() => toggleMenu(child.titleKey)}
+											class="flex w-full items-center justify-between rounded px-2 py-1 text-sm font-semibold
+              {isParentActive(child.children)
+												? 'bg-gray-100 text-blue-600 dark:bg-neutral-800'
+												: 'text-gray-700 dark:text-gray-200'}"
+										>
+											<span>{$_(child.titleKey)}</span>
+											{#if openMenus[child.titleKey]}
+												<ChevronDown class="h-4 w-4" />
+											{:else}
+												<ChevronRight class="h-4 w-4" />
+											{/if}
+										</button>
+
+										{#if openMenus[child.titleKey]}
+											<!-- RECURSION: render grandchildren -->
+											<ul class="mt-1 space-y-1 border-l border-gray-700/30 pl-3">
+												{#each child.children as grand (grand.titleKey)}
+													<li>
+														<a
+															href={localized(grand.href ?? '/')}
+															class="block w-full cursor-pointer rounded px-2 py-1 text-sm text-gray-600 dark:text-gray-300"
+														>
+															{$_(grand.titleKey)}
+														</a>
+													</li>
+												{/each}
+											</ul>
+										{/if}
+									{:else}
+										<!-- normal link -->
+										<a
+											href={localized(child.href ?? '/')}
+											class="block w-full cursor-pointer rounded px-2 py-1 text-sm text-gray-600 dark:text-gray-300"
+										>
+											{$_(child.titleKey)}
+										</a>
+									{/if}
 								</li>
 							{/each}
 						</ul>
