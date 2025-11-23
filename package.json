@@ -42,5 +42,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/hsib19/tiktok-shop-sdk.git"
-  }
+  },
+  "version": "0.0.1"
 }
