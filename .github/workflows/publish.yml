@@ -11,7 +11,6 @@ jobs:
 
     permissions:
       contents: read
-      packages: write
       id-token: write
 
     defaults:
@@ -58,6 +57,4 @@ jobs:
 
       - name: Publish to npm
         if: steps.version-check.outputs.should_publish == 'true'
-        run: pnpm publish --access public --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance --access public
