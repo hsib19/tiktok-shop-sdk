@@ -12,7 +12,7 @@ import {
   TikTokAPIResponse,
   GetOrderListParams,
   GetOrderDetailResponse,
-} from '@types';
+} from "@types";
 
 /**
  * OrderModule handles requests related to order management
@@ -31,8 +31,8 @@ export class OrderModule {
     params: GetOrderListParams,
   ): Promise<TikTokAPIResponse<GetOrderListResponse>> {
     return this.request({
-      method: 'POST',
-      path: '/order/202309/orders/search',
+      method: "POST",
+      path: "/order/202309/orders/search",
       query: params.query,
       body: params.body,
     });
@@ -48,7 +48,7 @@ export class OrderModule {
     params: GetOrderDetailParams,
   ): Promise<TikTokAPIResponse<GetOrderDetailResponse>> {
     return this.request({
-      method: 'GET',
+      method: "GET",
       path: `/order/202309/orders`, // Example path, might be `/order/v1/detail?order_id=${params.order_id}`
       query: params, // Parameters will be added as query string
     });
@@ -64,7 +64,7 @@ export class OrderModule {
     params: GetPriceDetailParams,
   ): Promise<TikTokAPIResponse<GetPriceDetailResponse>> {
     return this.request({
-      method: 'GET',
+      method: "GET",
       path: `/order/202407/orders/${params.order_id}/price_detail`, // Example path, might be `/order/v1/price_detail?order_id=${params.order_id}`
     });
   }
@@ -79,8 +79,8 @@ export class OrderModule {
     body: AddExternalOrderReferencesBody,
   ): Promise<TikTokAPIResponse<object>> {
     return this.request({
-      method: 'POST',
-      path: '/order/202406/orders/external_orders', // Example path
+      method: "POST",
+      path: "/order/202406/orders/external_orders", // Example path
       body: body,
     });
   }
@@ -95,7 +95,7 @@ export class OrderModule {
     params: GetExternalOrderReferencesParams,
   ): Promise<TikTokAPIResponse<GetExternalOrderReferencesResponse>> {
     return this.request({
-      method: 'GET',
+      method: "GET",
       path: `/order/202406/orders/${params.order_id}/external_orders`, // Example path
       query: params.query,
     });
@@ -111,8 +111,8 @@ export class OrderModule {
     query: SearchOrderByExternalOrderReferenceQuery,
   ): Promise<TikTokAPIResponse<SearchOrderByExternalOrderReferenceResponse>> {
     return this.request({
-      method: 'POST',
-      path: '/order/202406/orders/external_order_search',
+      method: "POST",
+      path: "/order/202406/orders/external_order_search",
       query: query,
     });
   }

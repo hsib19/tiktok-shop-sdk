@@ -1,4 +1,5 @@
 {
+	"extends": "../../configs/prettier/index.json",
 	"useTabs": true,
 	"singleQuote": true,
 	"trailingComma": "none",

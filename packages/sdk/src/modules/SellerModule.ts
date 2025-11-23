@@ -3,7 +3,7 @@ import {
   SellerPermissionsResponse,
   RequestFunction,
   TikTokAPIResponse,
-} from '@types';
+} from "@types";
 
 /**
  * SellerModule handles requests related to seller authorization and shop-specific metadata,
@@ -27,8 +27,8 @@ export class SellerModule {
    */
   async getActiveShops(): Promise<TikTokAPIResponse<SellerShopsResponse>> {
     return this.request({
-      method: 'GET',
-      path: '/seller/202309/shops',
+      method: "GET",
+      path: "/seller/202309/shops",
     });
   }
 
@@ -47,8 +47,8 @@ export class SellerModule {
     TikTokAPIResponse<SellerPermissionsResponse>
   > {
     return this.request({
-      method: 'GET',
-      path: '/seller/202309/permissions',
+      method: "GET",
+      path: "/seller/202309/permissions",
     });
   }
 }

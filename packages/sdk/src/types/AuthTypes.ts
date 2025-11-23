@@ -9,16 +9,16 @@ export interface AccessTokenResponse {
 
 export interface GetAccessTokenParams {
   auth_code: string;
-  grant_type: 'authorized_code';
+  grant_type: "authorized_code";
 }
 
 export interface RefreshAccessTokenParams {
   refresh_token: string;
-  grant_type: 'refresh_token';
+  grant_type: "refresh_token";
 }
 
 export interface AuthRequestOptions {
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  method: "GET" | "POST" | "PUT" | "DELETE";
   path: string;
   query?: Record<string, string | number | boolean | undefined>;
   body?: unknown;

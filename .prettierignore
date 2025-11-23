@@ -23,3 +23,8 @@ yarn.lock
 # Other
 *.log
 *.tmp
+
+# Apps
+apps/docs/.svelte-kit
+apps/docs/public/build
+**/out

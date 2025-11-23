@@ -5,7 +5,7 @@ import {
   RequestFunction,
   UpdateShopWebhookBody,
   TikTokAPIResponse,
-} from '@types';
+} from "@types";
 
 /**
  * EventModule handles requests related to webhook management
@@ -25,8 +25,8 @@ export class EventModule {
    */
   async getShopWebhooks(): Promise<TikTokAPIResponse<GetWebhooksResponse>> {
     return this.request({
-      method: 'GET',
-      path: '/event/202309/webhooks',
+      method: "GET",
+      path: "/event/202309/webhooks",
     });
   }
 
@@ -41,8 +41,8 @@ export class EventModule {
     body: UpdateShopWebhookBody,
   ): Promise<TikTokAPIResponse<ApiResponse>> {
     return this.request({
-      method: 'PUT',
-      path: '/event/202309/webhooks',
+      method: "PUT",
+      path: "/event/202309/webhooks",
       body,
     });
   }
@@ -58,8 +58,8 @@ export class EventModule {
     body: DeleteShopWebhookBody,
   ): Promise<TikTokAPIResponse<ApiResponse>> {
     return this.request({
-      method: 'DELETE',
-      path: '/event/202309/webhooks',
+      method: "DELETE",
+      path: "/event/202309/webhooks",
       body,
     });
   }

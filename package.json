@@ -13,6 +13,7 @@
     "test": "turbo run test",
     "test:cov": "turbo run test -- --coverage",
     "lint": "turbo run lint",
+    "format": "prettier --write \"apps/**/*.{ts,tsx,js,jsx,json,md,svelte}\" \"packages/**/*.{ts,tsx,js,jsx,json,md}\"",
     "prepare": "husky"
   },
   "lint-staged": {

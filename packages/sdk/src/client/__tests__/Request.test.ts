@@ -1,11 +1,11 @@
-import { request } from '@client';
-import { generateSignature, handleResponse, TikTokAPIError } from '@utils';
-import { RequestOptions } from '@types';
+import { request } from "@client";
+import { generateSignature, handleResponse, TikTokAPIError } from "@utils";
+import { RequestOptions } from "@types";
 
 // Mock fetch
 global.fetch = jest.fn();
 
-jest.mock('@utils', () => ({
+jest.mock("@utils", () => ({
   generateSignature: jest.fn(),
   handleResponse: jest.fn(),
   TikTokAPIError: class extends Error {
@@ -23,63 +23,63 @@ const mockedFetch = fetch as jest.MockedFunction<typeof fetch>;
 const mockedGenerateSignature = generateSignature as jest.Mock;
 const mockedHandleResponse = handleResponse as jest.Mock;
 
-describe('request', () => {
+describe("request", () => {
   const baseConfig = {
-    appKey: 'test-app-key',
-    appSecret: 'test-app-secret',
-    baseURL: 'https://api.tiktok.com',
+    appKey: "test-app-key",
+    appSecret: "test-app-secret",
+    baseURL: "https://api.tiktok.com",
   };
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should perform a successful request and return handled response', async () => {
-    mockedGenerateSignature.mockReturnValue('signed-value');
+  it("should perform a successful request and return handled response", async () => {
+    mockedGenerateSignature.mockReturnValue("signed-value");
     mockedHandleResponse.mockReturnValue({ success: true });
 
     mockedFetch.mockResolvedValue({
       ok: true,
-      json: async () => ({ foo: 'bar' }),
+      json: async () => ({ foo: "bar" }),
     } as Response);
 
     const result = await request({
-      method: 'GET',
-      path: '/test/path',
-      query: { param1: 'value1' },
+      method: "GET",
+      path: "/test/path",
+      query: { param1: "value1" },
       config: baseConfig,
     });
 
     expect(mockedGenerateSignature).toHaveBeenCalledWith(
       expect.objectContaining({
         appSecret: baseConfig.appSecret,
-        path: '/test/path',
+        path: "/test/path",
         query: expect.objectContaining({
-          param1: 'value1',
+          param1: "value1",
           app_key: baseConfig.appKey,
           timestamp: expect.any(String),
         }),
-        version: 'v1',
+        version: "v1",
       }),
     );
 
     expect(mockedFetch).toHaveBeenCalledWith(
-      expect.stringContaining('/test/path'),
+      expect.stringContaining("/test/path"),
       expect.objectContaining({
-        method: 'GET',
+        method: "GET",
         headers: expect.objectContaining({
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         }),
         body: undefined,
       }),
     );
 
-    expect(mockedHandleResponse).toHaveBeenCalledWith({ foo: 'bar' });
+    expect(mockedHandleResponse).toHaveBeenCalledWith({ foo: "bar" });
     expect(result).toEqual({ success: true });
   });
 
-  it('should include access token header if provided', async () => {
-    mockedGenerateSignature.mockReturnValue('signed-value');
+  it("should include access token header if provided", async () => {
+    mockedGenerateSignature.mockReturnValue("signed-value");
     mockedHandleResponse.mockReturnValue({});
     mockedFetch.mockResolvedValue({
       ok: true,
@@ -87,126 +87,126 @@ describe('request', () => {
     } as Response);
 
     await request({
-      method: 'POST',
-      path: '/path',
+      method: "POST",
+      path: "/path",
       query: {},
       config: {
         ...baseConfig,
-        accessToken: 'my-access-token',
+        accessToken: "my-access-token",
       },
-      body: { some: 'data' },
+      body: { some: "data" },
     });
 
     expect(mockedFetch).toHaveBeenCalledWith(
       expect.any(String),
       expect.objectContaining({
         headers: expect.objectContaining({
-          'x-tts-access-token': 'my-access-token',
+          "x-tts-access-token": "my-access-token",
         }),
       }),
     );
   });
 
-  it('should throw TikTokAPIError on TikTok API error response', async () => {
+  it("should throw TikTokAPIError on TikTok API error response", async () => {
     mockedFetch.mockResolvedValue({
       ok: false,
       status: 400,
-      statusText: 'Bad Request',
+      statusText: "Bad Request",
       json: async () => ({
         code: 123,
-        message: 'API error occurred',
-        request_id: 'req-789',
+        message: "API error occurred",
+        request_id: "req-789",
       }),
     } as Response);
 
     await expect(
       request({
-        method: 'GET',
-        path: '/error',
+        method: "GET",
+        path: "/error",
         config: baseConfig,
       }),
     ).rejects.toMatchObject({
       code: 123,
-      message: 'API error occurred',
-      requestId: 'req-789',
+      message: "API error occurred",
+      requestId: "req-789",
     });
   });
 
-  it('should throw generic error on network errors', async () => {
-    const error = new TypeError('fetch failed');
+  it("should throw generic error on network errors", async () => {
+    const error = new TypeError("fetch failed");
     mockedFetch.mockRejectedValue(error);
 
     await expect(
       request({
-        method: 'GET',
-        path: '/fail',
+        method: "GET",
+        path: "/fail",
         config: baseConfig,
       }),
-    ).rejects.toThrow('Network error: fetch failed');
+    ).rejects.toThrow("Network error: fetch failed");
   });
 
-  it('should re-throw unknown errors', async () => {
-    const error = new Error('Unknown error');
+  it("should re-throw unknown errors", async () => {
+    const error = new Error("Unknown error");
     mockedFetch.mockRejectedValue(error);
 
     await expect(
       request({
-        method: 'GET',
-        path: '/fail',
+        method: "GET",
+        path: "/fail",
         config: baseConfig,
       }),
-    ).rejects.toThrow('Unknown error');
+    ).rejects.toThrow("Unknown error");
   });
 
-  it('should throw generic HTTP error when response is not ok and no TikTok error format', async () => {
+  it("should throw generic HTTP error when response is not ok and no TikTok error format", async () => {
     mockedFetch.mockResolvedValue({
       ok: false,
       status: 500,
-      statusText: 'Internal Server Error',
-      json: async () => ({ error: 'Server error' }),
+      statusText: "Internal Server Error",
+      json: async () => ({ error: "Server error" }),
     } as Response);
 
     await expect(
       request({
-        method: 'GET',
-        path: '/no-response',
+        method: "GET",
+        path: "/no-response",
         config: baseConfig,
       }),
-    ).rejects.toThrow('HTTP error: 500 Internal Server Error');
+    ).rejects.toThrow("HTTP error: 500 Internal Server Error");
   });
 
-  it('should throw response parsing error when JSON is invalid', async () => {
+  it("should throw response parsing error when JSON is invalid", async () => {
     mockedFetch.mockResolvedValue({
       ok: true,
       json: async () => {
-        throw new SyntaxError('Unexpected token');
+        throw new SyntaxError("Unexpected token");
       },
     } as unknown as Response);
 
     await expect(
       request({
-        method: 'GET',
-        path: '/empty-data',
+        method: "GET",
+        path: "/empty-data",
         config: baseConfig,
       }),
-    ).rejects.toThrow('Response parsing error: Unexpected token');
+    ).rejects.toThrow("Response parsing error: Unexpected token");
   });
 
-  it('should throw error for non-fetch errors', async () => {
-    const error = new Error('Not a fetch error');
+  it("should throw error for non-fetch errors", async () => {
+    const error = new Error("Not a fetch error");
     mockedFetch.mockRejectedValue(error);
 
     await expect(
       request({
-        method: 'GET',
-        path: '/not-fetch',
+        method: "GET",
+        path: "/not-fetch",
         config: baseConfig,
       }),
-    ).rejects.toThrow('Not a fetch error');
+    ).rejects.toThrow("Not a fetch error");
   });
 
-  it('should include shop_cipher in query if shopCipher is provided', async () => {
-    mockedGenerateSignature.mockReturnValue('signed-value');
+  it("should include shop_cipher in query if shopCipher is provided", async () => {
+    mockedGenerateSignature.mockReturnValue("signed-value");
     mockedHandleResponse.mockReturnValue({ success: true });
     mockedFetch.mockResolvedValue({
       ok: true,
@@ -214,11 +214,11 @@ describe('request', () => {
     } as Response);
 
     await request({
-      method: 'GET',
-      path: '/test',
+      method: "GET",
+      path: "/test",
       config: {
         ...baseConfig,
-        shopCipher: 'test-cipher',
+        shopCipher: "test-cipher",
       },
     });
 
@@ -226,31 +226,31 @@ describe('request', () => {
     expect(mockedGenerateSignature).toHaveBeenCalledWith(
       expect.objectContaining({
         query: expect.objectContaining({
-          shop_cipher: 'test-cipher',
+          shop_cipher: "test-cipher",
         }),
       }),
     );
   });
 
-  it('should correctly append nested query parameters to URL', async () => {
-    mockedGenerateSignature.mockReturnValue('signed-value');
+  it("should correctly append nested query parameters to URL", async () => {
+    mockedGenerateSignature.mockReturnValue("signed-value");
     mockedHandleResponse.mockReturnValue({ success: true });
     mockedFetch.mockResolvedValue({
       ok: true,
-      json: async () => ({ foo: 'bar' }),
+      json: async () => ({ foo: "bar" }),
     } as Response);
 
     const nestedQuery = {
-      param1: 'value1',
+      param1: "value1",
       query: {
-        nested1: 'nestedValue1',
+        nested1: "nestedValue1",
         nested2: 123,
       },
     };
 
     await request({
-      method: 'GET',
-      path: '/test/nested-query',
+      method: "GET",
+      path: "/test/nested-query",
       query: nestedQuery,
       config: baseConfig,
     });
@@ -258,13 +258,13 @@ describe('request', () => {
     // Ambil URL yang dipakai fetch
     const calledUrl = mockedFetch.mock.calls[0][0] as string;
 
-    expect(calledUrl).toContain('param1=value1');
-    expect(calledUrl).toContain('nested1=nestedValue1');
-    expect(calledUrl).toContain('nested2=123');
+    expect(calledUrl).toContain("param1=value1");
+    expect(calledUrl).toContain("nested1=nestedValue1");
+    expect(calledUrl).toContain("nested2=123");
   });
 
-  it('should correctly append nested body object parameters to URL', async () => {
-    mockedGenerateSignature.mockReturnValue('signed-value');
+  it("should correctly append nested body object parameters to URL", async () => {
+    mockedGenerateSignature.mockReturnValue("signed-value");
     mockedHandleResponse.mockReturnValue({ success: true });
     mockedFetch.mockResolvedValue({
       ok: true,
@@ -273,46 +273,46 @@ describe('request', () => {
 
     const nestedBody = {
       query: {
-        responsible_person_ids: ['nestedValue1', 'nestedvalue2'],
+        responsible_person_ids: ["nestedValue1", "nestedvalue2"],
       },
     };
 
     await request({
-      method: 'GET',
-      path: '/test/nested-query',
+      method: "GET",
+      path: "/test/nested-query",
       query: nestedBody,
       config: baseConfig,
     });
 
     // Ambil URL yang dipakai fetch
     const calledUrl = mockedFetch.mock.calls[0][0] as string;
-    const urlReplace = calledUrl?.replace('%2C', ',');
+    const urlReplace = calledUrl?.replace("%2C", ",");
 
     expect(calledUrl).toContain(
-      'responsible_person_ids=nestedValue1%2Cnestedvalue2',
+      "responsible_person_ids=nestedValue1%2Cnestedvalue2",
     );
     expect(urlReplace).toContain(
-      'responsible_person_ids=nestedValue1,nestedvalue2',
+      "responsible_person_ids=nestedValue1,nestedvalue2",
     );
   });
 
-  it('should join array query param values with commas in URL', async () => {
+  it("should join array query param values with commas in URL", async () => {
     // Arrange
     mockedFetch.mockResolvedValueOnce({
       ok: true,
-      json: async () => ({ data: 'ok' }),
+      json: async () => ({ data: "ok" }),
     } as Response);
 
     const options: RequestOptions = {
-      method: 'GET',
-      path: '/api/test',
+      method: "GET",
+      path: "/api/test",
       query: {
-        product_ids: ['1', '2', '3'],
+        product_ids: ["1", "2", "3"],
       },
       config: {
-        appKey: 'appkey123',
-        appSecret: 'secret123',
-        baseURL: 'https://example.com',
+        appKey: "appkey123",
+        appSecret: "secret123",
+        baseURL: "https://example.com",
       },
     };
 
@@ -322,29 +322,29 @@ describe('request', () => {
 
     const calledUrl = mockedFetch.mock.calls[0][0] as string;
 
-    expect(calledUrl).toContain('product_ids=1%2C2%2C3');
+    expect(calledUrl).toContain("product_ids=1%2C2%2C3");
   });
 
-  it('should skip query params with undefined values when building URL', async () => {
+  it("should skip query params with undefined values when building URL", async () => {
     // Mock fetch to resolve with dummy data
     mockedFetch.mockResolvedValueOnce({
       ok: true,
-      json: async () => ({ data: 'ok' }),
+      json: async () => ({ data: "ok" }),
     } as Response);
 
     const options: RequestOptions = {
-      method: 'GET',
-      path: '/api/test',
+      method: "GET",
+      path: "/api/test",
       query: {
-        foo: 'bar', // valid query param, should be included
+        foo: "bar", // valid query param, should be included
         skipMe: undefined, // undefined query param, should be skipped,
         boolean1: true,
         numberval: 123,
       },
       config: {
-        appKey: 'appkey123',
-        appSecret: 'secret123',
-        baseURL: 'https://example.com',
+        appKey: "appkey123",
+        appSecret: "secret123",
+        baseURL: "https://example.com",
       },
     };
 
@@ -355,34 +355,34 @@ describe('request', () => {
     const calledUrl = mockedFetch.mock.calls[0][0] as string;
 
     // Expect the URL to contain the valid query param 'foo=bar'
-    expect(calledUrl).toContain('foo=bar&boolean1=true&numberval=123');
+    expect(calledUrl).toContain("foo=bar&boolean1=true&numberval=123");
 
     // Expect the URL NOT to contain the undefined param 'skipMe'
-    expect(calledUrl).not.toContain('skipMe=');
+    expect(calledUrl).not.toContain("skipMe=");
   });
 
-  it('should skip nested query parameters with undefined values', async () => {
+  it("should skip nested query parameters with undefined values", async () => {
     mockedFetch.mockResolvedValueOnce({
       ok: true,
-      json: async () => ({ data: 'ok' }),
+      json: async () => ({ data: "ok" }),
     } as Response);
 
     const options: RequestOptions = {
-      method: 'GET',
-      path: '/api/test',
+      method: "GET",
+      path: "/api/test",
       query: {
         query: {
           // nested query object
-          validKey: 'value', // should be included
+          validKey: "value", // should be included
           skipKey: undefined, // should be skipped
           boolean1: true,
           numberval: 123,
         },
       },
       config: {
-        appKey: 'appkey123',
-        appSecret: 'secret123',
-        baseURL: 'https://example.com',
+        appKey: "appkey123",
+        appSecret: "secret123",
+        baseURL: "https://example.com",
       },
     };
 
@@ -391,41 +391,41 @@ describe('request', () => {
     const calledUrl = mockedFetch.mock.calls[0][0] as string;
 
     // The URL should contain 'validKey=value' from the nested query object
-    expect(calledUrl).toContain('validKey=value&boolean1=true&numberval=123');
+    expect(calledUrl).toContain("validKey=value&boolean1=true&numberval=123");
 
     // The URL should NOT contain 'skipKey' because its value is undefined
-    expect(calledUrl).not.toContain('skipKey=');
+    expect(calledUrl).not.toContain("skipKey=");
   });
 
-  it('sets requestId to empty string if not provided', async () => {
+  it("sets requestId to empty string if not provided", async () => {
     mockedFetch.mockResolvedValueOnce({
       ok: false,
       status: 401,
-      statusText: 'Unauthorized',
+      statusText: "Unauthorized",
       json: async () => ({
         code: 401,
-        message: 'Unauthorized',
+        message: "Unauthorized",
         // optionally request_id omitted
       }),
     } as Response);
 
     const options: RequestOptions = {
-      method: 'GET',
-      path: '/api/private',
+      method: "GET",
+      path: "/api/private",
       query: {},
       config: {
-        appKey: 'testkey',
-        appSecret: 'testsecret',
-        baseURL: 'https://api.tiktok.com',
+        appKey: "testkey",
+        appSecret: "testsecret",
+        baseURL: "https://api.tiktok.com",
       },
     };
 
     await expect(request(options)).rejects.toThrow(TikTokAPIError);
     await request(options).catch((err) => {
       expect(err).toBeInstanceOf(TikTokAPIError);
-      expect(err.message).toBe('Unauthorized');
+      expect(err.message).toBe("Unauthorized");
       expect(err.code).toBe(401);
-      expect(err.requestId).toBe('');
+      expect(err.requestId).toBe("");
     });
   });
 });

@@ -51,7 +51,7 @@ import {
   TikTokAPIResponse,
   UpdateTargetCollaborationParams,
   UpdateTargetCollaborationResponse,
-} from '@types';
+} from "@types";
 
 /**
  * AffiliateSellerModule provides methods to interact with TikTok Shop Affiliate Seller APIs.
@@ -82,8 +82,8 @@ export class AffiliateSellerModule {
     body: CreateConversationwithCreatorBody,
   ): Promise<TikTokAPIResponse<CreateConversationwithCreatorResponse>> {
     return this.request({
-      method: 'POST',
-      path: '/affiliate_seller/202412/conversations',
+      method: "POST",
+      path: "/affiliate_seller/202412/conversations",
       body,
     });
   }
@@ -100,8 +100,8 @@ export class AffiliateSellerModule {
     body: CreateTargetCollaborationBody,
   ): Promise<TikTokAPIResponse<CreateTargetCollaborationResponse>> {
     return this.request({
-      method: 'POST',
-      path: '/affiliate_seller/202405/target_collaborations',
+      method: "POST",
+      path: "/affiliate_seller/202405/target_collaborations",
       body,
     });
   }
@@ -118,8 +118,8 @@ export class AffiliateSellerModule {
     body: EditOpenCollaborationSettingsBody,
   ): Promise<TikTokAPIResponse<EditOpenCollaborationSettingsResponse>> {
     return this.request({
-      method: 'POST',
-      path: '/affiliate_seller/202405/open_collaboration_settings',
+      method: "POST",
+      path: "/affiliate_seller/202405/open_collaboration_settings",
       body,
     });
   }
@@ -136,7 +136,7 @@ export class AffiliateSellerModule {
     params: RemoveCreatorFromOpenCollaborationParams,
   ): Promise<TikTokAPIResponse<RemoveCreatorFromOpenCollaborationResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/affiliate_seller/202405/open_collaborations/${params.open_collaboration_id}/remove_creator`,
       body: params.body,
     });
@@ -154,7 +154,7 @@ export class AffiliateSellerModule {
     product_id: string,
   ): Promise<TikTokAPIResponse<GenerateAffiliateProductPromotionLinkResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/affiliate_seller/202405/products/${product_id}/promotion_link/generate`,
     });
   }
@@ -173,7 +173,7 @@ export class AffiliateSellerModule {
     TikTokAPIResponse<SellerSearchAffiliateOpenCollaborationProductResponse>
   > {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/affiliate_seller/202405/open_collaborations/products/search`,
       query: params.query,
       body: params.body,
@@ -192,7 +192,7 @@ export class AffiliateSellerModule {
     params: SearchSellerAffiliateOrdersParams,
   ): Promise<TikTokAPIResponse<SearchSellerAffiliateOrdersResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/affiliate_seller/202410/orders/search`,
       query: params.query,
       body: params.body,
@@ -213,7 +213,7 @@ export class AffiliateSellerModule {
     TikTokAPIResponse<SellerSearchSampleApplicationsFulfillmentsResponse>
   > {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/affiliate_seller/202409/sample_applications/${params.application_id}/fulfillments/search`,
       body: params.body,
     });
@@ -231,7 +231,7 @@ export class AffiliateSellerModule {
     params: SellerReviewSampleApplicationsParams,
   ): Promise<TikTokAPIResponse<SellerReviewSampleApplicationsResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/affiliate_seller/202409/sample_applications/${params.application_id}/review`,
       body: params.body,
     });
@@ -249,7 +249,7 @@ export class AffiliateSellerModule {
     query: GetOpenCollaborationSampleRulesQuery,
   ): Promise<TikTokAPIResponse<GetOpenCollaborationSampleRulesResponse>> {
     return this.request({
-      method: 'GET',
+      method: "GET",
       path: `/affiliate_seller/202410/open_collaborations/sample_rules`,
       query: query,
     });
@@ -267,7 +267,7 @@ export class AffiliateSellerModule {
     params: SellerSearchSampleApplicationsParams,
   ): Promise<TikTokAPIResponse<SellerSearchSampleApplicationsResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/affiliate_seller/202409/sample_applications/search`,
       query: params.query,
       body: params.body,
@@ -286,7 +286,7 @@ export class AffiliateSellerModule {
     body: EditOpenCollaborationSampleRuleBody,
   ): Promise<TikTokAPIResponse<EditOpenCollaborationSampleRuleResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/affiliate_seller/202410/open_collaborations/sample_rules`,
       body: body,
     });
@@ -304,7 +304,7 @@ export class AffiliateSellerModule {
     target_collaboration_id: string,
   ): Promise<TikTokAPIResponse<object>> {
     return this.request({
-      method: 'DELETE',
+      method: "DELETE",
       path: `/affiliate_seller/202409/target_collaborations/${target_collaboration_id}`,
     });
   }
@@ -321,7 +321,7 @@ export class AffiliateSellerModule {
     params: SearchTargetCollaborationsParams,
   ): Promise<TikTokAPIResponse<SearchTargetCollaborationsResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/affiliate_seller/202409/target_collaborations/search`,
       body: params.body,
       query: params.query,
@@ -340,7 +340,7 @@ export class AffiliateSellerModule {
     params: UpdateTargetCollaborationParams,
   ): Promise<TikTokAPIResponse<UpdateTargetCollaborationResponse>> {
     return this.request({
-      method: 'PUT',
+      method: "PUT",
       path: `/affiliate_seller/202409/target_collaborations/${params.target_collaboration_id}`,
       body: params.body,
     });
@@ -358,7 +358,7 @@ export class AffiliateSellerModule {
     TikTokAPIResponse<GetOpenCollaborationSettingsResponse>
   > {
     return this.request({
-      method: 'GET',
+      method: "GET",
       path: `/affiliate_seller/202409/open_collaboration_settings`,
     });
   }
@@ -375,7 +375,7 @@ export class AffiliateSellerModule {
     product_id: string,
   ): Promise<TikTokAPIResponse<RemoveOpenCollaborationResponse>> {
     return this.request({
-      method: 'DELETE',
+      method: "DELETE",
       path: `/affiliate_seller/202409/open_collaborations/products/${product_id}`,
     });
   }
@@ -392,7 +392,7 @@ export class AffiliateSellerModule {
     target_collaboration_id: string,
   ): Promise<TikTokAPIResponse<QueryTargetCollaborationDetailResponse>> {
     return this.request({
-      method: 'GET',
+      method: "GET",
       path: `/affiliate_seller/202412/target_collaborations/${target_collaboration_id}`,
     });
   }
@@ -411,7 +411,7 @@ export class AffiliateSellerModule {
     TikTokAPIResponse<GetOpenCollaborationCreatorContentDetailResponse>
   > {
     return this.request({
-      method: 'GET',
+      method: "GET",
       path: `/affiliate_seller/202412/open_collaborations/creator_content_details`,
       query,
     });
@@ -429,7 +429,7 @@ export class AffiliateSellerModule {
     params: SearchOpenCollaborationParams,
   ): Promise<TikTokAPIResponse<SearchOpenCollaborationResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/affiliate_seller/202412/open_collaborations/search`,
       body: params.body,
       query: params.query,
@@ -448,7 +448,7 @@ export class AffiliateSellerModule {
     body: CreateOpenCollaborationBody,
   ): Promise<TikTokAPIResponse<CreateOpenCollaborationResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/affiliate_seller/202412/open_collaborations`,
       body: body,
     });
@@ -466,7 +466,7 @@ export class AffiliateSellerModule {
     params: GetMessageInTheConversationParams,
   ): Promise<TikTokAPIResponse<GetMessageInTheConversationResponse>> {
     return this.request({
-      method: 'GET',
+      method: "GET",
       path: `/affiliate_seller/202412/conversation/${params.conversation_id}/messages`,
       query: params.query,
     });
@@ -484,7 +484,7 @@ export class AffiliateSellerModule {
     params: GetConversationListParams,
   ): Promise<TikTokAPIResponse<GetConversationListResponse>> {
     return this.request({
-      method: 'GET',
+      method: "GET",
       path: `/affiliate_seller/202412/conversations`,
       query: params.query,
       body: params.body,
@@ -503,7 +503,7 @@ export class AffiliateSellerModule {
     params: SendImMessageParams,
   ): Promise<TikTokAPIResponse<SendImMessageResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/affiliate_seller/202412/conversations/${params.conversation_id}/messages`,
       body: params.body,
     });
@@ -521,7 +521,7 @@ export class AffiliateSellerModule {
     body: CreateConversationWithCreatorBody,
   ): Promise<TikTokAPIResponse<CreateConversationWithCreatorResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/affiliate_seller/202412/conversations`,
       body: body,
     });
@@ -539,7 +539,7 @@ export class AffiliateSellerModule {
     body: MarkConversationReadBody,
   ): Promise<TikTokAPIResponse<MarkConversationReadResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/affiliate_seller/202412/conversatons/read`,
       body: body,
     });
@@ -557,7 +557,7 @@ export class AffiliateSellerModule {
     TikTokAPIResponse<GetLatestUnreadMessagesResponse>
   > {
     return this.request({
-      method: 'GET',
+      method: "GET",
       path: `/affiliate_seller/202412/conversations/messages/list/newest`,
     });
   }
@@ -574,7 +574,7 @@ export class AffiliateSellerModule {
     params: SellerSearchCreatorOnMarketplaceParams,
   ): Promise<TikTokAPIResponse<SellerSearchCreatorOnMarketplaceResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/affiliate_seller/202412/conversations/messages/list/newest`,
       query: params.query,
       body: params.body,
@@ -593,7 +593,7 @@ export class AffiliateSellerModule {
     creator_user_id: string,
   ): Promise<TikTokAPIResponse<GetMarketplaceCreatorPerformanceResponse>> {
     return this.request({
-      method: 'GET',
+      method: "GET",
       path: `/affiliate_seller/202505/marketplace_creators/${creator_user_id}`,
     });
   }

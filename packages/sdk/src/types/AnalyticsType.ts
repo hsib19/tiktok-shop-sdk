@@ -2,8 +2,8 @@ export type GetShopPerformanceQuery = {
   start_date_ge: string;
   end_date_lt: string;
   with_comparison?: boolean;
-  granularity?: string | 'ALL' | '1D';
-  currency?: string | 'USD' | 'LOCAL';
+  granularity?: string | "ALL" | "1D";
+  currency?: string | "USD" | "LOCAL";
 };
 
 export type GetShopPerformanceResponse = {
@@ -195,9 +195,9 @@ export type GetShopProductPerformanceListQuery = {
   start_date_ge: string;
   end_date_lt: string;
   page_size?: number;
-  sort_field?: 'gmv' | 'order_count' | 'unit_sold_count' | 'click_through_rate';
-  sort_order?: 'ASC' | 'DESC';
-  currency?: 'USD' | 'LOCAL';
+  sort_field?: "gmv" | "order_count" | "unit_sold_count" | "click_through_rate";
+  sort_order?: "ASC" | "DESC";
+  currency?: "USD" | "LOCAL";
   page_token?: string;
 };
 
@@ -271,11 +271,11 @@ export type GetShopSKUPerformanceListQuery = {
   start_date_ge: string;
   end_date_lt: string;
   page_size?: number;
-  sort_field?: 'gmv' | 'sku_orders' | 'units_sold';
-  sort_order?: 'DESC' | 'ASC';
+  sort_field?: "gmv" | "sku_orders" | "units_sold";
+  sort_order?: "DESC" | "ASC";
   page_token?: string;
   product_id?: string;
-  currency?: 'USD' | 'LOCAL';
+  currency?: "USD" | "LOCAL";
 };
 
 export type GetShopSKUPerformanceListResponse = {
@@ -299,15 +299,15 @@ export type GetShopVideoPerformanceListQuery = {
   end_date_lt: string;
   page_size?: number;
   sort_field?:
-    | 'gmv'
-    | 'sku_orders'
-    | 'units_sold'
-    | 'views'
-    | 'click_through_rate';
-  sort_order?: 'ASC' | 'DESC';
-  currency?: 'USD' | 'LOCAL';
+    | "gmv"
+    | "sku_orders"
+    | "units_sold"
+    | "views"
+    | "click_through_rate";
+  sort_order?: "ASC" | "DESC";
+  currency?: "USD" | "LOCAL";
   page_token?: string;
-  account_type?: 'ALL' | 'LINKED_ACCOUNTS' | 'AFFILIATES';
+  account_type?: "ALL" | "LINKED_ACCOUNTS" | "AFFILIATES";
 };
 
 export type GetShopVideoPerformanceListResponse = {
@@ -338,9 +338,9 @@ export type GetShopVideoPerformanceOverviewQuery = {
   start_date_ge: string;
   end_date_lt: string;
   with_comparison?: boolean;
-  granularity?: 'ALL' | '1D';
-  currency?: 'USD' | 'LOCAL';
-  account_type?: 'ALL' | 'LINKED_ACCOUNTS' | 'AFFILIATES';
+  granularity?: "ALL" | "1D";
+  currency?: "USD" | "LOCAL";
+  account_type?: "ALL" | "LINKED_ACCOUNTS" | "AFFILIATES";
 };
 
 export type GetShopVideoPerformanceOverviewResponse = {
@@ -380,8 +380,8 @@ type GetShopVideoPerformanceDetailsQuery = {
   start_date_ge: string;
   end_date_lt: string;
   with_comparison?: boolean;
-  granularity?: 'ALL' | '1D';
-  currency?: 'USD' | 'LOCAL';
+  granularity?: "ALL" | "1D";
+  currency?: "USD" | "LOCAL";
 };
 
 export type GetShopVideoPerformanceDetailsResponse = {
@@ -428,9 +428,9 @@ export type GetShopVideoProductPerformanceListQuery = {
   start_date_ge: string;
   end_date_lt: string;
   page_size?: number;
-  sort_field?: 'gmv' | 'units_sold' | 'daily_avg_buyers';
-  sort_order?: 'ASC' | 'DESC';
-  currency?: 'USD' | 'LOCAL';
+  sort_field?: "gmv" | "units_sold" | "daily_avg_buyers";
+  sort_order?: "ASC" | "DESC";
+  currency?: "USD" | "LOCAL";
   page_token?: string;
 };
 

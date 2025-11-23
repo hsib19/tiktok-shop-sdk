@@ -20,7 +20,7 @@ import {
   TikTokAPIResponse,
   UncombinePackagesBody,
   UncombinePackagesResponse,
-} from '@types';
+} from "@types";
 
 /**
  * FulfillmentModule provides access to TikTok Shop Partner Fulfillment APIs.
@@ -38,7 +38,7 @@ export class FulfillmentModule {
     params: GetOrderSplitAttributesQuery,
   ): Promise<TikTokAPIResponse<GetOrderSplitAttributesResponse>> {
     return this.request({
-      method: 'GET',
+      method: "GET",
       path: `/fulfillment/202309/orders/split_attributes`,
       query: params,
     });
@@ -53,7 +53,7 @@ export class FulfillmentModule {
     params: SplitOrdersQuery,
   ): Promise<TikTokAPIResponse<SplittableGroupsResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/fulfillment/202309/orders/${params.order_id}/split`,
       body: params.body,
     });
@@ -68,7 +68,7 @@ export class FulfillmentModule {
     params: GetEligibleShippingServiceInput,
   ): Promise<TikTokAPIResponse<GetEligibleShippingServiceResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/fulfillment/202309/orders/${params.order_id}/shipping_services/query`,
       body: params.body,
     });
@@ -83,7 +83,7 @@ export class FulfillmentModule {
     params: SearchPackageInput,
   ): Promise<TikTokAPIResponse<SearchPackageResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/fulfillment/202309/packages/search`,
       query: params.query,
       body: params.body,
@@ -99,7 +99,7 @@ export class FulfillmentModule {
     params: CreatePackageBody,
   ): Promise<TikTokAPIResponse<CreatePackagesResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/fulfillment/202309/packages`,
       body: params,
     });
@@ -114,7 +114,7 @@ export class FulfillmentModule {
     params: CreateFirstMileBundleBody,
   ): Promise<TikTokAPIResponse<CreateFirstMileBundleResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/fulfillment/202407/bundles`,
       body: params,
     });
@@ -129,7 +129,7 @@ export class FulfillmentModule {
     params: SearchCombinablePackagesQuery,
   ): Promise<TikTokAPIResponse<SearchCombinablePackagesResponse>> {
     return this.request({
-      method: 'GET',
+      method: "GET",
       path: `/fulfillment/202309/combinable_packages/search`,
       query: params,
     });
@@ -144,7 +144,7 @@ export class FulfillmentModule {
     params: CombinablePackageBody,
   ): Promise<TikTokAPIResponse<CombinePackageResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/fulfillment/202309/packages/combine`,
       body: params,
     });
@@ -159,7 +159,7 @@ export class FulfillmentModule {
     params: UncombinePackagesBody,
   ): Promise<TikTokAPIResponse<UncombinePackagesResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/fulfillment/202309/packages/${params.package_id}/uncombine`,
       body: params.body,
     });
@@ -174,7 +174,7 @@ export class FulfillmentModule {
     package_id: string,
   ): Promise<TikTokAPIResponse<GetPackageHandoverTimeSlotsResponse>> {
     return this.request({
-      method: 'GET',
+      method: "GET",
       path: `/fulfillment/202309/packages/${package_id}/handover_time_slots`,
     });
   }

@@ -157,20 +157,20 @@ export interface GetOrderListResponse {
 
 export interface GetOrderListBody extends Record<string, unknown> {
   order_status?:
-    | 'UNPAID'
-    | 'ON_HOLD'
-    | 'AWAITING_SHIPMENT'
-    | 'PARTIALLY_SHIPPING'
-    | 'AWAITING_COLLECTION'
-    | 'IN_TRANSIT'
-    | 'DELIVERED'
-    | 'COMPLETED'
-    | 'CANCELLED';
+    | "UNPAID"
+    | "ON_HOLD"
+    | "AWAITING_SHIPMENT"
+    | "PARTIALLY_SHIPPING"
+    | "AWAITING_COLLECTION"
+    | "IN_TRANSIT"
+    | "DELIVERED"
+    | "COMPLETED"
+    | "CANCELLED";
   create_time_ge?: number;
   create_time_lt?: number;
   update_time_ge?: number;
   update_time_lt?: string;
-  shipping_type?: string | 'TIKTOK' | 'SELLER';
+  shipping_type?: string | "TIKTOK" | "SELLER";
   buyer_user_id?: string;
   is_buyer_request_cancel?: boolean;
   warehouse_ids?: string[];
@@ -456,7 +456,7 @@ export interface GetExternalOrderReferencesResponse {
   external_orders: ExternalOrderReference[];
 }
 
-export type ExternalPlatform = 'SHOPIFY' | 'WOOCOMMERCE' | 'MAGENTO' | 'OTHERS';
+export type ExternalPlatform = "SHOPIFY" | "WOOCOMMERCE" | "MAGENTO" | "OTHERS";
 
 export type SearchOrderByExternalOrderReferenceQuery = {
   platform: ExternalPlatform;

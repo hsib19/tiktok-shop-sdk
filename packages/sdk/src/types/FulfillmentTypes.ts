@@ -56,7 +56,7 @@ export type GetEligibleShippingServiceResponse = {
   order_line_id: string[];
   weight: {
     value: string;
-    unit: 'GRAM' | 'POUND';
+    unit: "GRAM" | "POUND";
   };
   shipping_services: {
     id: string;
@@ -73,14 +73,14 @@ export type GetEligibleShippingServiceResponse = {
     length: string;
     width: string;
     height: string;
-    unit: 'INCH' | 'CM' | 'MM';
+    unit: "INCH" | "CM" | "MM";
   };
 };
 
 type SearchPackageQuery = {
   page_size: number;
-  sort_field?: 'create_time' | 'update_time' | 'order_pay_time';
-  sort_order?: 'ASC' | 'DESC';
+  sort_field?: "create_time" | "update_time" | "order_pay_time";
+  sort_order?: "ASC" | "DESC";
   page_token?: string;
 };
 
@@ -89,7 +89,7 @@ type SearchPackageBody = {
   create_time_lt?: number;
   update_time_ge?: number;
   update_time_lt?: number;
-  package_status?: 'PROCESSING' | 'FULFILLING' | 'COMPLETED' | 'CANCELLED';
+  package_status?: "PROCESSING" | "FULFILLING" | "COMPLETED" | "CANCELLED";
 };
 
 export type SearchPackageInput = {
@@ -126,14 +126,14 @@ export type CreatePackageBody = {
   order_line_item_ids?: string[];
   weight?: {
     value: string;
-    unit: 'GRAM' | 'POUND';
+    unit: "GRAM" | "POUND";
   };
   shipping_service_id?: string;
   dimension?: {
     length: string;
     width: string;
     height: string;
-    unit: 'CM' | 'INCH';
+    unit: "CM" | "INCH";
   };
 };
 
@@ -166,7 +166,7 @@ export type CreatePackagesResponse = {
 
 export type CreateFirstMileBundleBody = {
   order_ids: string[];
-  handover_method: 'PICKUP' | 'DROP_OFF';
+  handover_method: "PICKUP" | "DROP_OFF";
   shipping_provider_id?: string;
   tracking_number?: string;
   phone_tail_number?: string;

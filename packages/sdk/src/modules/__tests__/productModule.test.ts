@@ -9,8 +9,8 @@ class MockFormData {
 }
 (global as any).FormData = MockFormData;
 
-import path from 'path';
-import { ProductModule } from '../ProductModule';
+import path from "path";
+import { ProductModule } from "../ProductModule";
 import {
   ActivateProductInput,
   BrandCreateResponse,
@@ -89,16 +89,16 @@ import {
   UploadImageResponse,
   UploadProductFileParams,
   UploadProductFileResponse,
-} from '@types';
-import fs from 'fs';
+} from "@types";
+import fs from "fs";
 
-jest.mock('@client/RequestMultipart');
+jest.mock("@client/RequestMultipart");
 
-jest.mock('form-data');
+jest.mock("form-data");
 
-jest.mock('fs');
+jest.mock("fs");
 
-describe('ProductModule', () => {
+describe("ProductModule", () => {
   let mockRequest: jest.Mock;
   let productModule: ProductModule;
 
@@ -107,16 +107,16 @@ describe('ProductModule', () => {
     productModule = new ProductModule(mockRequest, mockRequest);
   });
 
-  it('should search inventory', async () => {
+  it("should search inventory", async () => {
     const mockBody: SearchInventoryBody = {
-      product_ids: ['123', '321'],
-      sku_ids: ['111', '222'],
+      product_ids: ["123", "321"],
+      sku_ids: ["111", "222"],
     };
 
     const mockResponse: TikTokAPIResponse<SearchInventoryResponse> = {
       code: 0,
-      message: 'Success',
-      request_id: '203947204234',
+      message: "Success",
+      request_id: "203947204234",
       data: {
         inventory: [{}],
       },
@@ -128,22 +128,22 @@ describe('ProductModule', () => {
 
     expect(res).toEqual(mockResponse);
     expect(mockRequest).toHaveBeenCalledWith({
-      method: 'POST',
-      path: '/product/202309/inventory/search',
+      method: "POST",
+      path: "/product/202309/inventory/search",
       body: mockBody,
     });
   });
 
-  it('should update product price', async () => {
+  it("should update product price", async () => {
     const params: UpdateProductPriceInput = {
-      product_id: '123456',
+      product_id: "123456",
       body: {
         skus: [
           {
-            id: '123',
+            id: "123",
             price: {
-              currency: 'IDR',
-              amount: '100000',
+              currency: "IDR",
+              amount: "100000",
             },
           },
         ],
@@ -152,8 +152,8 @@ describe('ProductModule', () => {
 
     const mockResponse: TikTokAPIResponse<UpdateProductPriceResponse> = {
       code: 0,
-      message: 'Success',
-      request_id: '203947204234',
+      message: "Success",
+      request_id: "203947204234",
       data: {
         result: true,
       },
@@ -165,23 +165,23 @@ describe('ProductModule', () => {
 
     expect(res).toEqual(mockResponse);
     expect(mockRequest).toHaveBeenCalledWith({
-      method: 'POST',
-      path: '/product/202309/products/123456/prices/update',
+      method: "POST",
+      path: "/product/202309/products/123456/prices/update",
       body: params.body,
     });
   });
 
-  it('should update product inventory', async () => {
+  it("should update product inventory", async () => {
     const params: UpdateProductInventoryInput = {
-      product_id: '789123',
+      product_id: "789123",
       body: {
         skus: [
           {
-            id: '112233',
+            id: "112233",
             inventory: [
               {
                 quantity: 1,
-                warehouse_id: '2309842034',
+                warehouse_id: "2309842034",
               },
             ],
           },
@@ -191,8 +191,8 @@ describe('ProductModule', () => {
 
     const mockResponse: TikTokAPIResponse<UpdateProductInventoryResponse> = {
       code: 0,
-      message: 'Success',
-      request_id: '203947204234',
+      message: "Success",
+      request_id: "203947204234",
       data: {},
     };
 
@@ -202,25 +202,25 @@ describe('ProductModule', () => {
 
     expect(res).toEqual(mockResponse);
     expect(mockRequest).toHaveBeenCalledWith({
-      method: 'POST',
-      path: '/product/202309/products/789123/inventory/update',
+      method: "POST",
+      path: "/product/202309/products/789123/inventory/update",
       body: params.body,
     });
   });
 
-  it('should recommend global category', async () => {
+  it("should recommend global category", async () => {
     const body: RecommendGlobalCategoryInput = {
-      product_title: 'Wireless Bluetooth Headphones',
-      description: 'High quality noise-cancelling headphones',
+      product_title: "Wireless Bluetooth Headphones",
+      description: "High quality noise-cancelling headphones",
     };
 
     const mockResponse: TikTokAPIResponse<RecommendGlobalCategoryResponse> = {
       code: 0,
-      message: 'Success',
-      request_id: '203947204234',
+      message: "Success",
+      request_id: "203947204234",
       data: {
         recommended_categories: [
-          { category_id: '123', category_name: 'Audio Devices' },
+          { category_id: "123", category_name: "Audio Devices" },
         ],
       },
     };
@@ -231,19 +231,19 @@ describe('ProductModule', () => {
 
     expect(res).toEqual(mockResponse);
     expect(mockRequest).toHaveBeenCalledWith({
-      method: 'POST',
-      path: '/product/202309/global_categories/recommend',
+      method: "POST",
+      path: "/product/202309/global_categories/recommend",
       body,
     });
   });
 
-  it('should get global product by ID', async () => {
-    const globalProductId = 'global-abc123';
+  it("should get global product by ID", async () => {
+    const globalProductId = "global-abc123";
 
     const mockResponse: TikTokAPIResponse<GetGlobalProductResponse> = {
       code: 0,
-      message: 'Success',
-      request_id: '203947204234',
+      message: "Success",
+      request_id: "203947204234",
       data: {},
     };
 
@@ -253,17 +253,17 @@ describe('ProductModule', () => {
 
     expect(res).toEqual(mockResponse);
     expect(mockRequest).toHaveBeenCalledWith({
-      method: 'GET',
+      method: "GET",
       path: `/product/202309/global_products/${globalProductId}`,
     });
   });
 
-  it('should create image translation tasks', async () => {
+  it("should create image translation tasks", async () => {
     const body: CreateImageTranslationTasksInput = {
       images: [
         {
-          image_uri: 'https://example.com/image.jpg',
-          target_languages: ['en', 'id'],
+          image_uri: "https://example.com/image.jpg",
+          target_languages: ["en", "id"],
         },
       ],
     };
@@ -271,10 +271,10 @@ describe('ProductModule', () => {
     const mockResponse: TikTokAPIResponse<CreateImageTranslationTasksResponse> =
       {
         code: 0,
-        message: 'Success',
-        request_id: '203947204234',
+        message: "Success",
+        request_id: "203947204234",
         data: {
-          translation_tasks: [{ id: '100' }],
+          translation_tasks: [{ id: "100" }],
         },
       };
 
@@ -284,24 +284,24 @@ describe('ProductModule', () => {
 
     expect(res).toEqual(mockResponse);
     expect(mockRequest).toHaveBeenCalledWith({
-      method: 'POST',
-      path: '/product/202505/images/translation_tasks',
+      method: "POST",
+      path: "/product/202505/images/translation_tasks",
       body,
     });
   });
 
-  it('should get global category rules', async () => {
+  it("should get global category rules", async () => {
     const params: GetGlobalCategoryRulesParams = {
-      category_id: 'cat-123',
+      category_id: "cat-123",
       query: {
-        locale: 'en-US',
+        locale: "en-US",
       },
     };
 
     const mockResponse: TikTokAPIResponse<GetGlobalCategoryRulesResponse> = {
       code: 0,
-      message: 'Success',
-      request_id: '203947204234',
+      message: "Success",
+      request_id: "203947204234",
       data: {
         manufacturer: {
           is_required: false,
@@ -315,21 +315,21 @@ describe('ProductModule', () => {
 
     expect(res).toEqual(mockResponse);
     expect(mockRequest).toHaveBeenCalledWith({
-      method: 'GET',
+      method: "GET",
       path: `/product/202309/categories/${params.category_id}/global_rules`,
       query: params.query,
     });
   });
 
-  it('should create a global product', async () => {
+  it("should create a global product", async () => {
     const body: CreateGlobalProductInput = {
-      title: 'Example Product',
-      category_id: 'cat-123',
-      brand_id: 'brand-999',
-      main_images: [{ uri: 'https://google.com' }],
+      title: "Example Product",
+      category_id: "cat-123",
+      brand_id: "brand-999",
+      main_images: [{ uri: "https://google.com" }],
       package_weight: {
-        unit: 'GRAM',
-        value: '10',
+        unit: "GRAM",
+        value: "10",
       },
       skus: [
         {
@@ -340,10 +340,10 @@ describe('ProductModule', () => {
 
     const mockResponse: TikTokAPIResponse<CreateGlobalProductResponse> = {
       code: 0,
-      message: 'Success',
-      request_id: '203947204234',
+      message: "Success",
+      request_id: "203947204234",
       data: {
-        global_product_id: 'gp-001',
+        global_product_id: "gp-001",
       },
     };
 
@@ -353,23 +353,23 @@ describe('ProductModule', () => {
 
     expect(res).toEqual(mockResponse);
     expect(mockRequest).toHaveBeenCalledWith({
-      method: 'POST',
-      path: '/product/202309/global_products',
+      method: "POST",
+      path: "/product/202309/global_products",
       body,
     });
   });
 
-  it('should edit a global product', async () => {
+  it("should edit a global product", async () => {
     const params: EditGlobalProductInput = {
-      global_product_id: 'gp-001',
+      global_product_id: "gp-001",
       body: {
-        title: 'Example Product',
-        category_id: 'cat-123',
-        brand_id: 'brand-999',
-        main_images: [{ uri: 'https://google.com' }],
+        title: "Example Product",
+        category_id: "cat-123",
+        brand_id: "brand-999",
+        main_images: [{ uri: "https://google.com" }],
         package_weight: {
-          unit: 'GRAM',
-          value: '10',
+          unit: "GRAM",
+          value: "10",
         },
         skus: [
           {
@@ -384,12 +384,12 @@ describe('ProductModule', () => {
       data: {
         global_skus: [
           {
-            id: '100',
+            id: "100",
           },
         ],
       },
-      message: 'Success',
-      request_id: '203947204234',
+      message: "Success",
+      request_id: "203947204234",
     };
 
     mockRequest.mockResolvedValueOnce(mockResponse);
@@ -398,22 +398,22 @@ describe('ProductModule', () => {
 
     expect(res).toEqual(mockResponse);
     expect(mockRequest).toHaveBeenCalledWith({
-      method: 'PUT',
+      method: "PUT",
       path: `/product/202309/global_products/${params.global_product_id}`,
       body: params.body,
     });
   });
 
-  it('should delete global products', async () => {
+  it("should delete global products", async () => {
     const body: DeleteGlobalProductsInput = {
-      global_product_ids: ['gp-001', 'gp-002'],
+      global_product_ids: ["gp-001", "gp-002"],
     };
 
     const mockResponse: TikTokAPIResponse<DeleteGlobalProductsResponse> = {
       code: 0,
       data: {},
-      message: 'Success',
-      request_id: '203947204234',
+      message: "Success",
+      request_id: "203947204234",
     };
 
     mockRequest.mockResolvedValueOnce(mockResponse);
@@ -422,19 +422,19 @@ describe('ProductModule', () => {
 
     expect(res).toEqual(mockResponse);
     expect(mockRequest).toHaveBeenCalledWith({
-      method: 'DELETE',
-      path: '/product/202309/global_products',
+      method: "DELETE",
+      path: "/product/202309/global_products",
       body,
     });
   });
 
-  it('should search global products', async () => {
+  it("should search global products", async () => {
     const mockResponse = { data: { products: [] } };
     mockRequest.mockResolvedValue(mockResponse);
 
     const bodyParam: SearchGlobalProductsBody = {
-      status: 'PUBLISHED',
-      seller_skus: ['Color-Red-001'],
+      status: "PUBLISHED",
+      seller_skus: ["Color-Red-001"],
       create_time_ge: 1694576429,
       create_time_le: 1694576429,
       update_time_ge: 1694576429,
@@ -452,66 +452,66 @@ describe('ProductModule', () => {
 
     expect(res).toEqual(mockResponse);
     expect(mockRequest).toHaveBeenCalledWith({
-      method: 'POST',
-      path: '/product/202312/global_products/search',
+      method: "POST",
+      path: "/product/202312/global_products/search",
       body: bodyParam,
       query,
     });
   });
 
-  it('should upload a product file', async () => {
-    const fakeBuffer = Buffer.from('dummy-file-data');
-    const filePath = path.join(process.cwd(), 'files/sample.csv');
+  it("should upload a product file", async () => {
+    const fakeBuffer = Buffer.from("dummy-file-data");
+    const filePath = path.join(process.cwd(), "files/sample.csv");
 
-    jest.spyOn(fs, 'readFileSync').mockReturnValue(fakeBuffer);
+    jest.spyOn(fs, "readFileSync").mockReturnValue(fakeBuffer);
 
     const mockRes: TikTokAPIResponse<UploadProductFileResponse> = {
       code: 0,
       data: {
-        url: 'https://example.com/files/sample.csv',
+        url: "https://example.com/files/sample.csv",
       },
-      message: 'success',
-      request_id: '92834928479234',
+      message: "success",
+      request_id: "92834928479234",
     };
 
     const uploadSpy = jest
-      .spyOn(productModule, 'uploadProductFile')
+      .spyOn(productModule, "uploadProductFile")
       .mockResolvedValue(mockRes);
 
     const fileBuffer = fs.readFileSync(filePath);
 
     const response = await productModule.uploadProductFile({
       data: fileBuffer,
-      name: 'sample.csv',
+      name: "sample.csv",
       required: true,
     });
 
     expect(fs.readFileSync).toHaveBeenCalledWith(filePath);
     expect(uploadSpy).toHaveBeenCalledWith({
       data: fakeBuffer,
-      name: 'sample.csv',
+      name: "sample.csv",
       required: true,
     });
     expect(response).toEqual(mockRes);
   });
 
-  it('should checkProductListing send correct request and return response', async () => {
+  it("should checkProductListing send correct request and return response", async () => {
     const mockResponse: TikTokAPIResponse<CheckProductListingResponse> = {
       code: 0,
-      message: 'success',
-      request_id: 'mocked-request-id',
+      message: "success",
+      request_id: "mocked-request-id",
       data: {},
     };
 
     const mockRequest = jest
-      .spyOn(productModule as any, 'request')
+      .spyOn(productModule as any, "request")
       .mockResolvedValue(mockResponse);
 
     const body: CheckProductListingBody = {
-      category_id: '123',
-      description: 'Desc here',
-      main_images: [{ uri: 'htps://images.com/' }],
-      title: 'Title here',
+      category_id: "123",
+      description: "Desc here",
+      main_images: [{ uri: "htps://images.com/" }],
+      title: "Title here",
     };
 
     const res = await productModule.checkProductListing(body);
@@ -519,25 +519,25 @@ describe('ProductModule', () => {
     expect(res).toEqual(mockResponse);
 
     expect(mockRequest).toHaveBeenCalledWith({
-      method: 'POST',
-      path: '/product/202309/products/listing_check',
+      method: "POST",
+      path: "/product/202309/products/listing_check",
       body,
     });
   });
 
-  it('should update global inventory', async () => {
+  it("should update global inventory", async () => {
     const mockResponse = { data: {} };
     mockRequest.mockResolvedValue(mockResponse);
 
     const bodyParam: UpdateGlobalInventoryInput = {
-      global_product_id: '123',
+      global_product_id: "123",
       body: {
         global_skus: [
           {
-            id: '1729592969712207013',
+            id: "1729592969712207013",
             inventory: [
               {
-                global_warehouse_id: '7068517275539719942',
+                global_warehouse_id: "7068517275539719942",
                 quantity: 999,
               },
             ],
@@ -551,32 +551,32 @@ describe('ProductModule', () => {
     expect(res).toEqual(mockResponse);
     expect(mockRequest).toHaveBeenCalledWith({
       path: `/product/202309/global_products/${bodyParam.global_product_id}/inventory/update`,
-      method: 'POST',
+      method: "POST",
       body: bodyParam.body,
     });
   });
 
-  it('should publish global product', async () => {
+  it("should publish global product", async () => {
     const mockResponse = { data: {} };
     mockRequest.mockResolvedValue(mockResponse);
 
     const body: PublishGlobalProductInput = {
-      global_product_id: '123',
+      global_product_id: "123",
       body: {
         publish_target: [
           {
-            region: 'MY',
-            responsible_person_ids: ['id1'],
-            manufacturer_ids: ['id1'],
+            region: "MY",
+            responsible_person_ids: ["id1"],
+            manufacturer_ids: ["id1"],
             skus: [
               {
-                related_global_sku_id: 'sku_id',
+                related_global_sku_id: "sku_id",
                 price: {
-                  amount: '10.01',
-                  currency: 'MYR',
-                  sale_price: '100.00',
+                  amount: "10.01",
+                  currency: "MYR",
+                  sale_price: "100.00",
                 },
-                inventory: { warehouse_id: 'wh_1', quantity: 999 },
+                inventory: { warehouse_id: "wh_1", quantity: 999 },
               },
             ],
           },
@@ -589,29 +589,29 @@ describe('ProductModule', () => {
     expect(res).toEqual(mockResponse);
     expect(mockRequest).toHaveBeenCalledWith({
       path: `/product/202309/global_products/${body.global_product_id}/publish`,
-      method: 'POST',
+      method: "POST",
       body: body.body,
     });
   });
 
-  it('should create image translation tasks', async () => {
+  it("should create image translation tasks", async () => {
     const mockResponse: TikTokAPIResponse<CreateImageTranslationTasksResponse> =
       {
         code: 0,
-        message: 'success',
-        request_id: 'mocked-request-id',
+        message: "success",
+        request_id: "mocked-request-id",
         data: {},
       };
 
     const mockCreate = jest
-      .spyOn(productModule, 'createImageTranslationTasks')
+      .spyOn(productModule, "createImageTranslationTasks")
       .mockResolvedValue(mockResponse);
 
     const input = {
       images: [
         {
-          image_uri: 'test_image_url',
-          target_languages: ['en', 'id'],
+          image_uri: "test_image_url",
+          target_languages: ["en", "id"],
         },
       ],
     };
@@ -621,62 +621,62 @@ describe('ProductModule', () => {
     expect(res).toEqual(mockResponse);
     expect(mockCreate).toHaveBeenCalledWith(input);
   });
-  it('should get image translation tasks', async () => {
+  it("should get image translation tasks", async () => {
     const mockResponse = { data: {} };
     mockRequest.mockResolvedValue(mockResponse);
 
     const res = await productModule.getImageTranslationTasks({
-      translation_task_ids: ['03495703459345', '2034720340234'],
+      translation_task_ids: ["03495703459345", "2034720340234"],
     });
 
     expect(res).toEqual(mockResponse);
     expect(mockRequest).toHaveBeenCalledWith({
-      path: '/product/202506/images/translation_tasks',
-      method: 'GET',
-      query: { translation_task_ids: ['03495703459345', '2034720340234'] },
+      path: "/product/202506/images/translation_tasks",
+      method: "GET",
+      query: { translation_task_ids: ["03495703459345", "2034720340234"] },
     });
   });
 
-  describe('Other Product Module', () => {
-    it('should call request with correct GET path and return response', async () => {
+  describe("Other Product Module", () => {
+    it("should call request with correct GET path and return response", async () => {
       const mockResponse = {
         code: 0,
         data: { needsReturnWarehouse: true, needsBrandApproval: false },
-        message: 'success',
+        message: "success",
       };
       mockRequest.mockResolvedValue(mockResponse);
 
       const result = await productModule.getProductPrerequisites();
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'GET',
-        path: '/product/202309/prerequisites',
+        method: "GET",
+        path: "/product/202309/prerequisites",
       });
       expect(result).toBe(mockResponse);
     });
 
-    it('should call request with correct parameters in searchSizeCharts', async () => {
+    it("should call request with correct parameters in searchSizeCharts", async () => {
       const mockRes: TikTokAPIResponse<SearchSizeChartResponse> = {
         data: {
           size_chart: [
             {
-              template_id: '7362027385890244398',
-              template_name: 'size chart',
+              template_id: "7362027385890244398",
+              template_name: "size chart",
               images: [
                 {
-                  uri: 'tos-maliva-i-o3syd03w52-us/c668cdf70b7f483c94dbe',
-                  url: 'https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036',
-                  locale: 'en-US',
+                  uri: "tos-maliva-i-o3syd03w52-us/c668cdf70b7f483c94dbe",
+                  url: "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036",
+                  locale: "en-US",
                 },
               ],
             },
           ],
-          next_page_token: 'b2Zmc2V0PTAK',
+          next_page_token: "b2Zmc2V0PTAK",
           total_count: 100,
         },
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -685,7 +685,7 @@ describe('ProductModule', () => {
 
       const paramInput: SearchSizeChartsInput = {
         body: {
-          keyword: 't-shirt',
+          keyword: "t-shirt",
         },
         query: {
           page_size: 10,
@@ -695,8 +695,8 @@ describe('ProductModule', () => {
       const result = await product.searchSizeCharts(paramInput);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'POST',
-        path: '/product/202407/sizecharts/search',
+        method: "POST",
+        path: "/product/202407/sizecharts/search",
         query: paramInput.query,
         body: paramInput.body,
       });
@@ -705,48 +705,48 @@ describe('ProductModule', () => {
     });
   });
 
-  describe('Testing Categries Product', () => {
-    it('should call request with correct GET path and query params, then return response', async () => {
+  describe("Testing Categries Product", () => {
+    it("should call request with correct GET path and query params, then return response", async () => {
       const query: GetCategoriesQuery = {
-        locale: 'id-ID',
-        keyword: 'Kaos',
-        category_version: 'v1',
-        listing_platform: 'TIKTOK_SHOP',
+        locale: "id-ID",
+        keyword: "Kaos",
+        category_version: "v1",
+        listing_platform: "TIKTOK_SHOP",
       };
       const mockResponse = {
         code: 0,
-        data: { categories: [{ id: 1001, name: 'Clothing' }] },
-        message: 'success',
+        data: { categories: [{ id: 1001, name: "Clothing" }] },
+        message: "success",
       };
       mockRequest.mockResolvedValue(mockResponse);
 
       const result = await productModule.getCategories(query);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'GET',
-        path: '/product/202309/categories',
+        method: "GET",
+        path: "/product/202309/categories",
         query,
       });
       expect(result).toBe(mockResponse);
     });
 
-    it('should call request with correct parameters in recommendCategory', async () => {
+    it("should call request with correct parameters in recommendCategory", async () => {
       const mockRes: TikTokAPIResponse<RecommendCategoryByProductResponse> = {
         data: {
-          leaf_category_id: '605254',
+          leaf_category_id: "605254",
           categories: [
             {
-              id: '605254',
-              name: 'Teas',
+              id: "605254",
+              name: "Teas",
               level: 1,
               is_leaf: true,
-              permission_statuses: ['INVITE_ONLY'],
+              permission_statuses: ["INVITE_ONLY"],
             },
           ],
         },
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -755,24 +755,24 @@ describe('ProductModule', () => {
 
       const input: RecommendCategoryByProductParams = {
         product_title:
-          'Kaos Anime Senku Dr. Stone Unisex Original Cotton Lengan Pendek',
+          "Kaos Anime Senku Dr. Stone Unisex Original Cotton Lengan Pendek",
       };
 
       const result = await product.recommendCategory(input);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'POST',
-        path: '/product/202309/categories/recommend',
+        method: "POST",
+        path: "/product/202309/categories/recommend",
         body: input,
       });
 
       expect(result).toEqual(mockRes);
     });
 
-    it('should call request with correct parameters in getCategoryRules', async () => {
+    it("should call request with correct parameters in getCategoryRules", async () => {
       const mockRes: TikTokAPIResponse<GetCategoryRulesResponse> = {
         data: {
-          allowed_special_product_types: ['PRE_ORDER'],
+          allowed_special_product_types: ["PRE_ORDER"],
           cod: { is_supported: true },
           epr: { is_required: false },
           manufacturer: { is_required: false },
@@ -782,8 +782,8 @@ describe('ProductModule', () => {
           size_chart: { is_required: true, is_supported: true },
         },
         code: 0,
-        message: 'Success',
-        request_id: '202505300714081AB426BE9CD57B00477F',
+        message: "Success",
+        request_id: "202505300714081AB426BE9CD57B00477F",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -791,17 +791,17 @@ describe('ProductModule', () => {
       const product = new ProductModule(mockRequest, mockRequest);
 
       const input: GetCategoryRulesQuery = {
-        category_id: '601226',
+        category_id: "601226",
         query: {
-          category_version: 'v1',
-          locale: 'en-US',
+          category_version: "v1",
+          locale: "en-US",
         },
       };
 
       const result = await product.getCategoryRules(input);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'GET',
+        method: "GET",
         path: `/product/202309/categories/${input.category_id}/rules`,
         query: input.query,
       });
@@ -809,28 +809,28 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('should call request with correct parameters in getAttributes', async () => {
+    it("should call request with correct parameters in getAttributes", async () => {
       const mockRes: TikTokAPIResponse<GetAttributesResponse> = {
         data: {
           attributes: [
             {
-              id: '100392',
-              name: 'Occasion',
-              type: 'PRODUCT_PROPERTY',
+              id: "100392",
+              name: "Occasion",
+              type: "PRODUCT_PROPERTY",
               is_requried: false,
               values: [
                 {
-                  id: '1001533',
-                  name: 'Birthday',
+                  id: "1001533",
+                  name: "Birthday",
                 },
               ],
-              value_data_format: 'POSITIVE_INT_OR_DECIMAL',
+              value_data_format: "POSITIVE_INT_OR_DECIMAL",
               is_customizable: true,
               requirement_conditions: [
                 {
-                  condition_type: 'VALUE_ID_MATCH',
-                  attribute_id: '101610',
-                  attribute_value_id: '1024358',
+                  condition_type: "VALUE_ID_MATCH",
+                  attribute_id: "101610",
+                  attribute_value_id: "1024358",
                 },
               ],
               is_multiple_selection: true,
@@ -838,8 +838,8 @@ describe('ProductModule', () => {
           ],
         },
         code: 0,
-        message: 'Success',
-        request_id: '202505300714081AB426BE9CD57B00477F',
+        message: "Success",
+        request_id: "202505300714081AB426BE9CD57B00477F",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -847,17 +847,17 @@ describe('ProductModule', () => {
       const product = new ProductModule(mockRequest, mockRequest);
 
       const input: GetCategoryAttributes = {
-        category_id: '601226',
+        category_id: "601226",
         query: {
-          category_version: 'v1',
-          locale: 'en-US',
+          category_version: "v1",
+          locale: "en-US",
         },
       };
 
       const result = await product.getAttributes(input);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'GET',
+        method: "GET",
         path: `/product/202309/categories/${input.category_id}/attributes`,
         query: input.query,
       });
@@ -865,12 +865,12 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('Upgrade category using createCategoryUpgradeTask', async () => {
+    it("Upgrade category using createCategoryUpgradeTask", async () => {
       const mockRes: TikTokAPIResponse<{}> = {
         data: {},
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -880,29 +880,29 @@ describe('ProductModule', () => {
       const result = await product.createCategoryUpgradeTask();
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'POST',
+        method: "POST",
         path: `/product/202407/products/category_upgrade_task`,
       });
 
       expect(result).toEqual(mockRes);
     });
 
-    it('get global category using getGlobalCategories', async () => {
+    it("get global category using getGlobalCategories", async () => {
       const mockRes: TikTokAPIResponse<GetGlobalCategoriesResponse> = {
         data: {
           categories: [
             {
-              id: '600001',
-              parent_id: '0',
-              local_name: 'Home Supplies',
+              id: "600001",
+              parent_id: "0",
+              local_name: "Home Supplies",
               is_leaf: false,
-              permission_statuses: ['AVAILABLE'],
+              permission_statuses: ["AVAILABLE"],
             },
           ],
         },
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -910,13 +910,13 @@ describe('ProductModule', () => {
       const product = new ProductModule(mockRequest, mockRequest);
 
       const query: GetGlobalCategoriesQuery = {
-        keyword: 'T-Shirt',
+        keyword: "T-Shirt",
       };
 
       const result = await product.getGlobalCategories(query);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'GET',
+        method: "GET",
         path: `/product/202309/global_categories`,
         query,
       });
@@ -924,14 +924,14 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('get global category using getGlobalCategories', async () => {
+    it("get global category using getGlobalCategories", async () => {
       const mockRes: TikTokAPIResponse<GetGlobalAttributeResponse> = {
         data: {
           attributes: [],
         },
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -939,16 +939,16 @@ describe('ProductModule', () => {
       const product = new ProductModule(mockRequest, mockRequest);
 
       const params: GetGlobalAttributesQuery = {
-        category_id: '600001',
+        category_id: "600001",
         query: {
-          locale: 'id-ID',
+          locale: "id-ID",
         },
       };
 
       const result = await product.getGlobalAttributes(params);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'GET',
+        method: "GET",
         path: `/product/202309/categories/${params.category_id}/global_attributes`,
         query: params.query,
       });
@@ -957,13 +957,13 @@ describe('ProductModule', () => {
     });
   });
 
-  describe('Testing Manufactures', () => {
-    it('should call request with correct param in createManufactures', async () => {
+  describe("Testing Manufactures", () => {
+    it("should call request with correct param in createManufactures", async () => {
       const mockRes: TikTokAPIResponse<CreateManufacturerResponse> = {
-        data: { manufacturer_id: '' },
+        data: { manufacturer_id: "" },
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -971,21 +971,21 @@ describe('ProductModule', () => {
       const product = new ProductModule(mockRequest, mockRequest);
 
       const bodyParam: CreateManufacturerInput = {
-        name: 'John Doe',
-        registered_trade_name: 'TikTok Shop',
-        email: 'johndoe@email.com',
+        name: "John Doe",
+        registered_trade_name: "TikTok Shop",
+        email: "johndoe@email.com",
         phone_number: {
-          country_code: '+65',
-          local_number: '81234567',
+          country_code: "+65",
+          local_number: "81234567",
         },
-        address: 'One Raffles Quay, 1 Raffles Quay, Singapore 048583',
-        locale: 'en-IE',
+        address: "One Raffles Quay, 1 Raffles Quay, Singapore 048583",
+        locale: "en-IE",
       };
 
       const result = await product.createManufacturer(bodyParam);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'POST',
+        method: "POST",
         path: `/product/202409/compliance/manufacturers`,
         body: bodyParam,
       });
@@ -993,12 +993,12 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('should call request with correct param in searchManufactures', async () => {
+    it("should call request with correct param in searchManufactures", async () => {
       const mockRes: TikTokAPIResponse<GetManufacturersResponse> = {
-        data: { manufacturers: [], next_page_token: '', total_count: 0 },
+        data: { manufacturers: [], next_page_token: "", total_count: 0 },
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -1007,8 +1007,8 @@ describe('ProductModule', () => {
 
       const params: SearchManufacturerQuery = {
         body: {
-          manufacturer_ids: ['66d3cbe4d9c8b09ddca932a7'],
-          keyword: 'John',
+          manufacturer_ids: ["66d3cbe4d9c8b09ddca932a7"],
+          keyword: "John",
         },
         query: {
           page_size: 1,
@@ -1018,7 +1018,7 @@ describe('ProductModule', () => {
       const result = await product.searchManufacturer(params);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'POST',
+        method: "POST",
         path: `/product/202501/compliance/manufacturers/search`,
         query: params.query,
         body: params.body,
@@ -1027,12 +1027,12 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('edit responsible person using editPartialManufacturer', async () => {
+    it("edit responsible person using editPartialManufacturer", async () => {
       const mockRes: TikTokAPIResponse<{}> = {
         data: {},
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -1041,23 +1041,23 @@ describe('ProductModule', () => {
 
       const paramInput: EditPartialManufacturerParam = {
         body: {
-          name: 'John Doe Edit',
-          email: 'john.doe@email.com',
+          name: "John Doe Edit",
+          email: "john.doe@email.com",
           phone_number: {
-            country_code: '+353',
-            local_number: '80915151',
+            country_code: "+353",
+            local_number: "80915151",
           },
-          registered_trade_name: 'Tiktok Shop',
-          address: '63 Cardiff Ln, Grand Canal Dock, Dublin City, Dublin',
-          locale: 'en-IE',
+          registered_trade_name: "Tiktok Shop",
+          address: "63 Cardiff Ln, Grand Canal Dock, Dublin City, Dublin",
+          locale: "en-IE",
         },
-        manufacturer_id: '304950349583045345',
+        manufacturer_id: "304950349583045345",
       };
 
       const result = await product.editPartialManufacturer(paramInput);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'POST',
+        method: "POST",
         path: `/product/202409/compliance/manufacturers/${paramInput.manufacturer_id}/partial_edit`,
         body: paramInput.body,
       });
@@ -1066,15 +1066,15 @@ describe('ProductModule', () => {
     });
   });
 
-  describe('Testing Brands', () => {
-    it('should call request with correct parameters in createCustomBrands', async () => {
+  describe("Testing Brands", () => {
+    it("should call request with correct parameters in createCustomBrands", async () => {
       const mockRes: TikTokAPIResponse<BrandCreateResponse> = {
         data: {
-          id: '7510161790286776065',
+          id: "7510161790286776065",
         },
         code: 0,
-        message: 'Success',
-        request_id: '202505300714081AB426BE9CD57B00477F',
+        message: "Success",
+        request_id: "202505300714081AB426BE9CD57B00477F",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -1082,13 +1082,13 @@ describe('ProductModule', () => {
       const product = new ProductModule(mockRequest, mockRequest);
 
       const input: BrandInput = {
-        name: 'Name Brand 2',
+        name: "Name Brand 2",
       };
 
       const result = await product.createCustomBrands(input);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'POST',
+        method: "POST",
         path: `/product/202309/brands`,
         body: input,
       });
@@ -1096,24 +1096,24 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('should call request with correct parameters in getBrands', async () => {
+    it("should call request with correct parameters in getBrands", async () => {
       const mockRes: TikTokAPIResponse<GetBrandsResponse> = {
         data: {
           brands: [
             {
-              id: '7082427311584347905',
-              name: 'Teas',
-              authorized_status: 'AUTHORIZED',
+              id: "7082427311584347905",
+              name: "Teas",
+              authorized_status: "AUTHORIZED",
               is_t1_brand: true,
-              brand_status: 'AVAILABLE',
+              brand_status: "AVAILABLE",
             },
           ],
           total_count: 10000,
-          next_page_token: 'b2Zmc2V0PTAK',
+          next_page_token: "b2Zmc2V0PTAK",
         },
         code: 0,
-        message: 'Success',
-        request_id: '202505300714081AB426BE9CD57B00477F',
+        message: "Success",
+        request_id: "202505300714081AB426BE9CD57B00477F",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -1127,7 +1127,7 @@ describe('ProductModule', () => {
       const result = await product.getBrands(query);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'GET',
+        method: "GET",
         path: `/product/202309/brands`,
         query: query,
       });
@@ -1136,44 +1136,44 @@ describe('ProductModule', () => {
     });
   });
 
-  describe('Testing Products', () => {
-    it('Search products using searchProducts', async () => {
+  describe("Testing Products", () => {
+    it("Search products using searchProducts", async () => {
       const mockRes: TikTokAPIResponse<SearchProductsResponse> = {
         data: {
           total_count: 200,
           products: [
             {
-              id: '1729592969712207008',
-              title: 'Short Boat Invisible Socks',
-              status: 'ACTIVATE',
+              id: "1729592969712207008",
+              title: "Short Boat Invisible Socks",
+              status: "ACTIVATE",
               skus: [
                 {
-                  id: '1729592969712207012',
-                  seller_sku: 'Color-Red-XM01',
+                  id: "1729592969712207012",
+                  seller_sku: "Color-Red-XM01",
                   price: {
-                    currency: 'USD',
-                    tax_exclusive_price: '111.01',
-                    sale_price: '121.11',
+                    currency: "USD",
+                    tax_exclusive_price: "111.01",
+                    sale_price: "121.11",
                   },
                   inventory: [
                     {
-                      warehouse_id: '7068517275539719942',
+                      warehouse_id: "7068517275539719942",
                       quantity: 999,
                     },
                   ],
                   list_price: {
-                    amount: '1',
-                    currency: 'USD',
+                    amount: "1",
+                    currency: "USD",
                   },
                   external_list_prices: [
                     {
-                      source: 'SHOPIFY_COMPARE_AT_PRICE',
-                      amount: '1',
-                      currency: 'USD',
+                      source: "SHOPIFY_COMPARE_AT_PRICE",
+                      amount: "1",
+                      currency: "USD",
                     },
                   ],
                   pre_sale: {
-                    type: 'PRE_ORDER',
+                    type: "PRE_ORDER",
                     fulfillment_type: {
                       handling_duration_days: 7,
                       release_date: 1619611761,
@@ -1181,47 +1181,47 @@ describe('ProductModule', () => {
                   },
                 },
               ],
-              sales_regions: ['US'],
+              sales_regions: ["US"],
               create_time: 1234567890,
               update_time: 1234567800,
               product_sync_fail_reasons: [
-                'The required qualification is missed.',
+                "The required qualification is missed.",
               ],
               is_not_for_sale: true,
               recommended_categories: [
                 {
-                  id: '853000',
-                  local_name: 'Botol & Stoples Penyimpanan',
+                  id: "853000",
+                  local_name: "Botol & Stoples Penyimpanan",
                 },
               ],
-              listing_quality_tier: 'POOR',
+              listing_quality_tier: "POOR",
               integrated_platform_statuses: [
                 {
-                  platform: 'TOKOPEDIA',
-                  status: 'PLATFORM_DEACTIVATED',
+                  platform: "TOKOPEDIA",
+                  status: "PLATFORM_DEACTIVATED",
                 },
               ],
               audit: {
-                status: 'AUDITING',
-                pre_approved_reasons: ['KYC_PENDING'],
+                status: "AUDITING",
+                pre_approved_reasons: ["KYC_PENDING"],
               },
               product_families: [
                 {
-                  id: '1000592969712207000',
+                  id: "1000592969712207000",
                   products: [
                     {
-                      id: '1729592969712207008',
+                      id: "1729592969712207008",
                     },
                   ],
                 },
               ],
             },
           ],
-          next_page_token: 'b2Zmc2V0PTAK',
+          next_page_token: "b2Zmc2V0PTAK",
         },
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -1230,7 +1230,7 @@ describe('ProductModule', () => {
 
       const paramInput: SearchProductInput = {
         body: {
-          status: 'ALL',
+          status: "ALL",
         },
         query: {
           page_size: 10,
@@ -1240,8 +1240,8 @@ describe('ProductModule', () => {
       const result = await product.searchProducts(paramInput);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'POST',
-        path: '/product/202502/products/search',
+        method: "POST",
+        path: "/product/202502/products/search",
         query: paramInput.query,
         body: paramInput.body,
       });
@@ -1249,43 +1249,43 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('Get product Detail using getProduct', async () => {
+    it("Get product Detail using getProduct", async () => {
       const mockRes: TikTokAPIResponse<GetProductResponse> = {
         data: {
-          id: '1729592969712207008',
-          status: 'SELLER_DEACTIVATED',
-          title: 'Short Boat Invisible Socks',
+          id: "1729592969712207008",
+          status: "SELLER_DEACTIVATED",
+          title: "Short Boat Invisible Socks",
           category_chains: [
             {
-              id: '853000',
-              parent_id: '851848',
-              local_name: 'Botol & Stoples Penyimpanan',
+              id: "853000",
+              parent_id: "851848",
+              local_name: "Botol & Stoples Penyimpanan",
               is_leaf: true,
             },
           ],
           brand: {
-            id: '7082427311584347905',
-            name: 'brand xxx aaa',
+            id: "7082427311584347905",
+            name: "brand xxx aaa",
           },
           main_images: [
             {
               height: 600,
               width: 600,
               thumb_urls: [
-                'https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036',
+                "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036",
               ],
-              uri: 'tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4',
+              uri: "tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4",
               urls: [
-                'https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036',
+                "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036",
               ],
             },
           ],
           video: {
-            id: 'v09ea0g40000cj91373c77u3mid3g1s0',
+            id: "v09ea0g40000cj91373c77u3mid3g1s0",
             cover_url:
-              'https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036',
-            format: 'MP4',
-            url: 'https://v16m-default.akamaized.net/bbae7099581b26cd340beaa7821b2d8c/64de6020/video/tos/alisg/tos-alisg-v-f466fc-sg/oMne9QuzIBN3fIDN7bFCCMbBKuGigg12ghDC8k/?a=0&ch=0&cr=0&dr=0&er=0&lr=default&cd=0%7C0%7C0%7C0&br=2212&bt=1106&cs=0&ds=3&ft=dl9~j-Inz7TKnfsfiyq8Z&mime_type=video_mp4&qs=13&rc=anR4Ojk6ZmYzbTMzODRmNEBpanR4Ojk6ZmYzbTMzODRmNEBsYWFwcjRva2NgLS1kLy1zYSNsYWFwcjRva2NgLS1kLy1zcw%3D%3D&l=202308171159498F7B108584E58B010932&btag=e00048000',
+              "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036",
+            format: "MP4",
+            url: "https://v16m-default.akamaized.net/bbae7099581b26cd340beaa7821b2d8c/64de6020/video/tos/alisg/tos-alisg-v-f466fc-sg/oMne9QuzIBN3fIDN7bFCCMbBKuGigg12ghDC8k/?a=0&ch=0&cr=0&dr=0&er=0&lr=default&cd=0%7C0%7C0%7C0&br=2212&bt=1106&cs=0&ds=3&ft=dl9~j-Inz7TKnfsfiyq8Z&mime_type=video_mp4&qs=13&rc=anR4Ojk6ZmYzbTMzODRmNEBpanR4Ojk6ZmYzbTMzODRmNEBsYWFwcjRva2NgLS1kLy1zYSNsYWFwcjRva2NgLS1kLy1zcw%3D%3D&l=202308171159498F7B108584E58B010932&btag=e00048000",
             width: 1280,
             height: 480,
             size: 1000,
@@ -1293,122 +1293,122 @@ describe('ProductModule', () => {
           description:
             '<p>Please compare above detailed size with your measurement before purchase.</p>\n<ul> \n  <li>M-Size</li>\n  <li>XL-Size</li>\n</ul> \n<img src="https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/181595ea7d26489284b5667488d708c1~tplv-o3syd03w52-origin-jpeg.jpeg?from=1432613627" />\n',
           package_dimensions: {
-            length: '10',
-            width: '10',
-            height: '10',
-            unit: 'CENTIMETER',
+            length: "10",
+            width: "10",
+            height: "10",
+            unit: "CENTIMETER",
           },
           package_weight: {
-            value: '1.32',
-            unit: 'KILOGRAM',
+            value: "1.32",
+            unit: "KILOGRAM",
           },
           skus: [
             {
-              id: '10001',
-              seller_sku: 'sku name',
+              id: "10001",
+              seller_sku: "sku name",
               price: {
-                tax_exclusive_price: '110',
-                sale_price: '117.5',
-                currency: 'USD',
-                unit_price: '1',
+                tax_exclusive_price: "110",
+                sale_price: "117.5",
+                currency: "USD",
+                unit_price: "1",
               },
               inventory: [
                 {
-                  warehouse_id: '6966568648651605766',
+                  warehouse_id: "6966568648651605766",
                   quantity: 999,
                 },
               ],
               identifier_code: {
-                code: '10000000000010',
-                type: 'GTIN',
+                code: "10000000000010",
+                type: "GTIN",
               },
               sales_attributes: [
                 {
-                  id: '100000',
-                  name: 'Color',
-                  value_id: '100000',
-                  value_name: 'Red',
+                  id: "100000",
+                  name: "Color",
+                  value_id: "100000",
+                  value_name: "Red",
                   sku_img: {
                     height: 100,
                     width: 100,
                     thumb_urls: [
-                      'https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036',
+                      "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036",
                     ],
-                    uri: 'tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4',
+                    uri: "tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4",
                     urls: [
-                      'https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036',
+                      "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036",
                     ],
                   },
                   supplementary_sku_images: [
                     {
-                      uri: 'tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4',
+                      uri: "tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4",
                       height: 100,
                       width: 100,
                       thumb_urls: [
-                        'https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036',
+                        "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036",
                       ],
                       urls: [
-                        'https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036',
+                        "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036",
                       ],
                     },
                   ],
                 },
               ],
-              external_sku_id: '1729592969712207234',
+              external_sku_id: "1729592969712207234",
               combined_skus: [
                 {
-                  product_id: '1729582718312380123',
-                  sku_id: '1729582718312380123',
+                  product_id: "1729582718312380123",
+                  sku_id: "1729582718312380123",
                   sku_count: 1,
                 },
               ],
               global_listing_policy: {
                 price_sync: true,
-                inventory_type: 'SHARED',
+                inventory_type: "SHARED",
                 replicate_source: {
-                  product_id: '1729592969712203232',
-                  shop_id: '7295929697122032321',
-                  sku_id: '1729592969712203232',
+                  product_id: "1729592969712203232",
+                  shop_id: "7295929697122032321",
+                  sku_id: "1729592969712203232",
                 },
               },
-              sku_unit_count: '1.00',
+              sku_unit_count: "1.00",
               external_urls: [
-                'https://example.com/path1',
-                'https://example.com/path2',
+                "https://example.com/path1",
+                "https://example.com/path2",
               ],
-              extra_identifier_codes: ['00012345678905', '9780596520687'],
+              extra_identifier_codes: ["00012345678905", "9780596520687"],
               pre_sale: {
-                type: 'PRE_ORDER',
+                type: "PRE_ORDER",
                 fulfillment_type: {
                   handling_duration_days: 3,
                   release_date: 1619611761,
                 },
               },
               list_price: {
-                amount: '1',
-                currency: 'USD',
+                amount: "1",
+                currency: "USD",
               },
               external_list_prices: [
                 {
-                  source: 'SHOPIFY_COMPARE_AT_PRICE',
-                  amount: '1',
-                  currency: 'USD',
+                  source: "SHOPIFY_COMPARE_AT_PRICE",
+                  amount: "1",
+                  currency: "USD",
                 },
               ],
             },
           ],
           certifications: [
             {
-              id: '602362',
-              title: 'SNI Certificate',
+              id: "602362",
+              title: "SNI Certificate",
               files: [
                 {
-                  id: 'v09ea0g40000cj91373c77u3mid3g1s0',
+                  id: "v09ea0g40000cj91373c77u3mid3g1s0",
                   urls: [
-                    'https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036',
+                    "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036",
                   ],
-                  name: 'CERT_X2.PDF',
-                  format: 'PDF',
+                  name: "CERT_X2.PDF",
+                  format: "PDF",
                 },
               ],
               images: [
@@ -1416,11 +1416,11 @@ describe('ProductModule', () => {
                   height: 600,
                   width: 600,
                   thumb_urls: [
-                    'https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036',
+                    "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036",
                   ],
-                  uri: 'tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4',
+                  uri: "tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4",
                   urls: [
-                    'https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036',
+                    "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036",
                   ],
                 },
               ],
@@ -1432,86 +1432,86 @@ describe('ProductModule', () => {
               height: 600,
               width: 600,
               thumb_urls: [
-                'https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036',
+                "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036",
               ],
-              uri: 'tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4',
+              uri: "tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4",
               urls: [
-                'https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036',
+                "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/6c8519a3663a4d728c4e3c131dc914b4~tplv-o3syd03w52-resize-jpeg:300:300.jpeg?from=522366036",
               ],
             },
             template: {
-              id: '7267563252536723205',
+              id: "7267563252536723205",
             },
           },
           is_cod_allowed: true,
           product_attributes: [
             {
-              id: '100392',
-              name: 'Occasion',
+              id: "100392",
+              name: "Occasion",
               values: [
                 {
-                  id: '1001533',
-                  name: 'Birthday',
+                  id: "1001533",
+                  name: "Birthday",
                 },
               ],
             },
           ],
           audit_failed_reasons: [
             {
-              position: 'product',
-              reasons: ['violate listing rules'],
+              position: "product",
+              reasons: ["violate listing rules"],
               suggestions: [
-                'The product violates TikTok Shopping listing rules, please check and resubmit.',
+                "The product violates TikTok Shopping listing rules, please check and resubmit.",
               ],
-              listing_platform: 'TIKTOK_SHOP',
+              listing_platform: "TIKTOK_SHOP",
             },
           ],
           update_time: 1234567899,
           create_time: 1234567890,
           delivery_options: [
             {
-              id: '1729592969712203232',
+              id: "1729592969712203232",
               name: '""',
               is_available: true,
             },
           ],
-          external_product_id: '172959296971220002',
-          product_types: ['COMBINED_PRODUCT'],
+          external_product_id: "172959296971220002",
+          product_types: ["COMBINED_PRODUCT"],
           is_not_for_sale: true,
           recommended_categories: [
             {
-              id: '850003',
-              local_name: '\t\nBotol & Stoples Penyimpanan',
+              id: "850003",
+              local_name: "\t\nBotol & Stoples Penyimpanan",
             },
           ],
-          manufacturer_ids: ['172959296971220002'],
-          responsible_person_ids: ['172959296971220003'],
-          listing_quality_tier: 'POOR',
+          manufacturer_ids: ["172959296971220002"],
+          responsible_person_ids: ["172959296971220003"],
+          listing_quality_tier: "POOR",
           integrated_platform_statuses: [
             {
-              platform: 'TOKOPEDIA',
-              status: 'PLATFORM_DEACTIVATED',
+              platform: "TOKOPEDIA",
+              status: "PLATFORM_DEACTIVATED",
             },
           ],
-          shipping_insurance_requirement: 'OPTIONAL',
+          shipping_insurance_requirement: "OPTIONAL",
           minimum_order_quantity: 1,
           is_pre_owned: false,
           audit: {
-            status: 'AUDITING',
-            pre_approved_reasons: ['KYC_PENDING'],
+            status: "AUDITING",
+            pre_approved_reasons: ["KYC_PENDING"],
           },
           global_product_association: {
-            global_product_id: '1729592969712207920',
+            global_product_id: "1729592969712207920",
             sku_mappings: [
               {
-                global_sku_id: '1729592969712207234',
-                local_sku_id: '1729592969712207230',
+                global_sku_id: "1729592969712207234",
+                local_sku_id: "1729592969712207230",
                 sales_attribute_mappings: [
                   {
-                    local_attribute_id: '100000',
-                    global_attribute_id: '100000',
-                    local_value_id: '1001064',
-                    global_value_id: '1001064',
+                    local_attribute_id: "100000",
+                    global_attribute_id: "100000",
+                    local_value_id: "1001064",
+                    global_value_id: "1001064",
                   },
                 ],
               },
@@ -1522,18 +1522,18 @@ describe('ProductModule', () => {
           },
           product_families: [
             {
-              id: '1000592969712207000',
+              id: "1000592969712207000",
               products: [
                 {
-                  id: '1729592969712207008',
+                  id: "1729592969712207008",
                 },
               ],
             },
           ],
         },
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -1541,7 +1541,7 @@ describe('ProductModule', () => {
       const product = new ProductModule(mockRequest, mockRequest);
 
       const paramInput: GetProductParams = {
-        product_id: '1731477962415703193',
+        product_id: "1731477962415703193",
         query: {
           return_under_review_version: false,
         },
@@ -1550,7 +1550,7 @@ describe('ProductModule', () => {
       const result = await product.getProduct(paramInput);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'GET',
+        method: "GET",
         path: `/product/202309/products/${paramInput.product_id}`,
         query: paramInput.query,
       });
@@ -1558,19 +1558,19 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('Get product recomend title, desc using getRecommendedProductTitleAndDescription', async () => {
+    it("Get product recomend title, desc using getRecommendedProductTitleAndDescription", async () => {
       const mockRes: TikTokAPIResponse<GetRecommendedProductTitleAndDescriptionResponse> =
         {
           data: {
             products: [
               {
-                id: '123456',
+                id: "123456",
                 suggestions: [
                   {
-                    field: 'TITLE',
+                    field: "TITLE",
                     items: [
                       {
-                        text: 'this is a good title',
+                        text: "this is a good title",
                       },
                     ],
                   },
@@ -1579,8 +1579,8 @@ describe('ProductModule', () => {
             ],
           },
           code: 0,
-          message: 'success',
-          request_id: '02480480234234',
+          message: "success",
+          request_id: "02480480234234",
         };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -1588,14 +1588,14 @@ describe('ProductModule', () => {
       const product = new ProductModule(mockRequest, mockRequest);
 
       const paramInput: GetRecommendedProductTitleAndDescriptionQuery = {
-        product_ids: ['1731477962415703193', '240248209423'],
+        product_ids: ["1731477962415703193", "240248209423"],
       };
 
       const result =
         await product.getRecommendedProductTitleAndDescription(paramInput);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'GET',
+        method: "GET",
         path: `/product/202405/products/suggestions`,
         query: paramInput,
       });
@@ -1603,23 +1603,23 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('Get product SEO word using getProductsSEOWords', async () => {
+    it("Get product SEO word using getProductsSEOWords", async () => {
       const mockRes: TikTokAPIResponse<GetProductSEOWordsResponse> = {
         data: {
           products: [
             {
-              id: '12345',
+              id: "12345",
               seo_words: [
                 {
-                  text: 'dress',
+                  text: "dress",
                 },
               ],
             },
           ],
         },
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -1627,13 +1627,13 @@ describe('ProductModule', () => {
       const product = new ProductModule(mockRequest, mockRequest);
 
       const paramInput: GetRecommendedProductTitleAndDescriptionQuery = {
-        product_ids: ['1731477962415703193', '240248209423'],
+        product_ids: ["1731477962415703193", "240248209423"],
       };
 
       const result = await product.getProductsSEOWords(paramInput);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'GET',
+        method: "GET",
         path: `/product/202405/products/seo_words`,
         query: paramInput,
       });
@@ -1641,48 +1641,48 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('Diagnose product using productInformationIssueDiagnosis', async () => {
+    it("Diagnose product using productInformationIssueDiagnosis", async () => {
       const mockRes: TikTokAPIResponse<ProductDiagnosisResponse> = {
         data: {
           products: [
             {
-              id: '123456',
+              id: "123456",
               listing_quality: {
-                current_tier: 'POOR',
+                current_tier: "POOR",
                 remaining_recommendations: 3,
               },
               diagnoses: [
                 {
-                  field: 'TITLE',
+                  field: "TITLE",
                   diagnosis_results: [
                     {
-                      code: 'TITLE_LESS_THAN_40_CHARACTERS',
+                      code: "TITLE_LESS_THAN_40_CHARACTERS",
                       how_to_solve:
                         'Names must be at least 40 characters long and contain product-identifying information, such as "hiking boots" or "lipstick".',
-                      quality_tier: 'GOOD',
+                      quality_tier: "GOOD",
                     },
                   ],
                   suggestion: {
                     seo_words: [
                       {
-                        text: 'dress',
+                        text: "dress",
                       },
                     ],
                     smart_texts: [
                       {
-                        text: 'this is a good title',
+                        text: "this is a good title",
                       },
                     ],
                     images: [
                       {
                         height: 600,
                         width: 600,
-                        uri: 'tos-maliva-i-o3syd03w52-us/53b55d6e8cdf1f315affa7e70b45707d',
-                        url: 'https://p16-graph-va.ibyteimg.com/tos-maliva-i-1por3rr4fy-us/v2/53b55d6e8cdf1f315affa7e70b45707d~tplv-1por3rr4fy-image.webp',
+                        uri: "tos-maliva-i-o3syd03w52-us/53b55d6e8cdf1f315affa7e70b45707d",
+                        url: "https://p16-graph-va.ibyteimg.com/tos-maliva-i-1por3rr4fy-us/v2/53b55d6e8cdf1f315affa7e70b45707d~tplv-1por3rr4fy-image.webp",
                         optimized_uri:
-                          'tos-maliva-i-o3syd03w52-us/0266127022264e54ad2f639f5e0fb5e6',
+                          "tos-maliva-i-o3syd03w52-us/0266127022264e54ad2f639f5e0fb5e6",
                         optimized_url:
-                          'https://p16-graph-va.ibyteimg.com/tos-maliva-i-1por3rr4fy-us/v2/0266127022264e54ad2f639f5e0fb5e6~tplv-1por3rr4fy-image.webp',
+                          "https://p16-graph-va.ibyteimg.com/tos-maliva-i-1por3rr4fy-us/v2/0266127022264e54ad2f639f5e0fb5e6~tplv-1por3rr4fy-image.webp",
                       },
                     ],
                   },
@@ -1692,8 +1692,8 @@ describe('ProductModule', () => {
           ],
         },
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -1701,13 +1701,13 @@ describe('ProductModule', () => {
       const product = new ProductModule(mockRequest, mockRequest);
 
       const paramInput: GetRecommendedProductTitleAndDescriptionQuery = {
-        product_ids: ['1731477962415703193', '240248209423'],
+        product_ids: ["1731477962415703193", "240248209423"],
       };
 
       const result = await product.productInformationIssueDiagnosis(paramInput);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'GET',
+        method: "GET",
         path: `/product/202405/products/diagnoses`,
         query: paramInput,
       });
@@ -1715,12 +1715,12 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('Deactivate product using deactivateProducts', async () => {
+    it("Deactivate product using deactivateProducts", async () => {
       const mockRes: TikTokAPIResponse<Object> = {
         data: {},
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -1728,14 +1728,14 @@ describe('ProductModule', () => {
       const product = new ProductModule(mockRequest, mockRequest);
 
       const paramInput: DeactivateProductInput = {
-        product_ids: ['1731477962415703193'],
-        listing_platforms: ['TIKTOK_SHOP', 'TOKOPEDIA'],
+        product_ids: ["1731477962415703193"],
+        listing_platforms: ["TIKTOK_SHOP", "TOKOPEDIA"],
       };
 
       const result = await product.deactivateProducts(paramInput);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'POST',
+        method: "POST",
         path: `/product/202309/products/deactivate`,
         body: paramInput,
       });
@@ -1743,12 +1743,12 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('Activate product using activateProducts', async () => {
+    it("Activate product using activateProducts", async () => {
       const mockRes: TikTokAPIResponse<Object> = {
         data: {},
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -1756,14 +1756,14 @@ describe('ProductModule', () => {
       const product = new ProductModule(mockRequest, mockRequest);
 
       const paramInput: ActivateProductInput = {
-        product_ids: ['1731477962415703193'],
-        listing_platforms: ['TIKTOK_SHOP', 'TOKOPEDIA'],
+        product_ids: ["1731477962415703193"],
+        listing_platforms: ["TIKTOK_SHOP", "TOKOPEDIA"],
       };
 
       const result = await product.activateProducts(paramInput);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'POST',
+        method: "POST",
         path: `/product/202309/products/activate`,
         body: paramInput,
       });
@@ -1771,12 +1771,12 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('Delete product using deleteProducts', async () => {
+    it("Delete product using deleteProducts", async () => {
       const mockRes: TikTokAPIResponse<Object> = {
         data: {},
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -1784,13 +1784,13 @@ describe('ProductModule', () => {
       const product = new ProductModule(mockRequest, mockRequest);
 
       const paramInput: DeleteProductInput = {
-        product_ids: ['1731477962415703193'],
+        product_ids: ["1731477962415703193"],
       };
 
       const result = await product.deleteProducts(paramInput);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'DELETE',
+        method: "DELETE",
         path: `/product/202309/products`,
         body: paramInput,
       });
@@ -1798,9 +1798,9 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('should upload a product image', async () => {
-      const fakeBuffer = Buffer.from('dummy-image-data');
-      const filePath = path.join(process.cwd(), 'images/fnatic.png');
+    it("should upload a product image", async () => {
+      const fakeBuffer = Buffer.from("dummy-image-data");
+      const filePath = path.join(process.cwd(), "images/fnatic.png");
 
       // Mock fs.readFileSync to return a dummy buffer
       (fs.readFileSync as jest.Mock).mockReturnValue(fakeBuffer);
@@ -1808,41 +1808,41 @@ describe('ProductModule', () => {
       const mockRes: TikTokAPIResponse<UploadImageResponse> = {
         data: {
           height: 1133,
-          uri: 'tos-maliva-i-o3syd03w52-us/4e48873aebfd4be88a8d2db7b2372b05',
-          url: 'https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/4e48873aebfd4be88a8d2db7b2372b05~tplv-o3syd03w52-origin-jpeg.jpeg?dr=15568&from=1432613627&idc=maliva&ps=933b5bde&shcp=9794469a&shp=5563f2fb&t=555f072d',
-          use_case: 'MAIN_IMAGE',
+          uri: "tos-maliva-i-o3syd03w52-us/4e48873aebfd4be88a8d2db7b2372b05",
+          url: "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/4e48873aebfd4be88a8d2db7b2372b05~tplv-o3syd03w52-origin-jpeg.jpeg?dr=15568&from=1432613627&idc=maliva&ps=933b5bde&shcp=9794469a&shp=5563f2fb&t=555f072d",
+          use_case: "MAIN_IMAGE",
           width: 1133,
         },
         code: 0,
-        message: 'success',
-        request_id: '92834928479234',
+        message: "success",
+        request_id: "92834928479234",
       };
 
       const uploadSpy = jest
-        .spyOn(productModule, 'uploadProductImage')
+        .spyOn(productModule, "uploadProductImage")
         .mockResolvedValue(mockRes);
 
       const fileBuffer = fs.readFileSync(filePath);
 
       const response = await productModule.uploadProductImage({
         data: fileBuffer,
-        use_case: 'MAIN_IMAGE',
+        use_case: "MAIN_IMAGE",
       });
 
       expect(fs.readFileSync).toHaveBeenCalledWith(filePath);
       expect(uploadSpy).toHaveBeenCalledWith({
         data: fakeBuffer,
-        use_case: 'MAIN_IMAGE',
+        use_case: "MAIN_IMAGE",
       });
       expect(response).toEqual(mockRes);
     });
 
-    it('Optimize images using optimizedImages', async () => {
+    it("Optimize images using optimizedImages", async () => {
       const mockRes: TikTokAPIResponse<OptimizedImagesResponse | object> = {
         data: {},
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -1852,8 +1852,8 @@ describe('ProductModule', () => {
       const paramInput: OptimizedImagesInput = {
         images: [
           {
-            uri: 'tos-maliva-i-o3syd03w52-us/4e48873aebfd4be88a8d2db7b2372b05',
-            optimization_mode: ['WHITE_BACKGROUND'],
+            uri: "tos-maliva-i-o3syd03w52-us/4e48873aebfd4be88a8d2db7b2372b05",
+            optimization_mode: ["WHITE_BACKGROUND"],
           },
         ],
       };
@@ -1861,7 +1861,7 @@ describe('ProductModule', () => {
       const result = await product.optimizedImages(paramInput);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'POST',
+        method: "POST",
         path: `/product/202404/images/optimize`,
         body: paramInput,
       });
@@ -1869,33 +1869,33 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('create product using createProduct', async () => {
+    it("create product using createProduct", async () => {
       const mockRes: TikTokAPIResponse<CreateProductResponse | object> = {
         data: {
-          product_id: '1729592969712207008',
+          product_id: "1729592969712207008",
           skus: [
             {
-              id: '1729592969712207012',
-              seller_sku: 'Color-Red-XM001',
+              id: "1729592969712207012",
+              seller_sku: "Color-Red-XM001",
               sales_attributes: [
                 {
-                  id: '100000',
-                  value_id: '1729592969712207123',
+                  id: "100000",
+                  value_id: "1729592969712207123",
                 },
               ],
-              external_sku_id: '1729592969712207234',
+              external_sku_id: "1729592969712207234",
             },
           ],
           warnings: [
             {
               message:
-                'The [brand_id]:123 field is incorrect and has been automatically cleared by the system. Reason: [Brand does not exist]. You can edit it later.',
+                "The [brand_id]:123 field is incorrect and has been automatically cleared by the system. Reason: [Brand does not exist]. You can edit it later.",
             },
           ],
         },
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -1903,16 +1903,16 @@ describe('ProductModule', () => {
       const product = new ProductModule(mockRequest, mockRequest);
 
       const paramInput: CreateProductInput = {
-        description: 'T-Shirt Fnatic Original Limited Edition Red Orange',
-        category_id: '601226',
-        title: 'T-Shirt Fnatic Original Limited Edition Red Orange',
+        description: "T-Shirt Fnatic Original Limited Edition Red Orange",
+        category_id: "601226",
+        title: "T-Shirt Fnatic Original Limited Edition Red Orange",
         package_weight: {
-          value: '0.5',
-          unit: 'KILOGRAM',
+          value: "0.5",
+          unit: "KILOGRAM",
         },
         main_images: [
           {
-            uri: 'tos-maliva-i-o3syd03w52-us/4e48873aebfd4be88a8d2db7b2372b05',
+            uri: "tos-maliva-i-o3syd03w52-us/4e48873aebfd4be88a8d2db7b2372b05",
           },
         ],
         skus: [
@@ -1920,14 +1920,14 @@ describe('ProductModule', () => {
             sales_attributes: [],
             inventory: [
               {
-                warehouse_id: '7505773560071456518',
+                warehouse_id: "7505773560071456518",
                 quantity: 100,
               },
             ],
-            seller_sku: 'FNC-02874823',
+            seller_sku: "FNC-02874823",
             price: {
-              amount: '190000',
-              currency: 'IDR',
+              amount: "190000",
+              currency: "IDR",
             },
             combined_skus: [],
             external_urls: [],
@@ -1937,7 +1937,7 @@ describe('ProductModule', () => {
         ],
         size_chart: {
           image: {
-            uri: 'tos-maliva-i-o3syd03w52-us/b73320c9778b4aeb85dda50aeba1f9e6',
+            uri: "tos-maliva-i-o3syd03w52-us/b73320c9778b4aeb85dda50aeba1f9e6",
           },
         },
       };
@@ -1945,7 +1945,7 @@ describe('ProductModule', () => {
       const result = await product.createProduct(paramInput);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'POST',
+        method: "POST",
         path: `/product/202309/products`,
         body: paramInput,
       });
@@ -1953,36 +1953,36 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('edit product using editProduct', async () => {
+    it("edit product using editProduct", async () => {
       const mockRes: TikTokAPIResponse<EditProductResponse | object> = {
         data: {
-          product_id: '1729592969712207008',
+          product_id: "1729592969712207008",
           skus: [
             {
-              id: '1729592969712207012',
-              seller_sku: 'Color-Red-XM001',
+              id: "1729592969712207012",
+              seller_sku: "Color-Red-XM001",
               sales_attributes: [
                 {
-                  id: '100000',
-                  value_id: '1729592969712207123',
+                  id: "100000",
+                  value_id: "1729592969712207123",
                 },
               ],
-              external_sku_id: '1729592969712207234',
+              external_sku_id: "1729592969712207234",
             },
           ],
           warnings: [
             {
               message:
-                'The [brand_id]:123 field is incorrect and has been automatically cleared by the system. Reason: [Brand does not exist]. You can edit it later.',
+                "The [brand_id]:123 field is incorrect and has been automatically cleared by the system. Reason: [Brand does not exist]. You can edit it later.",
             },
           ],
           audit: {
-            status: 'AUDITING',
+            status: "AUDITING",
           },
         },
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -1990,50 +1990,50 @@ describe('ProductModule', () => {
       const product = new ProductModule(mockRequest, mockRequest);
 
       const paramInput: EditProductParams = {
-        product_id: '1731560416953664665',
+        product_id: "1731560416953664665",
         body: {
           description:
             "<p>Please compare above detailed size with your measurement before purchase.</p><ul>   <li>M-Size</li>  <li>XL-Size</li></ul> <img src=\"https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/181595ea7d26489284b5667488d708c1~tplv-o3syd03w52-origin-jpeg.jpeg?from=1432613627\" width='100' height='100' />",
-          category_id: '601226',
-          brand_id: '7082427311584347905',
+          category_id: "601226",
+          brand_id: "7082427311584347905",
           main_images: [
             {
-              uri: 'tos-maliva-i-o3syd03w52-us/b73320c9778b4aeb85dda50aeba1f9e6',
+              uri: "tos-maliva-i-o3syd03w52-us/b73320c9778b4aeb85dda50aeba1f9e6",
             },
           ],
           skus: [
             {
-              id: '1731560420062823577',
+              id: "1731560420062823577",
               sales_attributes: [
                 {
-                  id: '100089',
-                  name: 'Specification',
-                  value_id: '1729592969712401100',
-                  value_name: 'XL',
+                  id: "100089",
+                  name: "Specification",
+                  value_id: "1729592969712401100",
+                  value_name: "XL",
                   sku_img: {
-                    uri: 'tos-maliva-i-o3syd03w52-us/b73320c9778b4aeb85dda50aeba1f9e6',
+                    uri: "tos-maliva-i-o3syd03w52-us/b73320c9778b4aeb85dda50aeba1f9e6",
                   },
                   supplementary_sku_images: [
                     {
-                      uri: 'tos-maliva-i-o3syd03w52-us/b73320c9778b4aeb85dda50aeba1f9e6',
+                      uri: "tos-maliva-i-o3syd03w52-us/b73320c9778b4aeb85dda50aeba1f9e6",
                     },
                   ],
                 },
               ],
-              seller_sku: 'Color-Red-XM001',
+              seller_sku: "Color-Red-XM001",
               price: {
-                amount: '180000000',
-                currency: 'IDR',
-                sale_price: '180000000',
+                amount: "180000000",
+                currency: "IDR",
+                sale_price: "180000000",
               },
-              external_sku_id: '1729592969712207012',
+              external_sku_id: "1729592969712207012",
               identifier_code: {
-                code: '12345678901234',
-                type: 'GTIN',
+                code: "12345678901234",
+                type: "GTIN",
               },
               inventory: [
                 {
-                  warehouse_id: '7505773560071456518',
+                  warehouse_id: "7505773560071456518",
                   quantity: 999,
                 },
               ],
@@ -2043,41 +2043,41 @@ describe('ProductModule', () => {
             "Men's Fashion Sports Low Cut Cotton Breathable Ankle Short Boat Invisible Socks",
           is_cod_allowed: false,
           package_weight: {
-            value: '1.32',
-            unit: 'KILOGRAM',
+            value: "1.32",
+            unit: "KILOGRAM",
           },
           product_attributes: [
             {
-              id: '100392',
+              id: "100392",
               values: [
                 {
-                  id: '1001533',
-                  name: 'Birthday',
+                  id: "1001533",
+                  name: "Birthday",
                 },
               ],
             },
           ],
           size_chart: {
             image: {
-              uri: 'tos-maliva-i-o3syd03w52-us/b73320c9778b4aeb85dda50aeba1f9e6',
+              uri: "tos-maliva-i-o3syd03w52-us/b73320c9778b4aeb85dda50aeba1f9e6",
             },
             template: {
-              id: '7267563252536723205',
+              id: "7267563252536723205",
             },
           },
           package_dimensions: {
-            length: '10',
-            width: '10',
-            height: '10',
-            unit: 'CENTIMETER',
+            length: "10",
+            width: "10",
+            height: "10",
+            unit: "CENTIMETER",
           },
-          external_product_id: '172959296971220002',
-          delivery_option_ids: ['6956553057215710977'],
-          category_version: 'v1',
-          manufacturer_ids: ['172959296971220002'],
-          responsible_person_ids: ['172959296971220003'],
-          listing_platforms: ['TIKTOK_SHOP'],
-          shipping_insurance_requirement: 'REQUIRED',
+          external_product_id: "172959296971220002",
+          delivery_option_ids: ["6956553057215710977"],
+          category_version: "v1",
+          manufacturer_ids: ["172959296971220002"],
+          responsible_person_ids: ["172959296971220003"],
+          listing_platforms: ["TIKTOK_SHOP"],
+          shipping_insurance_requirement: "REQUIRED",
           is_pre_owned: false,
           minimum_order_quantity: 1,
         },
@@ -2086,7 +2086,7 @@ describe('ProductModule', () => {
       const result = await product.editProduct(paramInput);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'PUT',
+        method: "PUT",
         path: `/product/202309/products/${paramInput.product_id}`,
         body: paramInput.body,
       });
@@ -2094,36 +2094,36 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('partial edit product using partialEditProduct', async () => {
+    it("partial edit product using partialEditProduct", async () => {
       const mockRes: TikTokAPIResponse<PartialEditProductResponse | object> = {
         data: {
-          product_id: '1729592969712207008',
+          product_id: "1729592969712207008",
           skus: [
             {
-              id: '1729592969712207012',
-              seller_sku: 'Color-Red-XM001',
+              id: "1729592969712207012",
+              seller_sku: "Color-Red-XM001",
               sales_attributes: [
                 {
-                  id: '100000',
-                  value_id: '1729592969712207123',
+                  id: "100000",
+                  value_id: "1729592969712207123",
                 },
               ],
-              external_sku_id: '1729592969712207234',
+              external_sku_id: "1729592969712207234",
             },
           ],
           warnings: [
             {
               message:
-                'The [brand_id]:123 field is incorrect and has been automatically cleared by the system. Reason: [Brand does not exist]. You can edit it later.',
+                "The [brand_id]:123 field is incorrect and has been automatically cleared by the system. Reason: [Brand does not exist]. You can edit it later.",
             },
           ],
           audit: {
-            status: 'AUDITING',
+            status: "AUDITING",
           },
         },
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -2131,27 +2131,27 @@ describe('ProductModule', () => {
       const product = new ProductModule(mockRequest, mockRequest);
 
       const paramInput: PartialEditProductParams = {
-        product_id: '1731560416953664665',
+        product_id: "1731560416953664665",
         body: {
           title:
             "Updated Men's Fashion Sports Low Cut Cotton Breathable Ankle Short Boat Invisible Socks",
-          description: '<p>Updated description with new features.</p>',
+          description: "<p>Updated description with new features.</p>",
           is_cod_allowed: true,
           package_weight: {
-            value: '1.5',
-            unit: 'KILOGRAM',
+            value: "1.5",
+            unit: "KILOGRAM",
           },
           skus: [
             {
-              id: '1731560420062823577',
+              id: "1731560420062823577",
               price: {
-                amount: '200000000',
-                currency: 'IDR',
-                sale_price: '180000000',
+                amount: "200000000",
+                currency: "IDR",
+                sale_price: "180000000",
               },
               inventory: [
                 {
-                  warehouse_id: '7505773560071456518',
+                  warehouse_id: "7505773560071456518",
                   quantity: 1500,
                 },
               ],
@@ -2163,7 +2163,7 @@ describe('ProductModule', () => {
       const result = await product.partialEditProduct(paramInput);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'POST',
+        method: "POST",
         path: `/product/202309/products/${paramInput.product_id}/partial_edit`,
         body: paramInput.body,
       });
@@ -2171,12 +2171,12 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('recovery product using recoverProduct', async () => {
+    it("recovery product using recoverProduct", async () => {
       const mockRes: TikTokAPIResponse<CreateProductResponse | object> = {
         data: {},
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -2184,13 +2184,13 @@ describe('ProductModule', () => {
       const product = new ProductModule(mockRequest, mockRequest);
 
       const paramInput: RecoverProductBody = {
-        product_ids: ['1731477962415703193'],
+        product_ids: ["1731477962415703193"],
       };
 
       const result = await product.recoverProduct(paramInput);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'POST',
+        method: "POST",
         path: `/product/202309/products/recover`,
         body: paramInput,
       });
@@ -2199,15 +2199,15 @@ describe('ProductModule', () => {
     });
   });
 
-  describe('Testing responsible person', () => {
-    it('create responsible person using createResponsiblePerson', async () => {
+  describe("Testing responsible person", () => {
+    it("create responsible person using createResponsiblePerson", async () => {
       const mockRes: TikTokAPIResponse<CreateResponsiblePersonResponse> = {
         data: {
-          responsible_person_id: '',
+          responsible_person_id: "",
         },
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -2215,29 +2215,29 @@ describe('ProductModule', () => {
       const product = new ProductModule(mockRequest, mockRequest);
 
       const paramInput: CreateResponsiblePersonInput = {
-        name: 'John Doe',
-        email: 'john.doe@email.com',
+        name: "John Doe",
+        email: "john.doe@email.com",
         phone_number: {
-          country_code: '+353',
-          local_number: '80915151',
+          country_code: "+353",
+          local_number: "80915151",
         },
         address: {
           street_address_line1:
-            '63 Cardiff Ln, Grand Canal Dock, Dublin City, Dublin',
-          street_address_line2: '-',
-          district: '-',
-          city: '-',
-          postal_code: 'D02 HD23',
-          province: '-',
-          country: 'IE',
+            "63 Cardiff Ln, Grand Canal Dock, Dublin City, Dublin",
+          street_address_line2: "-",
+          district: "-",
+          city: "-",
+          postal_code: "D02 HD23",
+          province: "-",
+          country: "IE",
         },
-        locale: 'en-IE',
+        locale: "en-IE",
       };
 
       const result = await product.createResponsiblePerson(paramInput);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'POST',
+        method: "POST",
         path: `/product/202409/compliance/responsible_persons`,
         body: paramInput,
       });
@@ -2245,36 +2245,36 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('get responsible person using searchResponsiblePersons', async () => {
+    it("get responsible person using searchResponsiblePersons", async () => {
       const mockRes: TikTokAPIResponse<SearchResponsiblePersonsResponse> = {
         data: {
           responsible_persons: [
             {
-              id: '66d3cbe4d9c8b09ddca932a7',
-              name: 'John Doe',
-              email: 'john.doe@email.com',
+              id: "66d3cbe4d9c8b09ddca932a7",
+              name: "John Doe",
+              email: "john.doe@email.com",
               phone_number: {
-                country_code: '+353',
-                local_number: '80915151',
+                country_code: "+353",
+                local_number: "80915151",
               },
               address: {
                 street_address_line1:
-                  '63 Cardiff Ln, Grand Canal Dock, Dublin City, Dublin',
-                street_address_line2: '-',
-                district: '-',
-                city: '-',
-                province: '-',
-                postal_code: 'D02 HD23',
-                country: 'Ireland',
+                  "63 Cardiff Ln, Grand Canal Dock, Dublin City, Dublin",
+                street_address_line2: "-",
+                district: "-",
+                city: "-",
+                province: "-",
+                postal_code: "D02 HD23",
+                country: "Ireland",
               },
             },
           ],
           total_count: 26,
-          next_page_token: '66d3cbe3d9c8b09ddca932a1',
+          next_page_token: "66d3cbe3d9c8b09ddca932a1",
         },
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -2283,8 +2283,8 @@ describe('ProductModule', () => {
 
       const paramInput: SearchResponsiblePersonsParam = {
         body: {
-          responsible_person_ids: ['66d3cbe4d9c8b09ddca932a7'],
-          keyword: 'John',
+          responsible_person_ids: ["66d3cbe4d9c8b09ddca932a7"],
+          keyword: "John",
         },
         query: {
           page_size: 1,
@@ -2294,7 +2294,7 @@ describe('ProductModule', () => {
       const result = await product.searchResponsiblePersons(paramInput);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'POST',
+        method: "POST",
         path: `/product/202409/compliance/responsible_persons/search`,
         body: paramInput.body,
         query: paramInput.query,
@@ -2303,12 +2303,12 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('edit responsible person using editResponsiblePersons', async () => {
+    it("edit responsible person using editResponsiblePersons", async () => {
       const mockRes: TikTokAPIResponse<{}> = {
         data: {},
         code: 0,
-        message: 'success',
-        request_id: '02480480234234',
+        message: "success",
+        request_id: "02480480234234",
       };
 
       const mockRequest = jest.fn().mockResolvedValue(mockRes);
@@ -2317,31 +2317,31 @@ describe('ProductModule', () => {
 
       const paramInput: EditResponsiblePersonInput = {
         body: {
-          name: 'John Doe Edit',
-          email: 'john.doe@email.com',
+          name: "John Doe Edit",
+          email: "john.doe@email.com",
           phone_number: {
-            country_code: '+353',
-            local_number: '80915151',
+            country_code: "+353",
+            local_number: "80915151",
           },
           address: {
             street_address_line1:
-              '63 Cardiff Ln, Grand Canal Dock, Dublin City, Dublin',
-            street_address_line2: '-',
-            district: '-',
-            city: '-',
-            postal_code: 'D02 HD23',
-            province: '-',
-            country: 'IE',
+              "63 Cardiff Ln, Grand Canal Dock, Dublin City, Dublin",
+            street_address_line2: "-",
+            district: "-",
+            city: "-",
+            postal_code: "D02 HD23",
+            province: "-",
+            country: "IE",
           },
-          locale: 'en-IE',
+          locale: "en-IE",
         },
-        responsible_person_id: '304950349583045345',
+        responsible_person_id: "304950349583045345",
       };
 
       const result = await product.editResponsiblePersons(paramInput);
 
       expect(mockRequest).toHaveBeenCalledWith({
-        method: 'POST',
+        method: "POST",
         path: `/product/202409/compliance/responsible_persons/${paramInput.responsible_person_id}/partial_edit`,
         body: paramInput.body,
       });
@@ -2351,7 +2351,7 @@ describe('ProductModule', () => {
   });
 });
 
-describe('ProductModule.uploadProductFile', () => {
+describe("ProductModule.uploadProductFile", () => {
   let productModule: ProductModule;
   let mockRequest: jest.Mock;
   let mockRequestMultipart: jest.Mock;
@@ -2362,31 +2362,31 @@ describe('ProductModule.uploadProductFile', () => {
     productModule = new ProductModule(mockRequest, mockRequestMultipart);
   });
 
-  it('should upload a product file', async () => {
-    const fakeBuffer = Buffer.from('dummy-file-data');
+  it("should upload a product file", async () => {
+    const fakeBuffer = Buffer.from("dummy-file-data");
 
     const mockResponse = {
       code: 0,
       data: {
-        file_id: 'file-123',
-        url: 'https://example.com/files/sample.csv',
+        file_id: "file-123",
+        url: "https://example.com/files/sample.csv",
       },
-      message: 'success',
-      request_id: 'req-12345',
+      message: "success",
+      request_id: "req-12345",
     };
 
     mockRequestMultipart.mockResolvedValueOnce(mockResponse);
 
     const res = await productModule.uploadProductFile({
       data: fakeBuffer,
-      name: 'sample.csv',
+      name: "sample.csv",
     });
 
     expect(mockRequestMultipart).toHaveBeenCalledTimes(1);
 
     const calledArg = mockRequestMultipart.mock.calls[0][0];
-    expect(calledArg.method).toBe('POST');
-    expect(calledArg.path).toBe('/product/202309/files/upload');
+    expect(calledArg.method).toBe("POST");
+    expect(calledArg.path).toBe("/product/202309/files/upload");
 
     expect(res).toEqual(mockResponse);
   });

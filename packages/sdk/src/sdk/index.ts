@@ -1,2 +1,2 @@
-export * from './TikTokShopSDK';
-export * from './config';
+export * from "./TikTokShopSDK";
+export * from "./config";

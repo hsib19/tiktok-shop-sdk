@@ -19,7 +19,7 @@ import {
   GetShopVideoProductPerformanceListResponse,
   RequestFunction,
   TikTokAPIResponse,
-} from '@types';
+} from "@types";
 
 /**
  * AnalyticsModule provides methods to access shop-related analytics data,
@@ -43,8 +43,8 @@ export class AnalyticsModule {
     query: GetShopPerformanceQuery,
   ): Promise<TikTokAPIResponse<GetShopPerformanceResponse>> {
     return this.request({
-      method: 'GET',
-      path: '/analytics/202405/shop/performance',
+      method: "GET",
+      path: "/analytics/202405/shop/performance",
       query,
     });
   }
@@ -60,7 +60,7 @@ export class AnalyticsModule {
     params: GetShopProductPerformanceParams,
   ): Promise<TikTokAPIResponse<GetShopProductPerformanceResponse>> {
     return this.request({
-      method: 'GET',
+      method: "GET",
       path: `/analytics/202405/shop_products/${params.product_id}/performance`,
       query: params.query,
     });
@@ -76,8 +76,8 @@ export class AnalyticsModule {
     query: GetShopProductPerformanceListQuery,
   ): Promise<TikTokAPIResponse<GetShopProductPerformanceListResponse>> {
     return this.request({
-      method: 'GET',
-      path: '/analytics/202405/shop_products/performance',
+      method: "GET",
+      path: "/analytics/202405/shop_products/performance",
       query,
     });
   }
@@ -93,7 +93,7 @@ export class AnalyticsModule {
     params: GetShopSKUPerformanceParams,
   ): Promise<TikTokAPIResponse<GetShopSKUPerformanceParamsResponse>> {
     return this.request({
-      method: 'GET',
+      method: "GET",
       path: `/analytics/202406/shop_skus/${params.sku_id}/performance`,
       query: params.query,
     });
@@ -109,8 +109,8 @@ export class AnalyticsModule {
     query: GetShopSKUPerformanceListQuery,
   ): Promise<TikTokAPIResponse<GetShopSKUPerformanceListResponse>> {
     return this.request({
-      method: 'GET',
-      path: '/analytics/202406/shop_skus/performance',
+      method: "GET",
+      path: "/analytics/202406/shop_skus/performance",
       query,
     });
   }
@@ -125,8 +125,8 @@ export class AnalyticsModule {
     query: GetShopVideoPerformanceListQuery,
   ): Promise<TikTokAPIResponse<GetShopVideoPerformanceListResponse>> {
     return this.request({
-      method: 'GET',
-      path: '/analytics/202409/shop_videos/performance',
+      method: "GET",
+      path: "/analytics/202409/shop_videos/performance",
       query,
     });
   }
@@ -141,8 +141,8 @@ export class AnalyticsModule {
     query: GetShopVideoPerformanceOverviewQuery,
   ): Promise<TikTokAPIResponse<GetShopVideoPerformanceOverviewResponse>> {
     return this.request({
-      method: 'GET',
-      path: '/analytics/202409/shop_videos/overview_performance',
+      method: "GET",
+      path: "/analytics/202409/shop_videos/overview_performance",
       query,
     });
   }
@@ -158,7 +158,7 @@ export class AnalyticsModule {
     params: GetShopVideoPerformanceDetailsParams,
   ): Promise<TikTokAPIResponse<GetShopVideoPerformanceDetailsResponse>> {
     return this.request({
-      method: 'GET',
+      method: "GET",
       path: `/analytics/202409/shop_videos/${params.video_id}/performance`,
       query: params.query,
     });
@@ -175,7 +175,7 @@ export class AnalyticsModule {
     params: GetShopVideoProductPerformanceListParams,
   ): Promise<TikTokAPIResponse<GetShopVideoProductPerformanceListResponse>> {
     return this.request({
-      method: 'GET',
+      method: "GET",
       path: `/analytics/202409/shop_videos/${params.video_id}/products/performance`,
       query: params.query,
     });

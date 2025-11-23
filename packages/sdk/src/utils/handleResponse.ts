@@ -1,4 +1,4 @@
-import { TikTokAPIResponse } from '@types';
+import { TikTokAPIResponse } from "@types";
 
 export class TikTokAPIError extends Error {
   code: number;
@@ -8,7 +8,7 @@ export class TikTokAPIError extends Error {
     super(message);
     this.code = code;
     this.request_id = request_id;
-    this.name = 'TikTokAPIError';
+    this.name = "TikTokAPIError";
   }
 }
 

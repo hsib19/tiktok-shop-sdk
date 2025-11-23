@@ -1,43 +1,43 @@
-import FormData from 'form-data';
-import { requestMultipart } from '@client';
-import { generateSignature } from '@utils';
+import FormData from "form-data";
+import { requestMultipart } from "@client";
+import { generateSignature } from "@utils";
 
 // Mock fetch
 global.fetch = jest.fn();
 
-jest.mock('@utils', () => ({
+jest.mock("@utils", () => ({
   generateSignature: jest.fn(),
 }));
 
-describe('requestMultipart', () => {
+describe("requestMultipart", () => {
   const mockedFetch = fetch as jest.MockedFunction<typeof fetch>;
   const mockedGenerateSignature = generateSignature as jest.Mock;
 
-  it('should send a multipart POST request with signed query and headers', async () => {
+  it("should send a multipart POST request with signed query and headers", async () => {
     const form = new FormData();
-    form.append('image', Buffer.from('fake-image'), 'image.jpg');
+    form.append("image", Buffer.from("fake-image"), "image.jpg");
 
     const mockConfig = {
-      method: 'POST' as const,
-      path: '/product/upload',
-      query: { use_case: 'MAIN_IMAGE' },
+      method: "POST" as const,
+      path: "/product/upload",
+      query: { use_case: "MAIN_IMAGE" },
       body: form,
       config: {
-        appKey: 'test_app_key',
-        appSecret: 'test_app_secret',
-        accessToken: 'test_token',
-        shopCipher: 'test_cipher',
-        baseURL: 'https://example.com',
+        appKey: "test_app_key",
+        appSecret: "test_app_secret",
+        accessToken: "test_token",
+        shopCipher: "test_cipher",
+        baseURL: "https://example.com",
       },
     };
 
-    mockedGenerateSignature.mockReturnValue('mocked-signature');
+    mockedGenerateSignature.mockReturnValue("mocked-signature");
 
     mockedFetch.mockResolvedValue({
       ok: true,
       json: async () => ({
         code: 0,
-        message: 'success',
+        message: "success",
         data: { uploaded: true },
       }),
     } as Response);
@@ -49,23 +49,23 @@ describe('requestMultipart', () => {
       appSecret: mockConfig.config.appSecret,
       path: mockConfig.path,
       query: expect.objectContaining({
-        app_key: 'test_app_key',
-        use_case: 'MAIN_IMAGE',
-        shop_cipher: 'test_cipher',
+        app_key: "test_app_key",
+        use_case: "MAIN_IMAGE",
+        shop_cipher: "test_cipher",
         timestamp: expect.any(String),
       }),
       body: undefined,
-      version: 'v1',
+      version: "v1",
     });
 
     // Expect fetch to be called with the right URL and headers
     expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining('/product/upload'),
+      expect.stringContaining("/product/upload"),
       expect.objectContaining({
-        method: 'POST',
+        method: "POST",
         headers: expect.objectContaining({
           ...form.getHeaders(),
-          'x-tts-access-token': 'test_token',
+          "x-tts-access-token": "test_token",
         }),
         body: form,
       }),
@@ -73,38 +73,38 @@ describe('requestMultipart', () => {
 
     expect(res).toEqual({
       code: 0,
-      message: 'success',
+      message: "success",
       data: { uploaded: true },
     });
   });
 
-  it('should use default query object when none is provided', async () => {
+  it("should use default query object when none is provided", async () => {
     const form = new FormData();
-    form.append('image', Buffer.from('fake'), 'file.jpg');
+    form.append("image", Buffer.from("fake"), "file.jpg");
 
     const config = {
-      appKey: 'test_app_key',
-      appSecret: 'test_app_secret',
-      baseURL: 'https://example.com',
-      accessToken: 'access_token',
-      shopCipher: 'cipher',
+      appKey: "test_app_key",
+      appSecret: "test_app_secret",
+      baseURL: "https://example.com",
+      accessToken: "access_token",
+      shopCipher: "cipher",
     };
 
     const mockRes = {
       code: 0,
-      message: 'ok',
+      message: "ok",
       data: { uploaded: true },
     };
 
-    (generateSignature as jest.Mock).mockReturnValue('signed');
+    (generateSignature as jest.Mock).mockReturnValue("signed");
     mockedFetch.mockResolvedValue({
       ok: true,
       json: async () => mockRes,
     } as Response);
 
     const res = await requestMultipart({
-      method: 'POST',
-      path: '/product/upload',
+      method: "POST",
+      path: "/product/upload",
       body: form,
       config,
     });
@@ -112,9 +112,9 @@ describe('requestMultipart', () => {
     expect(generateSignature).toHaveBeenCalledWith(
       expect.objectContaining({
         query: expect.objectContaining({
-          app_key: 'test_app_key',
+          app_key: "test_app_key",
           timestamp: expect.any(String),
-          shop_cipher: 'cipher',
+          shop_cipher: "cipher",
         }),
       }),
     );

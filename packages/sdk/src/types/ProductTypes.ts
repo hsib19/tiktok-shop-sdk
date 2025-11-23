@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from "fs";
 
 // Represents the result of a prerequisite check
 export type CheckResult = {
@@ -35,27 +35,27 @@ export type CheckListingPrerequisitesResponse = {
 
 export type locale =
   | string
-  | 'de-DE'
-  | 'en-GB'
-  | 'en-IE'
-  | 'en-US'
-  | 'es-ES'
-  | 'es-MX'
-  | 'fr-FR'
-  | 'id-ID'
-  | 'it-IT'
-  | 'ja-JP'
-  | 'ms-MY'
-  | 'pt-BR'
-  | 'th-TH'
-  | 'vi-VN'
-  | 'zh-CN';
+  | "de-DE"
+  | "en-GB"
+  | "en-IE"
+  | "en-US"
+  | "es-ES"
+  | "es-MX"
+  | "fr-FR"
+  | "id-ID"
+  | "it-IT"
+  | "ja-JP"
+  | "ms-MY"
+  | "pt-BR"
+  | "th-TH"
+  | "vi-VN"
+  | "zh-CN";
 
 export type GetCategoriesQuery = {
   locale?: locale;
   keyword?: string;
-  category_version?: string | 'v1' | 'v2';
-  listing_platform?: string | 'TIKTOK_SHOP' | 'TOKOPEDIA';
+  category_version?: string | "v1" | "v2";
+  listing_platform?: string | "TIKTOK_SHOP" | "TOKOPEDIA";
   include_prohibited_categories?: boolean;
 };
 
@@ -79,8 +79,8 @@ export type RecommendCategoryByProductParams = {
     width?: number;
     height?: number;
   }[];
-  category_version?: 'v1' | 'v2';
-  listing_platform?: 'TIKTOK_SHOP' | 'TOKOPEDIA';
+  category_version?: "v1" | "v2";
+  listing_platform?: "TIKTOK_SHOP" | "TOKOPEDIA";
   include_prohibited_categories?: boolean;
 };
 
@@ -96,7 +96,7 @@ export interface RecommendCategoryByProductResponse {
 }
 
 export type GetCategoryRules = {
-  category_version?: 'v1' | 'v2';
+  category_version?: "v1" | "v2";
   locale?: locale;
 };
 
@@ -191,16 +191,16 @@ export type BrandFilterInput = {
   brand_name?: string;
   page_size: number;
   page_token?: string;
-  category_version?: 'v1' | 'v2';
+  category_version?: "v1" | "v2";
 };
 
 export type GetBrandsResponse = {
   brands: {
     id: string;
     name: string;
-    authorized_status: string | 'AUTHORIZED' | 'UNAUTHORIZED';
+    authorized_status: string | "AUTHORIZED" | "UNAUTHORIZED";
     is_t1_brand: boolean;
-    brand_status: string | 'AVAILABLE' | 'UNAVAILABLE';
+    brand_status: string | "AVAILABLE" | "UNAVAILABLE";
   }[];
   total_count: number;
   next_page_token: string;
@@ -241,19 +241,19 @@ export type SearchProductsQuery = {
   page_token?: string;
 };
 
-export type ListingQualityTier = 'POOR' | 'FAIR' | 'GOOD';
-export type ListingPlatform = 'TIKTOK_SHOP';
-export type AuditStatus = 'AUDITING' | 'REJECTED' | 'PASSED';
+export type ListingQualityTier = "POOR" | "FAIR" | "GOOD";
+export type ListingPlatform = "TIKTOK_SHOP";
+export type AuditStatus = "AUDITING" | "REJECTED" | "PASSED";
 export type ProductStatus =
-  | 'ALL'
-  | 'DRAFT'
-  | 'PENDING'
-  | 'FAILED'
-  | 'ACTIVATE'
-  | 'SELLER_DEACTIVATED'
-  | 'PLATFORM_DEACTIVATED'
-  | 'FREEZE'
-  | 'DELETED';
+  | "ALL"
+  | "DRAFT"
+  | "PENDING"
+  | "FAILED"
+  | "ACTIVATE"
+  | "SELLER_DEACTIVATED"
+  | "PLATFORM_DEACTIVATED"
+  | "FREEZE"
+  | "DELETED";
 
 export type SearchProductInput = {
   query: SearchProductsQuery;
@@ -693,7 +693,7 @@ export interface ImageItem {
 export type GetGlobalCategoriesQuery = {
   locale?: locale;
   keyword?: string;
-  category_version?: 'v1' | 'v2';
+  category_version?: "v1" | "v2";
 };
 
 export interface GetGlobalCategoriesResponse {
@@ -708,11 +708,11 @@ export interface Category {
   permission_statuses: PermissionStatus[];
 }
 
-export type PermissionStatus = 'AVAILABLE' | 'UNAVAILABLE' | string;
+export type PermissionStatus = "AVAILABLE" | "UNAVAILABLE" | string;
 
 export type GetGlobalAttributesInput = {
   locale?: locale;
-  category_version?: 'v1' | 'v2';
+  category_version?: "v1" | "v2";
 };
 
 export type GetGlobalAttributesQuery = {
@@ -820,7 +820,7 @@ export type DeleteProductInput = {
   product_ids: string[];
 };
 
-export type Platforms = 'TOKOPEDIA' | 'TIKTOK_SHOP';
+export type Platforms = "TOKOPEDIA" | "TIKTOK_SHOP";
 
 export interface UploadImageParams extends Record<string, unknown> {
   data: Buffer | fs.ReadStream;
@@ -828,10 +828,10 @@ export interface UploadImageParams extends Record<string, unknown> {
 }
 
 type use_case =
-  | 'MAIN_IMAGE'
-  | 'ATTRIBUTE_IMAGE'
-  | 'DESCRIPTION_IMAGE'
-  | 'CERTIFICATION_IMAGE';
+  | "MAIN_IMAGE"
+  | "ATTRIBUTE_IMAGE"
+  | "DESCRIPTION_IMAGE"
+  | "CERTIFICATION_IMAGE";
 
 export interface UploadImageResponse {
   uri: string;
@@ -844,7 +844,7 @@ export interface UploadImageResponse {
 export type OptimizedImagesInput = {
   images: {
     uri: string;
-    optimization_mode: 'WHITE_BACKGROUND'[];
+    optimization_mode: "WHITE_BACKGROUND"[];
   }[];
 };
 
@@ -855,7 +855,7 @@ export type OptimizedImage = {
   original_url: string;
   optimized_uri: string;
   optimized_url: string;
-  optimize_status: 'SUCCESS' | 'FAIL' | string;
+  optimize_status: "SUCCESS" | "FAIL" | string;
 };
 
 export type OptimizedImagesResponse = {
@@ -867,7 +867,7 @@ export type CreateProductInput = {
   description: string;
   category_id: string;
   brand_id?: string;
-  save_mode?: 'LISTING' | 'DRAFT';
+  save_mode?: "LISTING" | "DRAFT";
   main_images: {
     uri: string;
   }[];
@@ -972,7 +972,7 @@ export type CreateProductInput = {
   manufacturer_ids?: string[];
   responsible_person_ids?: string[];
   listing_platforms?: string[];
-  shipping_insurance_requirement?: 'REQUIRED' | 'NOT_REQUIRED';
+  shipping_insurance_requirement?: "REQUIRED" | "NOT_REQUIRED";
   minimum_order_quantity?: number;
   is_pre_owned?: boolean;
   idempotency_key?: string;
@@ -1123,7 +1123,7 @@ export type EditProductResponse = {
     message?: string;
   }[];
   audit?: {
-    status?: string | 'AUDITING' | 'REJECTED' | 'APPROVED';
+    status?: string | "AUDITING" | "REJECTED" | "APPROVED";
   };
 };
 
@@ -1137,18 +1137,18 @@ export type RecoverProductBody = {
 };
 
 export type Currency =
-  | 'BRL'
-  | 'EUR'
-  | 'GBP'
-  | 'IDR'
-  | 'JPY'
-  | 'MXN'
-  | 'MYR'
-  | 'PHP'
-  | 'SGD'
-  | 'THB'
-  | 'USD'
-  | 'VND';
+  | "BRL"
+  | "EUR"
+  | "GBP"
+  | "IDR"
+  | "JPY"
+  | "MXN"
+  | "MYR"
+  | "PHP"
+  | "SGD"
+  | "THB"
+  | "USD"
+  | "VND";
 
 export interface SKUInput {
   id: string;
@@ -1163,7 +1163,7 @@ export interface SKUInput {
     external_list_prices: {
       source: string;
       amount: string;
-      currency: string | 'USD';
+      currency: string | "USD";
     };
   };
 }
@@ -1327,11 +1327,11 @@ export type PartialEditProductResponse = {
     message?: string;
   }[];
   audit?: {
-    status?: string | 'AUDITING' | 'REJECTED' | 'APPROVED';
+    status?: string | "AUDITING" | "REJECTED" | "APPROVED";
   };
 };
 
-type PackageWeight = 'GRAM' | 'KILOGRAM' | 'POUND';
+type PackageWeight = "GRAM" | "KILOGRAM" | "POUND";
 
 export type CheckProductListingBody = {
   category_id: string;
@@ -1414,13 +1414,13 @@ interface PackageW {
 }
 
 export interface CheckProductListingResponse {
-  check_result?: 'PASSED' | 'FAILED';
+  check_result?: "PASSED" | "FAILED";
   fail_reasons?: FailReason[];
   warnings?: {
     message?: string;
   };
   listing_quality?: {
-    current_tier?: 'EXCELLENT' | 'GOOD' | 'POOR';
+    current_tier?: "EXCELLENT" | "GOOD" | "POOR";
     remaining_recommendations?: number;
   };
   diagnoses?: Diagnosis[];
@@ -1719,7 +1719,7 @@ export interface EditGlobalProductResponse {
   }[];
   publish_results?: {
     region?: string;
-    status?: 'SUCCESS' | 'FAILURE';
+    status?: "SUCCESS" | "FAILURE";
     fail_reasons?: {
       message?: string;
     }[];
@@ -1746,7 +1746,7 @@ export type SearchGlobalProductsQuery = {
 };
 
 export type SearchGlobalProductsBody = {
-  status?: 'PUBLISHED' | 'DRAFT' | string;
+  status?: "PUBLISHED" | "DRAFT" | string;
   seller_skus?: string[];
   create_time_ge?: number;
   create_time_le?: number;
@@ -1930,21 +1930,21 @@ export interface PublishGlobalProductInput {
 }
 
 export type Region =
-  | 'DE' // Germany
-  | 'ES' // Spain
-  | 'FR' // France
-  | 'GB' // United Kingdom
-  | 'ID' // Indonesia
-  | 'IE' // Ireland
-  | 'IT' // Italy
-  | 'JP' // Japan
-  | 'MY' // Malaysia
-  | 'PH' // Philippines
-  | 'SG' // Singapore
-  | 'TH' // Thailand
-  | 'US' // United States
-  | 'VN' // Vietnam
-  | 'MX'; // Mexico
+  | "DE" // Germany
+  | "ES" // Spain
+  | "FR" // France
+  | "GB" // United Kingdom
+  | "ID" // Indonesia
+  | "IE" // Ireland
+  | "IT" // Italy
+  | "JP" // Japan
+  | "MY" // Malaysia
+  | "PH" // Philippines
+  | "SG" // Singapore
+  | "TH" // Thailand
+  | "US" // United States
+  | "VN" // Vietnam
+  | "MX"; // Mexico
 
 interface PublishTarget {
   region: Region;
@@ -1983,7 +1983,7 @@ export interface PublishGlobalProductResponse {
   }[];
   publish_result?: {
     region?: string;
-    status?: 'SUCCESS' | 'FAILURE';
+    status?: "SUCCESS" | "FAILURE";
     fail_reasons?: {
       message?: string;
     }[];
@@ -2016,7 +2016,7 @@ export interface GetImageTranslationTasksResponse {
 interface TranslationTask {
   id?: string;
   target_language?: string;
-  status?: 'COMPLETED' | 'FAILED' | 'IN_PROGRESS' | string;
+  status?: "COMPLETED" | "FAILED" | "IN_PROGRESS" | string;
   fail_reason?: string;
   original_image?: ImageData;
   translated_image?: ImageData;

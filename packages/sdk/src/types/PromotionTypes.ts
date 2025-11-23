@@ -1,15 +1,15 @@
 type ActivityType =
-  | 'FIXED_PRICE'
-  | 'DIRECT_DISCOUNT'
-  | 'FLASHSALE'
-  | 'SHIPPING_DISCOUNT'
-  | 'BUY_MORE_SAVE_MORE';
+  | "FIXED_PRICE"
+  | "DIRECT_DISCOUNT"
+  | "FLASHSALE"
+  | "SHIPPING_DISCOUNT"
+  | "BUY_MORE_SAVE_MORE";
 
-type ProductLevel = 'PRODUCT' | 'VARIATION' | 'SHOP';
+type ProductLevel = "PRODUCT" | "VARIATION" | "SHOP";
 
-type DurationType = 'NORMAL' | 'INDEFINITE';
+type DurationType = "NORMAL" | "INDEFINITE";
 
-type ParticipationLimitType = 'BUYER_NO_LIMIT' | 'BUYER_LIMIT_ONLY_ONE';
+type ParticipationLimitType = "BUYER_NO_LIMIT" | "BUYER_LIMIT_ONLY_ONE";
 
 export type CreateActivityBody = {
   title: string;
@@ -130,12 +130,12 @@ export type GetActivityResponse = {
 
 export type SearchActivityBody = {
   status?:
-    | 'DRAFT'
-    | 'NOT_START'
-    | 'ONGOING'
-    | 'EXPIRED'
-    | 'DEACTIVATED'
-    | 'NOT_EFFECTIVE';
+    | "DRAFT"
+    | "NOT_START"
+    | "ONGOING"
+    | "EXPIRED"
+    | "DEACTIVATED"
+    | "NOT_EFFECTIVE";
   activity_title?: string;
   page_size?: number;
   page_token?: string;
@@ -290,14 +290,14 @@ export type GetCouponResponse = {
 };
 
 export type SearchCouponBody = {
-  status: ('NOT_START' | 'ONGOING' | 'EXPIRED' | 'DEACTIVATED')[];
+  status: ("NOT_START" | "ONGOING" | "EXPIRED" | "DEACTIVATED")[];
   title_keyword: string;
   display_type: (
-    | 'REGULAR'
-    | 'LIVE'
-    | 'CREATOR_EXCLUSIVE'
-    | 'CHAT'
-    | 'PROMO_CODE'
+    | "REGULAR"
+    | "LIVE"
+    | "CREATOR_EXCLUSIVE"
+    | "CHAT"
+    | "PROMO_CODE"
   )[];
 };
 

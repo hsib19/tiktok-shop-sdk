@@ -16,7 +16,7 @@ import {
   UpdateActivityProductBody,
   UpdateActivityProductResponse,
   UpdateActivityResponse,
-} from '@types';
+} from "@types";
 
 /**
  * PromotionModule provides access to TikTok Shop Partner Promotion APIs.
@@ -47,7 +47,7 @@ export class PromotionModule {
     params: CreateActivityBody,
   ): Promise<TikTokAPIResponse<CreateActivityResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/promotion/202309/activities`,
       body: params,
     });
@@ -63,7 +63,7 @@ export class PromotionModule {
     params: UpdateActivityBody,
   ): Promise<TikTokAPIResponse<UpdateActivityResponse>> {
     return this.request({
-      method: 'PUT',
+      method: "PUT",
       path: `/promotion/202309/activities/${params.activity_id}`,
       body: params,
     });
@@ -79,7 +79,7 @@ export class PromotionModule {
     activity_id: string,
   ): Promise<TikTokAPIResponse<DeactivateActivityResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/promotion/202309/activities/${activity_id}/deactivate`,
     });
   }
@@ -94,7 +94,7 @@ export class PromotionModule {
     activity_id: string,
   ): Promise<TikTokAPIResponse<GetActivityResponse>> {
     return this.request({
-      method: 'GET',
+      method: "GET",
       path: `/promotion/202309/activities/${activity_id}`,
     });
   }
@@ -109,7 +109,7 @@ export class PromotionModule {
     body: SearchActivityBody,
   ): Promise<TikTokAPIResponse<SearchActivityResponse>> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       path: `/promotion/202309/activities/search`,
       body,
     });
@@ -125,7 +125,7 @@ export class PromotionModule {
     body: UpdateActivityProductBody,
   ): Promise<TikTokAPIResponse<UpdateActivityProductResponse>> {
     return this.request({
-      method: 'PUT',
+      method: "PUT",
       path: `/promotion/202309/activities/${body.activity_id}/products`,
       body,
     });
@@ -141,7 +141,7 @@ export class PromotionModule {
     params: RemoveActivityProductInput,
   ): Promise<TikTokAPIResponse<RemoveActivityProductResponse>> {
     return this.request({
-      method: 'DELETE',
+      method: "DELETE",
       path: `/promotion/202309/activities/${params.activity_id}/products`,
       body: params.body,
     });
@@ -155,7 +155,7 @@ export class PromotionModule {
    */
   getCoupon(coupon_id: string): Promise<TikTokAPIResponse<GetCouponResponse>> {
     return this.request({
-      method: 'GET',
+      method: "GET",
       path: `/promotion/202406/coupons/${coupon_id}`,
     });
   }
@@ -170,7 +170,7 @@ export class PromotionModule {
     body: SearchCouponBody,
   ): Promise<TikTokAPIResponse<SearchCouponResponse>> {
     return this.request({
-      method: 'DELETE',
+      method: "DELETE",
       path: `/promotion/202406/coupons/search`,
       body: body,
     });

@@ -1,8 +1,8 @@
-import { generateSignature } from '@utils';
-import FormData from 'form-data';
+import { generateSignature } from "@utils";
+import FormData from "form-data";
 
 interface MultipartRequestOptions {
-  method: 'POST';
+  method: "POST";
   path: string;
   query?: Record<string, unknown>;
   body: InstanceType<typeof FormData>;
@@ -39,7 +39,7 @@ export async function requestMultipart({
     path,
     query: unsignedQuery,
     body: undefined,
-    version: 'v1',
+    version: "v1",
   });
 
   const fullQuery = {
@@ -59,7 +59,7 @@ export async function requestMultipart({
   };
 
   if (config.accessToken) {
-    headers['x-tts-access-token'] = config.accessToken;
+    headers["x-tts-access-token"] = config.accessToken;
   }
 
   const response = await fetch(url.toString(), {

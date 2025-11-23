@@ -29,8 +29,8 @@ export interface Warehouse {
   id?: string;
   name?: string;
   effect_status?: string;
-  type?: 'SALES_WAREHOUSE' | string;
-  sub_type?: 'DOMESTIC_WAREHOUSE' | string;
+  type?: "SALES_WAREHOUSE" | string;
+  sub_type?: "DOMESTIC_WAREHOUSE" | string;
   is_default?: boolean;
   address?: WarehouseAddress;
 }
@@ -45,23 +45,23 @@ export interface DimensionLimit {
   max_height: number;
   max_length: number;
   max_width: number;
-  unit: 'INCH' | 'CM' | string;
+  unit: "INCH" | "CM" | string;
 }
 
 export interface WeightLimit {
   max_weight: number;
   min_weight: number;
-  unit: 'GRAM' | 'KG' | string;
+  unit: "GRAM" | "KG" | string;
 }
 
 export interface DeliveryOption {
   id?: string;
   name?: string;
-  type?: 'STANDARD' | 'EXPRESS' | string;
+  type?: "STANDARD" | "EXPRESS" | string;
   description?: string;
   dimension_limit?: DimensionLimit;
   weight_limit?: WeightLimit;
-  platform?: ('TOKOPEDIA' | 'TIKTOK_SHOP' | string)[];
+  platform?: ("TOKOPEDIA" | "TIKTOK_SHOP" | string)[];
 }
 
 export interface ShippingProviders {

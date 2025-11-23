@@ -1,6 +1,6 @@
-import { request, requestMultipart } from '@client';
-import { MultipartRequestFunction, RequestFunction } from '@types';
-import { DEFAULT_BASE_URL, SDKConfig } from '@sdk';
+import { request, requestMultipart } from "@client";
+import { MultipartRequestFunction, RequestFunction } from "@types";
+import { DEFAULT_BASE_URL, SDKConfig } from "@sdk";
 import {
   AuthModule,
   EventModule,
@@ -15,7 +15,7 @@ import {
   PromotionModule,
   AnalyticsModule,
   AffiliateSellerModule,
-} from '@modules';
+} from "@modules";
 
 /**
  * TikTokShopSDK is the main entry point to interact with TikTok Shop API.
