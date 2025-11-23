@@ -1,6 +1,6 @@
 {
   "name": "tiktok-shop-sdk",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A TypeScript SDK for interacting with TikTok Shop OpenAPI.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -32,6 +32,14 @@
   ],
   "author": "Hasib Muharam",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hsib19/tiktok-shop-sdk.git"
+  },
+  "homepage": "https://tiktok-shop-sdk-docs.vercel.app/en",
+  "bugs": {
+    "url": "https://github.com/hsib19/tiktok-shop-sdk/issues"
+  },
   "publishConfig": {
     "access": "public"
   },
