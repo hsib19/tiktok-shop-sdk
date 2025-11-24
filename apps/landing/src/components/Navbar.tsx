@@ -46,7 +46,7 @@ export default function Navbar() {
         {/* Brand */}
         <Link
           href="/"
-          className="flex items-center gap-2 text-2xl font-bold text-neutral-900 dark:text-white"
+          className="flex items-center gap-2 text-2xl font-bold text-black! dark:text-white!"
         >
           TIKTOK SHOP SDK
           <span className="rounded bg-neutral-100 px-2 py-1 text-xs text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300">

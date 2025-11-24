@@ -1,5 +1,6 @@
 import { useI18n } from '@/hooks/useI18n';
 import { getFooterSections } from '@/constants/footerSections';
+import Link from 'next/link';
 
 export default function Footer() {
   const { t } = useI18n('footer');
@@ -18,12 +19,12 @@ export default function Footer() {
               <ul className="space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
                 {links.map((link) => (
                   <li key={link.key}>
-                    <a
+                    <Link
                       href={link.href}
-                      className="text-blue-600 hover:underline"
+                      className="text-black! hover:underline dark:text-white!"
                     >
                       {link.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
