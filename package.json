@@ -14,7 +14,10 @@
     "test:cov": "turbo run test -- --coverage",
     "lint": "turbo run lint",
     "format": "prettier --write \"apps/**/*.{ts,tsx,js,jsx,json,md,svelte}\" \"packages/**/*.{ts,tsx,js,jsx,json,md}\"",
-    "prepare": "husky"
+    "prepare": "husky",
+    "docs:dev": "vitepress dev apps/docs",
+    "docs:build": "vitepress build apps/docs",
+    "docs:preview": "vitepress preview apps/docs"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,json,css,md}": [
