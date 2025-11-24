@@ -5,6 +5,7 @@ import Hero from '@/components/pages/Hero';
 import FeaturesSection from '@/components/pages/FeatureSection';
 import QuickLinksSection from '@/components/pages/QuickLinksSection';
 import GithubSection from '@/components/pages/GithubSection';
+import ContributorsSection from '@/components/pages/ContributorsSection';
 
 export default function HomePage() {
   return (
@@ -13,6 +14,7 @@ export default function HomePage() {
       <QuickLinksSection />
       <FeaturesSection />
       <GithubSection />
+      <ContributorsSection />
     </Layout>
   );
 }
