@@ -1,55 +1,81 @@
 ---
+title: TikTok Shop SDK – Introduction
 outline: deep
 ---
 
-# Runtime API Examples
+# TikTok Shop SDK for Node.js
 
-This page demonstrates usage of some of the runtime APIs provided by VitePress.
+A simple, modular, and fully-typed SDK that wraps the official TikTok Shop APIs, designed to make integration effortless for developers. TikTok's official APIs are powerful but can be complex; this SDK abstracts boilerplate and authentication so you can focus on building your product.
 
-The main `useData()` API can be used to access site, theme, and page data for the current page. It works in both `.md` and `.vue` files:
+---
 
-```md
-<script setup>
-import { useData } from 'vitepress'
+## Features
 
-const { theme, page, frontmatter } = useData()
-</script>
+- **Full TypeScript support** — typed requests & responses
+- **Secure authentication** using HMAC signatures
+- **Modular structure** (Product, Order, Finance, Auth, etc.)
+- **Supports Seller & Partner endpoints**
+- **Auto-generated query signatures**
+- **Lightweight & framework-agnostic**
 
-## Results
+---
 
-### Theme Data
+## Installation
 
-<pre>{{ theme }}</pre>
-
-### Page Data
-
-<pre>{{ page }}</pre>
-
-### Page Frontmatter
-
-<pre>{{ frontmatter }}</pre>
+```bash
+npm install tiktok-shop-sdk
+# or
+yarn add tiktok-shop-sdk
 ```
 
-<script setup>
-import { useData } from 'vitepress'
+---
 
-const { site, theme, page, frontmatter } = useData()
-</script>
+## Quick Start
 
-## Results
+```ts
+import { TikTokShopClient } from 'tiktok-shop-sdk';
 
-### Theme Data
+const client = new TikTokShopClient({
+  appKey: process.env.TTS_APP_KEY!,
+  appSecret: process.env.TTS_APP_SECRET!,
+  shopId: process.env.TTS_SHOP_ID!,
+});
 
-<pre>{{ theme }}</pre>
+// Example: Get product list
+const products = await client.product.getProducts({ page_size: 20 });
+console.log(products);
+```
 
-### Page Data
+---
 
-<pre>{{ page }}</pre>
+## Included Modules
 
-### Page Frontmatter
+- **Auth** — authentication & tokens
+- **Shop** — shop info
+- **Event** — event subscription & fetch
+- **Seller** — seller account APIs
+- **Products** — products, categories, listings
+- **Orders** — orders, status, details
+- **Logistic** — shipping, tracking
+- **Return & Refund** — return workflows
+- **Finance** — statements, payments, withdrawals
+- **Fulfillment** — fulfillment process
+- **Promotion** — coupons, discounts
+- **Affiliate Seller** — affiliate APIs
+- **Analytics** — performance metrics
 
-<pre>{{ frontmatter }}</pre>
+---
 
-## More
+## Who is this SDK for?
 
-Check out the documentation for the [full list of runtime APIs](https://vitepress.dev/reference/runtime-api#usedata).
+- E-commerce automation developers
+- ERP & inventory sync tools
+- Affiliate platforms
+- AI agent workflows for commerce
+- Backend services that connect to TikTok Shop
+
+---
+
+## Documentation
+
+Refer to the module guides, API references, and examples throughout this documentation.

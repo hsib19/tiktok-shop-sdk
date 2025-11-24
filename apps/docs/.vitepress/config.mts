@@ -9,10 +9,35 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: 'Examples',
+        text: 'Introduction',
+        collapsed: false,
         items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
+          { text: 'Get Started', link: '/get-started' },
+          { text: 'Authentication', link: '/authentication' },
+          { text: 'Errors', link: '/errors' },
+          {
+            text: 'Core API',
+            items: [
+              {
+                text: 'Authorization',
+                collapsed: true,
+                items: [
+                  { text: 'Get Authorized Category Assets', link: '/core-api/authorization/get-authorized-category-assets' },
+                  { text: 'Get Authorized Shop', link: '/core-api/authorization/get-authorized-shop' },
+                ]
+              },
+              {
+                text: 'Event',
+                collapsed: true,
+                items: [
+                  { text: 'Get Shop Webhooks', link: '/core-api/event/get-shop-webhooks' },
+                  { text: 'Update Shop Webhook', link: '/core-api/event/update-shop-webhook' },
+                  { text: 'Delete Shop Webhook', link: '/core-api/event/delete-shop-webhook' },
+                ]
+              },
+
+            ]
+          }
         ]
       }
     ],
