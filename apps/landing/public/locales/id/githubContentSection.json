@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "title": "Berlisensi MIT",
+      "description": "Sepenuhnya open source di bawah lisensi MIT."
+    },
+    {
+      "title": "Beri Bintang di GitHub",
+      "description": "Tunjukkan dukungan Anda dan ikuti pengembangan."
+    },
+    {
+      "title": "Aktif Dipelihara",
+      "description": "Update dan perbaikan rutin oleh tim inti."
+    },
+    {
+      "title": "Terbuka untuk Kontributor",
+      "description": "Kontribusi dari developer di seluruh dunia sangat diterima."
+    }
+  ]
+}

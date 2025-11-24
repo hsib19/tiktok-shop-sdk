@@ -1,0 +1,9 @@
+{
+  "title": "Quick Install",
+  "subtitle": "Start using the SDK in seconds. Just install and import—no boilerplate, no config.",
+  "features": [
+    "Supports Node.js, SvelteKit, Next.js, and other modern frameworks",
+    "TypeScript-first with built-in types and error helpers",
+    "Lightweight and modular—only import what you need"
+  ]
+}

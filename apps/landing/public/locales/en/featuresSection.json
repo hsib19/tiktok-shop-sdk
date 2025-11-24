@@ -1,0 +1,30 @@
+{
+  "title": "Supported Features",
+  "subtitle": "The SDK covers essential TikTok Shop APIs with clear methods and built-in types—ready for production use.",
+  "items": [
+    {
+      "title": "Order API",
+      "description": "Fetch, filter, and paginate orders with full type safety and error handling."
+    },
+    {
+      "title": "Product Sync",
+      "description": "Sync product listings, update inventory, and manage SKUs programmatically."
+    },
+    {
+      "title": "Webhook Verification",
+      "description": "Verify incoming webhooks with built-in signature validation and timestamp checks."
+    },
+    {
+      "title": "Token Refresh",
+      "description": "Automatically refresh expired tokens using secure OAuth2 flows."
+    },
+    {
+      "title": "Error Types",
+      "description": "Catch and classify API errors with typed exceptions like TikTokAPIError."
+    },
+    {
+      "title": "Modular Imports",
+      "description": "Import only what you need—no unused code, no bloated bundles."
+    }
+  ]
+}
