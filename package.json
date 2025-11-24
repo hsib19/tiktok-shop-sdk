@@ -17,8 +17,13 @@
     "prepare": "husky",
     "docs:dev": "vitepress dev apps/docs",
     "docs:build": "vitepress build apps/docs",
-    "docs:preview": "vitepress preview apps/docs",
-    "lint-staged": "lint-staged --no-stash"
+    "docs:preview": "vitepress preview apps/docs"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "devDependencies": {
     "@eslint/js": "^9.30.0",
@@ -32,8 +37,6 @@
     "lint-staged": "^16.2.4",
     "pnpm": "^10.12.4",
     "prettier": "^3.6.2",
-    "prettier-plugin-svelte": "^3.4.0",
-    "prettier-plugin-tailwindcss": "^0.7.1",
     "tsx": "^4.20.3",
     "turbo": "^2.5.4",
     "typescript-eslint": "^8.35.0"
