@@ -88,23 +88,23 @@ yarn add tiktok-shop-sdk
 Please refer to the [`apps/examples/`](./apps/examples) directory in this repository. Each file in that folder demonstrates a specific feature or workflow.
 
 ```ts
-import { TikTokShopSDK } from "tiktok-shop-sdk";
+import { TikTokShopSDK } from 'tiktok-shop-sdk';
 
 // Initialize SDK with your app key and secret
 const sdk = new TikTokShopSDK({
-  appKey: "", // Your TikTok Shop App Key
-  appSecret: "", // Your TikTok Shop App Secret
+  appKey: '', // Your TikTok Shop App Key
+  appSecret: '', // Your TikTok Shop App Secret
 });
 
 export async function main() {
   // Example 1: Request an access token using authorization code grant
   // This step is necessary to obtain a valid access token for authenticated API calls
   const response = await sdk.auth.getAccessToken({
-    auth_code: "", // Authorization code obtained from TikTok (must be provided)
-    grant_type: "authorized_code", // Grant type, typically fixed as "authorized_code"
+    auth_code: '', // Authorization code obtained from TikTok (must be provided)
+    grant_type: 'authorized_code', // Grant type, typically fixed as "authorized_code"
   });
 
-  console.log("Access Token Response:", response);
+  console.log('Access Token Response:', response);
 
   // Example 2: Use Access Token and Shop Cipher to update a webhook
   // Before making API calls that require authorization, set the access token and shop cipher
@@ -117,8 +117,8 @@ export async function main() {
 
   // Update shop webhook configuration with new webhook URL and event type
   const updateResponse = await sdk.event.updateShopWebhook({
-    address: "https://urlhere.com/notify",
-    event_type: "NEW_CONVERSATION",
+    address: 'https://urlhere.com/notify',
+    event_type: 'NEW_CONVERSATION',
   });
 
   console.log(updateResponse);
@@ -132,27 +132,27 @@ The SDK provides built-in error forwarding. You can catch API-related errors usi
 **Example**
 
 ```ts
-import { TikTokShopSDK, TikTokAPIError } from "tiktok-shop-sdk";
+import { TikTokShopSDK, TikTokAPIError } from 'tiktok-shop-sdk';
 
 const sdk = new TikTokShopSDK({
-  appKey: "",
-  appSecret: "",
+  appKey: '',
+  appSecret: '',
 });
 
 try {
   const response = await sdk.auth.refreshAccessToken({
     refresh_token: process.env.TIKTOK_REFFRESH_TOKEN!,
-    grant_type: "refresh_token",
+    grant_type: 'refresh_token',
   });
 
   console.log(response);
 } catch (error) {
   if (error instanceof TikTokAPIError) {
-    console.error("TikTok API Error:", error.message);
-    console.error("Status Code:", error.code);
-    console.log("Request Id: ", error.requestId);
+    console.error('TikTok API Error:', error.message);
+    console.error('Status Code:', error.code);
+    console.log('Request Id: ', error.requestId);
   } else {
-    console.error("Unexpected error:", error);
+    console.error('Unexpected error:', error);
   }
 }
 ```
@@ -166,7 +166,7 @@ To make authenticated API requests on behalf of a TikTok Shop seller, you must s
 Sets the access token for all subsequent API calls. This token is obtained via the OAuth 2.0 authorization process.
 
 ```ts
-sdk.setAccessToken("your_access_token_here");
+sdk.setAccessToken('your_access_token_here');
 ```
 
 - You should call this once after successfully retrieving the token.
@@ -178,7 +178,7 @@ sdk.setAccessToken("your_access_token_here");
 Sets the shop cipher (unique shop ID) required by most endpoints.
 
 ```ts
-sdk.setShopCipher("your_shop_cipher_here");
+sdk.setShopCipher('your_shop_cipher_here');
 ```
 
 - Typically obtained alongside the access token.

@@ -6,7 +6,7 @@ export type GetStatementsQuery = {
   timestamp?: number;
   page_token?: string;
   sort_field: string;
-  sort_order?: "ASC" | "DESC";
+  sort_order?: 'ASC' | 'DESC';
 };
 
 export type GetStatementsResponse = {
@@ -33,7 +33,7 @@ export type GetPaymentsQuery = {
   timestamp?: number;
   page_token?: string;
   sort_field: string;
-  sort_order?: "ASC" | "DESC";
+  sort_order?: 'ASC' | 'DESC';
 };
 
 export type GetPaymentsResponse = {
@@ -64,9 +64,9 @@ export type GetPaymentsResponse = {
   }[];
 };
 
-export type WithdrawalType = "WITHDRAW" | "SETTLE" | "TRANSFER" | "REVERSE";
+export type WithdrawalType = 'WITHDRAW' | 'SETTLE' | 'TRANSFER' | 'REVERSE';
 
-export type WithdrawalStatus = "PROCESSING" | "SUCCESS" | "FAILED";
+export type WithdrawalStatus = 'PROCESSING' | 'SUCCESS' | 'FAILED';
 
 export type GetWithdrawalsQuery = {
   create_time_lt?: number;
@@ -197,7 +197,7 @@ type GetTransactionsByStatementsQuery = {
   timestamp?: number;
   page_token?: string;
   sort_field: string;
-  sort_order?: "ASC" | "DESC";
+  sort_order?: 'ASC' | 'DESC';
 };
 
 export type GetTransactionsByStatementResponse = {

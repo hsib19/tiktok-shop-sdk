@@ -4,7 +4,7 @@ import {
   GetWarehousesResponse,
   RequestFunction,
   TikTokAPIResponse,
-} from "@types";
+} from '@types';
 
 /**
  * LogisticModule provides methods to interact with TikTok Shop Logistics API endpoints.
@@ -28,8 +28,8 @@ export class LogisticModule {
    */
   getWarehouseList(): Promise<TikTokAPIResponse<GetWarehousesResponse>> {
     return this.request({
-      method: "GET",
-      path: "/logistics/202309/warehouses",
+      method: 'GET',
+      path: '/logistics/202309/warehouses',
     });
   }
 
@@ -42,8 +42,8 @@ export class LogisticModule {
     TikTokAPIResponse<GetGlobalSellerWarehousesResponse>
   > {
     return this.request({
-      method: "GET",
-      path: "/logistics/202309/global_warehouses",
+      method: 'GET',
+      path: '/logistics/202309/global_warehouses',
     });
   }
 
@@ -58,7 +58,7 @@ export class LogisticModule {
     warehouse_id: string,
   ): Promise<TikTokAPIResponse<GetWarehousesDeliveryOptionsResponse>> {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/logistics/202309/warehouses/${warehouse_id}/delivery_options`,
     });
   }
@@ -74,7 +74,7 @@ export class LogisticModule {
     delivery_option_id: string,
   ): Promise<TikTokAPIResponse<GetWarehousesDeliveryOptionsResponse>> {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/logistics/202309/delivery_options/${delivery_option_id}/shipping_providers`,
     });
   }

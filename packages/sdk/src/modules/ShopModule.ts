@@ -3,7 +3,7 @@ import {
   CategoryAssetsResponse,
   RequestFunction,
   TikTokAPIResponse,
-} from "@types";
+} from '@types';
 
 /**
  * ShopModule handles requests related to authorization and shop-specific data,
@@ -23,8 +23,8 @@ export class ShopModule {
     TikTokAPIResponse<AuthorizedShopsResponse>
   > {
     return this.request({
-      method: "GET",
-      path: "/authorization/202309/shops",
+      method: 'GET',
+      path: '/authorization/202309/shops',
     });
   }
 
@@ -38,8 +38,8 @@ export class ShopModule {
     TikTokAPIResponse<CategoryAssetsResponse>
   > {
     return this.request({
-      method: "GET",
-      path: "/authorization/202405/category_assets",
+      method: 'GET',
+      path: '/authorization/202405/category_assets',
     });
   }
 }

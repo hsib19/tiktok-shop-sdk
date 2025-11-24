@@ -8,7 +8,7 @@ import {
   GetWithdrawalsQuery,
   RequestFunction,
   TikTokAPIResponse,
-} from "@types";
+} from '@types';
 
 /**
  * FinanceModule provides access to TikTok Shop Partner Finance APIs.
@@ -34,7 +34,7 @@ export class FinanceModule {
     params: GetStatementsQuery,
   ): Promise<TikTokAPIResponse<GetStatementsResponse>> {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/finance/202309/statements`,
       query: params,
     });
@@ -52,7 +52,7 @@ export class FinanceModule {
     params: GetPaymentsQuery,
   ): Promise<TikTokAPIResponse<GetPaymentsResponse>> {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/finance/202309/payments`,
       query: params,
     });
@@ -70,7 +70,7 @@ export class FinanceModule {
     params: GetWithdrawalsQuery,
   ): Promise<TikTokAPIResponse<GetPaymentsResponse>> {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/finance/202309/withdrawals`,
       query: params,
     });
@@ -88,7 +88,7 @@ export class FinanceModule {
     order_id: string,
   ): Promise<TikTokAPIResponse<GetTransactionsByOrderResponse>> {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/finance/202501/orders/${order_id}/statement_transactions`,
     });
   }
@@ -105,7 +105,7 @@ export class FinanceModule {
     params: GetTransactionsByStatementsInput,
   ): Promise<TikTokAPIResponse<GetTransactionsByOrderResponse>> {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/finance/202501/statements/${params.statement_id}/statement_transactions`,
       query: params.query,
     });

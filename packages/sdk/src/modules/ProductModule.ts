@@ -84,8 +84,8 @@ import {
   UploadImageResponse,
   UploadProductFileParams,
   UploadProductFileResponse,
-} from "@types";
-import FormData from "form-data";
+} from '@types';
+import FormData from 'form-data';
 
 /**
  * ProductModule provides methods to interact with TikTok Shop's product-related endpoints.
@@ -111,8 +111,8 @@ export class ProductModule {
     TikTokAPIResponse<CheckListingPrerequisitesResponse>
   > {
     return this.request({
-      method: "GET",
-      path: "/product/202309/prerequisites",
+      method: 'GET',
+      path: '/product/202309/prerequisites',
     });
   }
 
@@ -124,8 +124,8 @@ export class ProductModule {
     query: GetCategoriesQuery,
   ): Promise<TikTokAPIResponse<CategoriesResponse>> {
     return this.request({
-      method: "GET",
-      path: "/product/202309/categories",
+      method: 'GET',
+      path: '/product/202309/categories',
       query: query,
     });
   }
@@ -137,8 +137,8 @@ export class ProductModule {
     body: RecommendCategoryByProductParams,
   ): Promise<TikTokAPIResponse<RecommendCategoryByProductResponse>> {
     return this.request({
-      method: "POST",
-      path: "/product/202309/categories/recommend",
+      method: 'POST',
+      path: '/product/202309/categories/recommend',
       body: body,
     });
   }
@@ -150,7 +150,7 @@ export class ProductModule {
     params: GetCategoryRulesQuery,
   ): Promise<TikTokAPIResponse<GetCategoryRulesResponse>> {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/product/202309/categories/${params.category_id}/rules`,
       query: params.query,
     });
@@ -163,7 +163,7 @@ export class ProductModule {
     params: GetCategoryAttributes,
   ): Promise<TikTokAPIResponse<GetAttributesResponse>> {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/product/202309/categories/${params.category_id}/attributes`,
       query: params.query,
     });
@@ -177,7 +177,7 @@ export class ProductModule {
     body: BrandInput,
   ): Promise<TikTokAPIResponse<BrandCreateResponse>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/product/202309/brands`,
       body: body,
     });
@@ -190,7 +190,7 @@ export class ProductModule {
     query: BrandFilterInput,
   ): Promise<TikTokAPIResponse<GetBrandsResponse>> {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/product/202309/brands`,
       query: query,
     });
@@ -204,7 +204,7 @@ export class ProductModule {
     params: SearchSizeChartsInput,
   ): Promise<TikTokAPIResponse<SearchSizeChartResponse>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/product/202407/sizecharts/search`,
       query: params.query,
       body: params.body,
@@ -219,7 +219,7 @@ export class ProductModule {
     params: SearchProductInput,
   ): Promise<TikTokAPIResponse<SearchProductsResponse>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/product/202502/products/search`,
       query: params.query,
       body: params.body,
@@ -233,7 +233,7 @@ export class ProductModule {
     params: GetProductParams,
   ): Promise<TikTokAPIResponse<GetProductResponse>> {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/product/202309/products/${params.product_id}`,
       query: params.query,
     });
@@ -245,7 +245,7 @@ export class ProductModule {
     body: CreateResponsiblePersonInput,
   ): Promise<TikTokAPIResponse<CreateResponsiblePersonResponse>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/product/202409/compliance/responsible_persons`,
       body: body,
     });
@@ -258,7 +258,7 @@ export class ProductModule {
     params: SearchResponsiblePersonsParam,
   ): Promise<TikTokAPIResponse<SearchResponsiblePersonsResponse>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/product/202409/compliance/responsible_persons/search`,
       query: params.query,
       body: params.body,
@@ -272,7 +272,7 @@ export class ProductModule {
     params: EditResponsiblePersonInput,
   ): Promise<TikTokAPIResponse<object>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/product/202409/compliance/responsible_persons/${params.responsible_person_id}/partial_edit`,
       body: params.body,
     });
@@ -283,7 +283,7 @@ export class ProductModule {
    */
   createCategoryUpgradeTask(): Promise<TikTokAPIResponse<object>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/product/202407/products/category_upgrade_task`,
     });
   }
@@ -297,7 +297,7 @@ export class ProductModule {
     TikTokAPIResponse<GetRecommendedProductTitleAndDescriptionResponse>
   > {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/product/202405/products/suggestions`,
       query,
     });
@@ -310,7 +310,7 @@ export class ProductModule {
     query: GetRecommendedProductTitleAndDescriptionQuery,
   ): Promise<TikTokAPIResponse<GetProductSEOWordsResponse>> {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/product/202405/products/seo_words`,
       query,
     });
@@ -323,7 +323,7 @@ export class ProductModule {
     query: GetRecommendedProductTitleAndDescriptionQuery,
   ): Promise<TikTokAPIResponse<ProductDiagnosisResponse>> {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/product/202405/products/diagnoses`,
       query,
     });
@@ -336,7 +336,7 @@ export class ProductModule {
     query: GetGlobalCategoriesQuery,
   ): Promise<TikTokAPIResponse<GetGlobalCategoriesResponse>> {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/product/202309/global_categories`,
       query,
     });
@@ -349,7 +349,7 @@ export class ProductModule {
     params: GetGlobalAttributesQuery,
   ): Promise<TikTokAPIResponse<GetGlobalAttributeResponse>> {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/product/202309/categories/${params.category_id}/global_attributes`,
       query: params.query,
     });
@@ -362,7 +362,7 @@ export class ProductModule {
     body: CreateManufacturerInput,
   ): Promise<TikTokAPIResponse<CreateManufacturerResponse>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/product/202409/compliance/manufacturers`,
       body: body,
     });
@@ -375,7 +375,7 @@ export class ProductModule {
     params: SearchManufacturerQuery,
   ): Promise<TikTokAPIResponse<GetManufacturersResponse>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/product/202501/compliance/manufacturers/search`,
       query: params.query,
       body: params.body,
@@ -389,7 +389,7 @@ export class ProductModule {
     params: EditPartialManufacturerParam,
   ): Promise<TikTokAPIResponse<object>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/product/202409/compliance/manufacturers/${params.manufacturer_id}/partial_edit`,
       body: params.body,
     });
@@ -402,7 +402,7 @@ export class ProductModule {
     body: DeactivateProductInput,
   ): Promise<TikTokAPIResponse<object>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/product/202309/products/deactivate`,
       body: body,
     });
@@ -415,7 +415,7 @@ export class ProductModule {
     body: ActivateProductInput,
   ): Promise<TikTokAPIResponse<object>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/product/202309/products/activate`,
       body: body,
     });
@@ -426,7 +426,7 @@ export class ProductModule {
    */
   deleteProducts(body: DeleteProductInput): Promise<TikTokAPIResponse<object>> {
     return this.request({
-      method: "DELETE",
+      method: 'DELETE',
       path: `/product/202309/products`,
       body: body,
     });
@@ -439,12 +439,12 @@ export class ProductModule {
     body: UploadImageParams,
   ): Promise<TikTokAPIResponse<UploadImageResponse>> {
     const formData = new FormData();
-    formData.append("data", body.data, "product_name");
-    formData.append("use_case", body.use_case);
+    formData.append('data', body.data, 'product_name');
+    formData.append('use_case', body.use_case);
 
     return this.requestMultipart({
-      method: "POST",
-      path: "/product/202309/images/upload",
+      method: 'POST',
+      path: '/product/202309/images/upload',
       body: formData,
     });
   }
@@ -456,8 +456,8 @@ export class ProductModule {
     body: OptimizedImagesInput,
   ): Promise<TikTokAPIResponse<OptimizedImagesResponse | object>> {
     return this.request({
-      method: "POST",
-      path: "/product/202404/images/optimize",
+      method: 'POST',
+      path: '/product/202404/images/optimize',
       body: body,
     });
   }
@@ -469,8 +469,8 @@ export class ProductModule {
     body: CreateProductInput,
   ): Promise<TikTokAPIResponse<CreateProductResponse | object>> {
     return this.request({
-      method: "POST",
-      path: "/product/202309/products",
+      method: 'POST',
+      path: '/product/202309/products',
       body: body,
     });
   }
@@ -482,7 +482,7 @@ export class ProductModule {
     params: EditProductParams,
   ): Promise<TikTokAPIResponse<EditProductResponse | object>> {
     return this.request({
-      method: "PUT",
+      method: 'PUT',
       path: `/product/202309/products/${params.product_id}`,
       body: params.body,
     });
@@ -496,7 +496,7 @@ export class ProductModule {
     params: PartialEditProductParams,
   ): Promise<TikTokAPIResponse<PartialEditProductResponse | object>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/product/202309/products/${params.product_id}/partial_edit`,
       body: params.body,
     });
@@ -511,7 +511,7 @@ export class ProductModule {
     body: RecoverProductBody,
   ): Promise<TikTokAPIResponse<object>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/product/202309/products/recover`,
       body: body,
     });
@@ -526,7 +526,7 @@ export class ProductModule {
     body: CheckProductListingBody,
   ): Promise<TikTokAPIResponse<CheckProductListingResponse>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/product/202309/products/listing_check`,
       body: body,
     });
@@ -541,12 +541,12 @@ export class ProductModule {
     body: UploadProductFileParams,
   ): Promise<TikTokAPIResponse<UploadProductFileResponse>> {
     const formData = new FormData();
-    formData.append("data", body.data, body.name);
-    formData.append("name", body.name);
+    formData.append('data', body.data, body.name);
+    formData.append('name', body.name);
 
     return this.requestMultipart({
-      method: "POST",
-      path: "/product/202309/files/upload",
+      method: 'POST',
+      path: '/product/202309/files/upload',
       body: formData,
     });
   }
@@ -560,8 +560,8 @@ export class ProductModule {
     body: SearchInventoryBody,
   ): Promise<TikTokAPIResponse<SearchInventoryResponse>> {
     return this.request({
-      method: "POST",
-      path: "/product/202309/inventory/search",
+      method: 'POST',
+      path: '/product/202309/inventory/search',
       body,
     });
   }
@@ -575,7 +575,7 @@ export class ProductModule {
     params: UpdateProductPriceInput,
   ): Promise<TikTokAPIResponse<UpdateProductPriceResponse>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/product/202309/products/${params.product_id}/prices/update`,
       body: params.body,
     });
@@ -590,7 +590,7 @@ export class ProductModule {
     params: UpdateProductInventoryInput,
   ): Promise<TikTokAPIResponse<UpdateProductInventoryResponse>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/product/202309/products/${params.product_id}/inventory/update`,
       body: params.body,
     });
@@ -605,8 +605,8 @@ export class ProductModule {
     body: RecommendGlobalCategoryInput,
   ): Promise<TikTokAPIResponse<RecommendGlobalCategoryResponse>> {
     return this.request({
-      method: "POST",
-      path: "/product/202309/global_categories/recommend",
+      method: 'POST',
+      path: '/product/202309/global_categories/recommend',
       body,
     });
   }
@@ -620,7 +620,7 @@ export class ProductModule {
     params: GetGlobalCategoryRulesParams,
   ): Promise<TikTokAPIResponse<GetGlobalCategoryRulesResponse>> {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/product/202309/categories/${params.category_id}/global_rules`,
       query: params.query,
     });
@@ -635,8 +635,8 @@ export class ProductModule {
     body: CreateGlobalProductInput,
   ): Promise<TikTokAPIResponse<CreateGlobalProductResponse>> {
     return this.request({
-      method: "POST",
-      path: "/product/202309/global_products",
+      method: 'POST',
+      path: '/product/202309/global_products',
       body,
     });
   }
@@ -650,7 +650,7 @@ export class ProductModule {
     params: EditGlobalProductInput,
   ): Promise<TikTokAPIResponse<EditGlobalProductResponse>> {
     return this.request({
-      method: "PUT",
+      method: 'PUT',
       path: `/product/202309/global_products/${params.global_product_id}`,
       body: params.body,
     });
@@ -665,8 +665,8 @@ export class ProductModule {
     body: DeleteGlobalProductsInput,
   ): Promise<TikTokAPIResponse<DeleteGlobalProductsResponse>> {
     return this.request({
-      method: "DELETE",
-      path: "/product/202309/global_products",
+      method: 'DELETE',
+      path: '/product/202309/global_products',
       body,
     });
   }
@@ -680,8 +680,8 @@ export class ProductModule {
     params: SearchGlobalProductsInput,
   ): Promise<TikTokAPIResponse<SearchGlobalProductsResponse>> {
     return this.request({
-      method: "POST",
-      path: "/product/202312/global_products/search",
+      method: 'POST',
+      path: '/product/202312/global_products/search',
       query: params.query,
       body: params.body,
     });
@@ -695,7 +695,7 @@ export class ProductModule {
     params: UpdateGlobalInventoryInput,
   ): Promise<TikTokAPIResponse<UpdateGlobalInventoryResponse>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/product/202309/global_products/${params.global_product_id}/inventory/update`,
       body: params.body,
     });
@@ -710,7 +710,7 @@ export class ProductModule {
     global_product_id: string,
   ): Promise<TikTokAPIResponse<GetGlobalProductResponse>> {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/product/202309/global_products/${global_product_id}`,
     });
   }
@@ -724,7 +724,7 @@ export class ProductModule {
     params: PublishGlobalProductInput,
   ): Promise<TikTokAPIResponse<PublishGlobalProductResponse>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/product/202309/global_products/${params.global_product_id}/publish`,
       body: params.body,
     });
@@ -739,8 +739,8 @@ export class ProductModule {
     body: CreateImageTranslationTasksInput,
   ): Promise<TikTokAPIResponse<CreateImageTranslationTasksResponse>> {
     return this.request({
-      method: "POST",
-      path: "/product/202505/images/translation_tasks",
+      method: 'POST',
+      path: '/product/202505/images/translation_tasks',
       body,
     });
   }
@@ -754,8 +754,8 @@ export class ProductModule {
     query: GetImageTranslationTasksQuery,
   ): Promise<TikTokAPIResponse<GetImageTranslationTasksResponse>> {
     return this.request({
-      method: "GET",
-      path: "/product/202506/images/translation_tasks",
+      method: 'GET',
+      path: '/product/202506/images/translation_tasks',
       query: query,
     });
   }

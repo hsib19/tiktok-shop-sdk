@@ -1,14 +1,14 @@
-import FormData from "form-data";
+import FormData from 'form-data';
 
 export interface RequestParams {
-  method: "GET" | "POST" | "DELETE" | "PUT";
+  method: 'GET' | 'POST' | 'DELETE' | 'PUT';
   path: string;
   query?: Record<string, unknown>;
   body?: Record<string, unknown>;
 }
 
 export interface MultipartRequestParams {
-  method: "POST";
+  method: 'POST';
   path: string;
   query?: Record<string, unknown>;
   body: FormData;
@@ -22,7 +22,7 @@ export type TikTokAPIResponse<T> = {
 };
 
 export interface RequestOptions {
-  method: "GET" | "POST" | "DELETE" | "PUT";
+  method: 'GET' | 'POST' | 'DELETE' | 'PUT';
   path: string;
   query?: Record<string, unknown>;
   body?: Record<string, unknown>;

@@ -1,7 +1,7 @@
-import { locale } from "./ProductTypes";
+import { locale } from './ProductTypes';
 
 export interface LineItemEligibility {
-  request_type: "REFUND" | "RETURN" | string;
+  request_type: 'REFUND' | 'RETURN' | string;
   order_line_items_ids: string[];
   eligible: boolean;
   ineligible_code?: number;
@@ -20,7 +20,7 @@ export interface GetAftersaleEligibilityResponse {
 export type GetAftersaleEligibilityParams = {
   order_id: string;
   query?: {
-    initiate_aftersale_user: "SELLER" | "BUYER";
+    initiate_aftersale_user: 'SELLER' | 'BUYER';
   };
 };
 
@@ -50,11 +50,11 @@ export type ReturnRequestInput = {
   skus?: Sku[];
   order_line_item_ids?: string[];
   return_reason: string;
-  return_type: "REFUND" | "RETURN_AND_REFUND";
+  return_type: 'REFUND' | 'RETURN_AND_REFUND';
   refund_total?: string;
   currency?: string;
-  shipment_type?: "PLATFORM" | "BUYER_ARRANGE";
-  handover_method?: "DROP_OFF" | "PICKUP";
+  shipment_type?: 'PLATFORM' | 'BUYER_ARRANGE';
+  handover_method?: 'DROP_OFF' | 'PICKUP';
 };
 
 export type CreateReturnParams = {
@@ -72,36 +72,36 @@ export interface CreateReturnResponse {
   skus: Sku[];
   order_line_item_ids: string[];
   return_reason: string;
-  return_type: "REFUND" | "RETURN_AND_REFUND";
+  return_type: 'REFUND' | 'RETURN_AND_REFUND';
   refund_total: string;
   currency: string;
-  shipment_type: "PLATFORM" | "BUYER_ARRANGE";
-  handover_method: "DROP_OFF" | "PICKUP";
+  shipment_type: 'PLATFORM' | 'BUYER_ARRANGE';
+  handover_method: 'DROP_OFF' | 'PICKUP';
 }
 
 type ReturnStatus =
-  | "RETURN_OR_REFUND_REQUEST_PENDING"
-  | "RETURN_OR_REFUND_REQUEST_REJECT"
-  | "AWAITING_BUYER_SHIP"
-  | "BUYER_SHIPPED_ITEM"
-  | "REJECT_RECEIVE_PACKAGE"
-  | "RETURN_OR_REFUND_REQUEST_SUCCESS"
-  | "RETURN_OR_REFUND_REQUEST_CANCEL"
-  | "RETURN_OR_REFUND_REQUEST_COMPLETE"
-  | "AWAITING_BUYER_RESPONSE";
+  | 'RETURN_OR_REFUND_REQUEST_PENDING'
+  | 'RETURN_OR_REFUND_REQUEST_REJECT'
+  | 'AWAITING_BUYER_SHIP'
+  | 'BUYER_SHIPPED_ITEM'
+  | 'REJECT_RECEIVE_PACKAGE'
+  | 'RETURN_OR_REFUND_REQUEST_SUCCESS'
+  | 'RETURN_OR_REFUND_REQUEST_CANCEL'
+  | 'RETURN_OR_REFUND_REQUEST_COMPLETE'
+  | 'AWAITING_BUYER_RESPONSE';
 
-type SellerProposedReturnType = "PARTIAL_REFUND";
+type SellerProposedReturnType = 'PARTIAL_REFUND';
 
 type ArbitrationStatus =
-  | "IN_PROGRESS"
-  | "SUPPORT_BUYER"
-  | "SUPPORT_SELLER"
-  | "CLOSED";
+  | 'IN_PROGRESS'
+  | 'SUPPORT_BUYER'
+  | 'SUPPORT_SELLER'
+  | 'CLOSED';
 
 export type SearchReturnParams = {
   query: {
-    sort_field?: "create_time" | "update_time";
-    sort_order?: "ASC" | "DESC";
+    sort_field?: 'create_time' | 'update_time';
+    sort_order?: 'ASC' | 'DESC';
     page_size?: number;
     page_token?: string;
   };
@@ -109,7 +109,7 @@ export type SearchReturnParams = {
     return_ids?: string[];
     order_ids?: string[];
     buyer_user_ids?: string[];
-    return_types?: ("REFUND" | "RETURN_AND_REFUND" | "REPLACEMENT")[];
+    return_types?: ('REFUND' | 'RETURN_AND_REFUND' | 'REPLACEMENT')[];
     return_status?: ReturnStatus[];
     seller_proposed_return_type?: SellerProposedReturnType[];
     create_time_ge?: number;
@@ -258,10 +258,10 @@ interface RejectImage {
 
 export interface RejectReturnBody extends Record<string, unknown> {
   decision:
-    | "REJECT_REFUND"
-    | "REJECT_RETURN"
-    | "REJECT_RECEIVED_PACKAGE"
-    | "REJECT_REPLACEMENT";
+    | 'REJECT_REFUND'
+    | 'REJECT_RETURN'
+    | 'REJECT_RECEIVED_PACKAGE'
+    | 'REJECT_REPLACEMENT';
   reject_reason: string;
   comment?: string;
   images?: RejectImage[];
@@ -285,12 +285,12 @@ export type ApproveReturnParams = {
 
 type ApproveReturnBody = {
   decision:
-    | "APPROVE_REFUND"
-    | "APPROVE_RETURN"
-    | "APPROVE_RECEIVED_PACKAGE"
-    | "APPROVE_REPLACEMENT"
-    | "ISSUE_REPLACEMENT_REFUND"
-    | "OFFER_PARTIAL_REFUND";
+    | 'APPROVE_REFUND'
+    | 'APPROVE_RETURN'
+    | 'APPROVE_RECEIVED_PACKAGE'
+    | 'APPROVE_REPLACEMENT'
+    | 'ISSUE_REPLACEMENT_REFUND'
+    | 'OFFER_PARTIAL_REFUND';
   buyer_keep_item?: boolean;
   partial_refund?: PartialRefund;
 };
@@ -348,10 +348,10 @@ export type SearchCancellationParams = {
     buyer_user_ids: string[];
     cancel_types: string[];
     cancel_status: (
-      | "CANCELLATION_REQUEST_PENDING"
-      | "CANCELLATION_REQUEST_SUCCESS"
-      | "CANCELLATION_REQUEST_CANCEL"
-      | "CANCELLATION_REQUEST_COMPLETE"
+      | 'CANCELLATION_REQUEST_PENDING'
+      | 'CANCELLATION_REQUEST_SUCCESS'
+      | 'CANCELLATION_REQUEST_CANCEL'
+      | 'CANCELLATION_REQUEST_COMPLETE'
     )[];
     create_time_ge: number;
     create_time_lt: number;
@@ -414,7 +414,7 @@ export type SearchCancellationResponse = {
 
 export type CalculateCancellationParams = {
   order_id: string;
-  request_type: "CANCEL" | "REFUND" | "RETURN_AND_REFUND";
+  request_type: 'CANCEL' | 'REFUND' | 'RETURN_AND_REFUND';
   shipment_type?: string;
   handover_method?: string;
   reason_name: string;

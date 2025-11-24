@@ -21,7 +21,7 @@ import {
   SearchReturnParams,
   SearchReturnResponse,
   TikTokAPIResponse,
-} from "@types";
+} from '@types';
 
 /**
  * ReturnRefundModule provides methods to interact with TikTok Shop Return & Refund API endpoints.
@@ -50,7 +50,7 @@ export class ReturnRefundModule {
     params: GetAftersaleEligibilityParams,
   ): Promise<TikTokAPIResponse<GetAftersaleEligibilityResponse>> {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/return_refund/202309/orders/${params.order_id}/aftersale_eligibility`,
       query: params.query,
     });
@@ -65,7 +65,7 @@ export class ReturnRefundModule {
     query: GetRejectReasonQuery,
   ): Promise<TikTokAPIResponse<GetRejectReasonResponse>> {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/return_refund/202309/reject_reasons`,
       query: query,
     });
@@ -80,7 +80,7 @@ export class ReturnRefundModule {
     params: CreateReturnParams,
   ): Promise<TikTokAPIResponse<CreateReturnResponse>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/return_refund/202309/returns`,
       query: params.query,
       body: params.body,
@@ -96,7 +96,7 @@ export class ReturnRefundModule {
     params: SearchReturnParams,
   ): Promise<TikTokAPIResponse<SearchReturnResponse>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/return_refund/202309/returns/search`,
       query: params.query,
       body: params.body,
@@ -112,7 +112,7 @@ export class ReturnRefundModule {
     params: GetReturnRecordParams,
   ): Promise<TikTokAPIResponse<GetReturnRecordResponse>> {
     return this.request({
-      method: "GET",
+      method: 'GET',
       path: `/return_refund/202309/returns/${params.return_id}/records`,
       query: params.query,
     });
@@ -125,7 +125,7 @@ export class ReturnRefundModule {
    */
   rejectReturn(params: RejectReturnParams): Promise<TikTokAPIResponse<object>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/return_refund/202309/returns/${params.return_id}/reject`,
       query: params.query,
       body: params.body,
@@ -163,7 +163,7 @@ export class ReturnRefundModule {
     params: ApproveReturnParams,
   ): Promise<TikTokAPIResponse<object>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/return_refund/202309/returns/${params.return_id}/approve`,
       query: params.query,
       body: params.body,
@@ -182,7 +182,7 @@ export class ReturnRefundModule {
     body: CancelOrderBody,
   ): Promise<TikTokAPIResponse<CancelOrderResponse>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/return_refund/202309/cancellations`,
       body: body,
     });
@@ -199,7 +199,7 @@ export class ReturnRefundModule {
     params: ApproveCancellationParams,
   ): Promise<TikTokAPIResponse<object>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/return_refund/202309/cancellations/${params.cancel_id}/approve`,
       query: params.query,
     });
@@ -216,7 +216,7 @@ export class ReturnRefundModule {
     params: RejectCancellationParams,
   ): Promise<TikTokAPIResponse<object>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/return_refund/202309/cancellations/${params.cancel_id}/reject`,
       query: params.query,
       body: params.body,
@@ -234,7 +234,7 @@ export class ReturnRefundModule {
     params: SearchCancellationParams,
   ): Promise<TikTokAPIResponse<SearchCancellationResponse>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/return_refund/202309/cancellations/search`,
       query: params.query,
       body: params.body,
@@ -252,7 +252,7 @@ export class ReturnRefundModule {
     body: CalculateCancellationParams,
   ): Promise<TikTokAPIResponse<CalculateCancellationResponse>> {
     return this.request({
-      method: "POST",
+      method: 'POST',
       path: `/return_refund/202309/refunds/calculate`,
       body: body,
     });

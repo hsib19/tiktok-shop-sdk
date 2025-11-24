@@ -2,10 +2,9 @@
   "name": "docs",
   "version": "1.0.0",
   "main": "index.js",
-  "dependencies": {
-    "vitepress": "^1.6.4"
+  "devDependencies": {
+    "vitepress": "latest"
   },
-  "devDependencies": {},
   "scripts": {
     "build": "vitepress build .",
     "dev": "vitepress dev ."

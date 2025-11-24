@@ -1,7 +1,7 @@
-import { handleResponse } from "@utils";
-import { AuthRequestOptions, TikTokAPIResponse } from "@types";
+import { handleResponse } from '@utils';
+import { AuthRequestOptions, TikTokAPIResponse } from '@types';
 
-const AUTH_BASE_URL = "https://auth.tiktok-shops.com";
+const AUTH_BASE_URL = 'https://auth.tiktok-shops.com';
 
 export async function authRequest<T>({
   method,
@@ -18,7 +18,7 @@ export async function authRequest<T>({
   }
 
   const headers = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   };
 
   const response = await fetch(url.toString(), {

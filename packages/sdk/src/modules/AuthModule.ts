@@ -1,11 +1,11 @@
-import { authRequest } from "@client";
+import { authRequest } from '@client';
 import {
   GetAccessTokenParams,
   AccessTokenResponse,
   RefreshAccessTokenParams,
   TikTokAPIResponse,
-} from "@types";
-import { SDKConfig } from "@sdk";
+} from '@types';
+import { SDKConfig } from '@sdk';
 
 /**
  * AuthModule handles authentication-related requests for the TikTok Shop API.
@@ -25,12 +25,12 @@ export class AuthModule {
     params: GetAccessTokenParams,
   ): Promise<TikTokAPIResponse<AccessTokenResponse>> {
     return authRequest({
-      method: "GET",
-      path: "/api/v2/token/get",
+      method: 'GET',
+      path: '/api/v2/token/get',
       query: {
         app_key: this.config.appKey,
         app_secret: this.config.appSecret,
-        grant_type: "authorized_code",
+        grant_type: 'authorized_code',
         auth_code: params.auth_code,
       },
     });
@@ -47,12 +47,12 @@ export class AuthModule {
     params: RefreshAccessTokenParams,
   ): Promise<TikTokAPIResponse<AccessTokenResponse>> {
     return authRequest({
-      method: "GET",
-      path: "/api/v2/token/refresh",
+      method: 'GET',
+      path: '/api/v2/token/refresh',
       query: {
         app_key: this.config.appKey,
         app_secret: this.config.appSecret,
-        grant_type: "refresh_token",
+        grant_type: 'refresh_token',
         refresh_token: params.refresh_token,
       },
     });

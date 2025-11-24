@@ -4,4 +4,4 @@ export interface SDKConfig {
   baseURL?: string;
 }
 
-export const DEFAULT_BASE_URL = "https://open-api.tiktokglobalshop.com";
+export const DEFAULT_BASE_URL = 'https://open-api.tiktokglobalshop.com';

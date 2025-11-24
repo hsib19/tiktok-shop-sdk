@@ -81,12 +81,12 @@ export type SellerSearchAffiliateOpenCollaborationProductParams = {
 };
 
 type SellerSearchAffiliateOpenCollaborationProductQuery = {
-  sort_order?: "ASC" | "DESC";
+  sort_order?: 'ASC' | 'DESC';
   sort_field?:
-    | "commission_rate"
-    | "product_sales_price"
-    | "commission"
-    | "units_sold";
+    | 'commission_rate'
+    | 'product_sales_price'
+    | 'commission'
+    | 'units_sold';
   page_token?: string;
   page_size: number;
 };
@@ -227,7 +227,7 @@ export type SellerSearchSampleApplicationsFulfillmentsParams = {
 };
 
 type SellerSearchSampleApplicationsFulfillmentsBody = {
-  content_format?: "LIVE" | "VIDEO";
+  content_format?: 'LIVE' | 'VIDEO';
 };
 
 export type SellerSearchSampleApplicationsFulfillmentsResponse = {
@@ -258,8 +258,8 @@ export type SellerReviewSampleApplicationsParams = {
 };
 
 type SellerReviewSampleApplicationsBody = {
-  review_result: "APPROVE" | "REJECT";
-  reject_reason?: "NOT_MATCH" | "OFFLINE" | "OUT_OF_STOCK" | "OTHER";
+  review_result: 'APPROVE' | 'REJECT';
+  reject_reason?: 'NOT_MATCH' | 'OFFLINE' | 'OUT_OF_STOCK' | 'OTHER';
 };
 
 export type SellerReviewSampleApplicationsResponse = object;
@@ -297,21 +297,21 @@ type SellerSearchSampleApplicationsQuery = {
 };
 
 export type SampleApplicationStatus =
-  | "PENDING"
-  | "AWAITING_SHIPMENT"
-  | "SHIPPED"
-  | "CONTENT_PENDING"
-  | "REJECT_CANCELLED"
-  | "OVERDUE_CANCELLED"
-  | "UNFULFILL_CANCELLED"
-  | "DEL_OPEN_COLLAB"
-  | "SELLER_NOT_SHIP_CANCELLED"
-  | "WITHDRAW_CANCELLED"
-  | "UNFULFILLABLE_CANCELLED"
-  | "OPS_CANCELLED"
-  | "OPS_FAILED"
-  | "OPS_COMPLETED"
-  | "COMPLETED";
+  | 'PENDING'
+  | 'AWAITING_SHIPMENT'
+  | 'SHIPPED'
+  | 'CONTENT_PENDING'
+  | 'REJECT_CANCELLED'
+  | 'OVERDUE_CANCELLED'
+  | 'UNFULFILL_CANCELLED'
+  | 'DEL_OPEN_COLLAB'
+  | 'SELLER_NOT_SHIP_CANCELLED'
+  | 'WITHDRAW_CANCELLED'
+  | 'UNFULFILLABLE_CANCELLED'
+  | 'OPS_CANCELLED'
+  | 'OPS_FAILED'
+  | 'OPS_COMPLETED'
+  | 'COMPLETED';
 
 type SellerSearchSampleApplicationsBody = {
   product_id?: string;
@@ -380,7 +380,7 @@ export type SampleRule = {
   start_time?: number;
   end_time?: number;
   thresholds?: SampleThresholds;
-  activate_status: "ACTIVATE" | "DEACTIVATE";
+  activate_status: 'ACTIVATE' | 'DEACTIVATE';
 };
 
 export type SampleThresholds = {
@@ -388,7 +388,7 @@ export type SampleThresholds = {
   minimum_gmv?: number;
   avg_ec_video_views?: number;
   category_ids?: string[];
-  predicted_fulfillment_rank?: "LOW" | "MEDIUM" | "HIGH" | "ALL";
+  predicted_fulfillment_rank?: 'LOW' | 'MEDIUM' | 'HIGH' | 'ALL';
 };
 
 export type EditOpenCollaborationSampleRuleResponse = object;
@@ -610,12 +610,12 @@ export type SearchOpenCollaborationParams = {
 type SearchOpenCollaborationQuery = {
   page_size: number;
   page_token?: string;
-  sort_order?: "ASC" | "DESC";
-  sort_field?: string | "product_original_price";
+  sort_order?: 'ASC' | 'DESC';
+  sort_field?: string | 'product_original_price';
 };
 
 type SearchOpenCollaborationBody = {
-  keyword_type?: string | "PRODUCT_ID" | "PRODUCT_NAME";
+  keyword_type?: string | 'PRODUCT_ID' | 'PRODUCT_NAME';
   keyword?: string;
   top_level_category_id?: string;
 };
@@ -696,7 +696,7 @@ type GetConversationListQuery = {
   page_size: number;
   page_token?: string;
   only_need_conversation_id?: boolean;
-  conversation_status?: string | "ALL" | "UNREAD";
+  conversation_status?: string | 'ALL' | 'UNREAD';
 };
 
 export type GetConversationListBody = {
@@ -727,10 +727,10 @@ export type SendImMessageParams = {
 export type SendImMessageResponse = {
   msg_type:
     | string
-    | "TEXT"
-    | "PRODUCT_CARD"
-    | "TARGET_COLLABORATION_CARD"
-    | "FREE_SAMPLE_CARD";
+    | 'TEXT'
+    | 'PRODUCT_CARD'
+    | 'TARGET_COLLABORATION_CARD'
+    | 'FREE_SAMPLE_CARD';
   content: string;
 };
 
@@ -756,7 +756,7 @@ export type MarkConversationReadResponse = {
   failed_conversation_ids?: string[];
 };
 
-export type MessageType = "TEXT" | "IMAGE" | "VIDEO" | "CARD";
+export type MessageType = 'TEXT' | 'IMAGE' | 'VIDEO' | 'CARD';
 
 export type GetLatestUnreadMessagesResponse = {
   conversation_id: string;
@@ -786,7 +786,7 @@ export type SellerSearchCreatorOnMarketplaceBody = {
       count_le: number;
     };
     gender_distribution: {
-      gender: "MALE" | "FEMALE" | "OTHER";
+      gender: 'MALE' | 'FEMALE' | 'OTHER';
       percentage_ge: number;
     };
   };
@@ -834,7 +834,7 @@ export type SellerSearchCreatorOnMarketplaceResponse = {
     top_follower_demographics?: {
       age_ranges?: string[];
       major_gender?: {
-        gender?: "MALE" | "FEMALE" | "OTHER";
+        gender?: 'MALE' | 'FEMALE' | 'OTHER';
         percentage?: number;
       };
     };

@@ -1,5 +1,5 @@
-import { RequestOptions, TikTokAPIResponse } from "@types";
-import { generateSignature, handleResponse, TikTokAPIError } from "@utils";
+import { RequestOptions, TikTokAPIResponse } from '@types';
+import { generateSignature, handleResponse, TikTokAPIError } from '@utils';
 
 /**
  * Generic TikTok API request function
@@ -45,7 +45,7 @@ export async function request<T>({
     path,
     query: unsignedQuery,
     body: body?.body ?? body,
-    version: "v1",
+    version: 'v1',
   });
 
   // Construct the final query object by spreading unsignedQuery and adding the signature
@@ -62,20 +62,20 @@ export async function request<T>({
   Object.entries(fullQuery).forEach(([key, val]) => {
     if (val === undefined) return; // Skip undefined values
 
-    if (key === "query" && typeof val === "object" && val !== null) {
+    if (key === 'query' && typeof val === 'object' && val !== null) {
       // If 'query' is an object, append its individual properties as separate query params
       Object.entries(val).forEach(([innerKey, innerVal]) => {
         if (innerVal === undefined) return;
 
         // If inner value is an array of primitives, join with commas
         if (Array.isArray(innerVal)) {
-          url.searchParams.append(innerKey, innerVal.join(","));
+          url.searchParams.append(innerKey, innerVal.join(','));
         }
         // Otherwise, if primitive value, add directly
         else if (
-          typeof innerVal === "string" ||
-          typeof innerVal === "number" ||
-          typeof innerVal === "boolean"
+          typeof innerVal === 'string' ||
+          typeof innerVal === 'number' ||
+          typeof innerVal === 'boolean'
         ) {
           url.searchParams.append(innerKey, String(innerVal));
         }
@@ -83,13 +83,13 @@ export async function request<T>({
     } else {
       // Handle array values by joining with commas (e.g., product_ids=1,2,3)
       if (Array.isArray(val)) {
-        url.searchParams.append(key, val.join(","));
+        url.searchParams.append(key, val.join(','));
       }
       // For normal string/number/boolean values, append directly
       else if (
-        typeof val === "string" ||
-        typeof val === "number" ||
-        typeof val === "boolean"
+        typeof val === 'string' ||
+        typeof val === 'number' ||
+        typeof val === 'boolean'
       ) {
         url.searchParams.append(key, String(val));
       }
@@ -101,12 +101,12 @@ export async function request<T>({
 
   // Prepare request headers, including JSON content type
   const headers: Record<string, string> = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   };
 
   // Add access token header if provided (used for authenticated requests)
   if (config.accessToken) {
-    headers["x-tts-access-token"] = config.accessToken;
+    headers['x-tts-access-token'] = config.accessToken;
   }
 
   try {
@@ -123,12 +123,12 @@ export async function request<T>({
 
     // For non-2xx responses, check if we have TikTok API error format
     if (!response.ok) {
-      if (typeof data.code === "number" && typeof data.message === "string") {
+      if (typeof data.code === 'number' && typeof data.message === 'string') {
         // Throw a specialized TikTokAPIError with code, message, and request ID
         throw new TikTokAPIError(
           data.code,
           data.message,
-          data.request_id || "",
+          data.request_id || '',
         );
       }
       // Fallback: throw a generic HTTP error
@@ -138,7 +138,7 @@ export async function request<T>({
     // Handle and return the processed response data
     return handleResponse<T>(data);
   } catch (error) {
-    if (error instanceof TypeError && error.message.includes("fetch")) {
+    if (error instanceof TypeError && error.message.includes('fetch')) {
       // Handle fetch-specific errors (network issues, etc.)
       throw new Error(`Network error: ${error.message}`);
     }
