@@ -28,8 +28,7 @@ export default function Navbar() {
 
   const switchLang = (lang: string) => {
     setShowLangDropdown(false);
-    const pathWithoutLocale = router.asPath.replace(/^\/(en|id)/, '');
-    router.replace(`/${lang}${pathWithoutLocale}`);
+    router.push(router.pathname, router.asPath, { locale: lang });
   };
 
   const rawLanguages = t('languages.options', { returnObjects: true });

@@ -6,36 +6,33 @@ import FeaturesSection from '@/components/pages/FeatureSection';
 import QuickLinksSection from '@/components/pages/QuickLinksSection';
 import GithubSection from '@/components/pages/GithubSection';
 import ContributorsSection from '@/components/pages/ContributorsSection';
+import Seo from '@/components/Seo';
+import { i18nNamespaces } from '@/constants/i18nNamespaces';
 
 export default function HomePage() {
   return (
-    <Layout>
-      <Hero />
-      <QuickLinksSection />
-      <FeaturesSection />
-      <GithubSection />
-      <ContributorsSection />
-    </Layout>
+    <>
+      <Seo
+        title="TikTok Shop SDK | Unofficial API Integration"
+        description="Documentation for integrating TikTok Shop SDK"
+        url="https://tiktok-shop-sdk-docs.vercel.app/"
+        image="/images/docs-og.png"
+      />
+      <Layout>
+        <Hero />
+        <QuickLinksSection />
+        <FeaturesSection />
+        <GithubSection />
+        <ContributorsSection />
+      </Layout>
+    </>
   );
 }
 
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {
-      ...(await serverSideTranslations(
-        locale,
-        [
-          'hero',
-          'quickLinks',
-          'featuresSection',
-          'githubSection',
-          'contributorsSection',
-          'githubContentSection',
-          'footer',
-          'pages',
-        ],
-        i18nConfig,
-      )),
+      ...(await serverSideTranslations(locale, i18nNamespaces, i18nConfig)),
     },
   };
 }

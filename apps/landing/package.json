@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "postbuild": "next-sitemap",
     "build:i18n": "tsc -p tsconfig.scripts.json",
     "generate:i18n": "node dist/scripts/generate-i18n-types.js"
   },
@@ -18,6 +19,7 @@
     "lucide-react": "^0.554.0",
     "next": "16.0.3",
     "next-i18next": "^15.4.2",
+    "next-sitemap": "^4.2.3",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-i18next": "^16.3.5"

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useI18n } from '@/hooks/useI18n';
+import Link from 'next/link';
+import Image from 'next/image';
 
 type Contributor = {
   login: string;
@@ -57,16 +59,18 @@ export default function ContributorsSection() {
                 </div>
               ))
             : contributors.map((c) => (
-                <a
+                <Link
                   key={c.login}
                   href={c.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center gap-4"
                 >
-                  <img
+                  <Image
                     src={c.avatar_url}
                     alt={c.login}
+                    width={80}
+                    height={80}
                     className="h-12 w-12 rounded-full transition group-hover:scale-105"
                   />
                   <div className="flex flex-col">
@@ -77,7 +81,7 @@ export default function ContributorsSection() {
                       @{c.login}
                     </span>
                   </div>
-                </a>
+                </Link>
               ))}
         </div>
       </div>

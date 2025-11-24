@@ -20,7 +20,8 @@ export default function Footer() {
                 {links.map((link) => (
                   <li key={link.key}>
                     <Link
-                      href={link.href}
+                      href="/"
+                      locale={link.key}
                       className="text-black! hover:underline dark:text-white!"
                     >
                       {link.label}
