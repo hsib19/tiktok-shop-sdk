@@ -1,3 +1,3 @@
 {
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- . ':apps/*' ':docs/*'"
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- . ':apps/landing/*' ':apps/docs/*'"
 }
