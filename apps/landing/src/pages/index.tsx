@@ -4,6 +4,7 @@ import i18nConfig from '../../next-i18next.config';
 import Hero from '@/components/pages/Hero';
 import FeaturesSection from '@/components/pages/FeatureSection';
 import QuickLinksSection from '@/components/pages/QuickLinksSection';
+import GithubSection from '@/components/pages/GithubSection';
 
 export default function HomePage() {
   return (
@@ -11,6 +12,7 @@ export default function HomePage() {
       <Hero />
       <QuickLinksSection />
       <FeaturesSection />
+      <GithubSection />
     </Layout>
   );
 }
