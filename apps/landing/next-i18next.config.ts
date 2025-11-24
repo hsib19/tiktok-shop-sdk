@@ -5,6 +5,8 @@ const i18nConfig: UserConfig = {
     defaultLocale: 'en',
     locales: ['en', 'id'],
   },
+  defaultNS: 'footer',
+  ns: ['footer', 'hero'],
 };
 
 export default i18nConfig;
