@@ -1,9 +1,17 @@
 {
+  "name": "docs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "vitepress": "^1.6.4"
+  },
+  "devDependencies": {},
   "scripts": {
     "build": "vitepress build .",
     "dev": "vitepress dev ."
   },
-  "devDependencies": {
-    "vitepress": "latest"
-  }
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
