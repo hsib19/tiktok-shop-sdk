@@ -20,7 +20,7 @@ export default function Hero() {
           {/* CTA Buttons */}
           <div className="flex flex-row gap-4">
             <ButtonCTA
-              href="/docs/get-started"
+              href="https://tiktok-shop-sdk-docs.vercel.app"
               label={t('cta.getStarted')}
               size="lg"
               variant="primary"

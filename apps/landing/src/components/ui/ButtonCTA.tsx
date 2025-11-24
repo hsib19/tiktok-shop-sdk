@@ -41,8 +41,8 @@ export default function ButtonCTA({
         size === 'md' && 'px-4 py-2 text-base',
         size === 'lg' && 'px-6 py-3 text-lg',
         variant === 'primary'
-          ? 'bg-primary text-white hover:bg-blue-700 focus:ring-blue-500'
-          : 'text-primary hover:bg-blue-50 focus:ring-blue-500 dark:hover:bg-neutral-900',
+          ? 'bg-primary text-white! hover:bg-blue-700'
+          : 'text-secondary-foreground! dark:bg-secondary hover:bg-secondary-foreground dark:hover:bg-secondary-foreground bg-white hover:text-white!',
         'shadow-[0px_1rem_3rem_var(--cta-shadow-color)]',
         className,
       )}
