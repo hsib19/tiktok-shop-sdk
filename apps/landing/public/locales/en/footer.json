@@ -1,0 +1,61 @@
+{
+  "languages": {
+    "title": "Languages",
+    "options": [
+      { "label": "English", "href": "/en", "code": "en" },
+      { "label": "Indonesia", "href": "/id", "code": "id" }
+    ]
+  },
+  "openSource": {
+    "title": "Open Source",
+    "links": [
+      {
+        "label": "Source on GitHub",
+        "href": "https://github.com/hsib19/tiktok-shop-sdk"
+      },
+      {
+        "label": "Issues",
+        "href": "https://github.com/hsib19/tiktok-shop-sdk/issues"
+      },
+      {
+        "label": "Pull Request",
+        "href": "https://github.com/hsib19/tiktok-shop-sdk/pulls"
+      }
+    ]
+  },
+  "contribute": {
+    "title": "Contribute",
+    "links": [
+      {
+        "label": "Fork on GitHub",
+        "href": "https://github.com/hsib19/tiktok-shop-sdk/fork"
+      },
+      {
+        "label": "Fork the Website",
+        "href": "https://github.com/hsib19/tiktok-shop-sdk/fork?target=website"
+      },
+      {
+        "label": "Create an Issue",
+        "href": "https://github.com/hsib19/tiktok-shop-sdk/issues/new"
+      }
+    ]
+  },
+  "tiktokAPI": {
+    "title": "TikTok Shop API",
+    "links": [
+      {
+        "label": "Official Portal",
+        "href": "https://partner.tiktokshop.com/docv2/page/tts-developer-guide"
+      },
+      {
+        "label": "API Docs",
+        "href": "https://partner.tiktokshop.com/docv2/page/get-authorized-category-assets-202405"
+      },
+      {
+        "label": "Webhook Guide",
+        "href": "https://partner.tiktokshop.com/docv2/page/17-shoppable-content-posting"
+      }
+    ]
+  },
+  "copyright": "© 2025 Hasib Muharam. All content is MIT licensed and open for contribution."
+}

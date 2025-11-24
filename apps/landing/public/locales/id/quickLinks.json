@@ -1,0 +1,9 @@
+{
+  "title": "Instal Cepat",
+  "subtitle": "Mulai menggunakan SDK dalam hitungan detik. Cukup instal dan import—tanpa boilerplate, tanpa konfigurasi.",
+  "features": [
+    "Mendukung Node.js, SvelteKit, Next.js, dan framework modern lainnya",
+    "Berbasis TypeScript dengan tipe bawaan dan helper error",
+    "Ringan dan modular—hanya import yang Anda butuhkan"
+  ]
+}

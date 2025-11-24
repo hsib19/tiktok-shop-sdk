@@ -1,0 +1,69 @@
+@import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer utilities {
+  .interactive-shadow {
+    @apply shadow-[0px_10px_50px_rgba(0,0,0,0.1)] transition-shadow duration-300 ease-in-out hover:shadow-[0px_15px_60px_rgba(0,0,0,0.15)];
+  }
+}
+
+/* Light mode (default) */
+:root {
+  --color-background: #ffffff;
+  --color-foreground: #222222;
+
+  --color-primary: #155dfc; /* sky blue */
+  --color-primary-foreground: #ffffff;
+
+  --color-secondary: #f472b6; /* pink  */
+  --color-secondary-foreground: #0a0a0a;
+
+  --color-link: #ec4899; /* pink */
+  --color-link-hover: #db2777;
+
+  --color-border: #e0e7ff; /* soft indigo border */
+  --color-muted: #fef9c3; /* pastel yellow */
+  --color-muted-foreground: #6b7280;
+}
+
+/* Dark mode */
+[data-theme='dark'] {
+  --color-background: #0f172a; /* slate-900 */
+  --color-foreground: #f8fafc; /* slate-50 */
+
+  --color-primary: #155dfc; /* lighter sky blue */
+  --color-primary-foreground: #0f172a;
+
+  --color-secondary: #fbbf24; /* brighter amber */
+  --color-secondary-foreground: #0f172a;
+
+  --color-link: #f472b6; /* light pink */
+  --color-link-hover: #f9a8d4;
+
+  --color-border: #334155; /* slate-700 */
+  --color-muted: #1e293b; /* slate-800 */
+  --color-muted-foreground: #cbd5e1;
+}
+
+/* Integration with @theme */
+@theme {
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+
+  --color-primary: var(--color-primary);
+  --color-primary-foreground: var(--color-primary-foreground);
+
+  --color-secondary: var(--color-secondary);
+  --color-secondary-foreground: var(--color-secondary-foreground);
+
+  --color-link: var(--color-link);
+  --color-link-hover: var(--color-link-hover);
+
+  --color-border: var(--color-border);
+  --color-muted: var(--color-muted);
+  --color-muted-foreground: var(--color-muted-foreground);
+}
+
+a {
+  color: var(--color-link);
+}

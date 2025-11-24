@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "title": "MIT Licensed",
+      "description": "Fully open source under the MIT License."
+    },
+    {
+      "title": "Star us on GitHub",
+      "description": "Show your support and follow the development."
+    },
+    {
+      "title": "Actively maintained",
+      "description": "Regular updates and improvements by the core team."
+    },
+    {
+      "title": "Open to contributors",
+      "description": "Contributions are welcome from developers worldwide."
+    }
+  ]
+}

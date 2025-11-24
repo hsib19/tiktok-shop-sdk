@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://tiktok-shop-sdk-landing.vercel.app
+
+# Sitemaps
+Sitemap: https://tiktok-shop-sdk-landing.vercel.app/sitemap.xml

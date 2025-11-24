@@ -1,0 +1,30 @@
+{
+  "title": "Fitur yang Didukung",
+  "subtitle": "SDK mencakup API TikTok Shop penting dengan metode jelas dan tipe bawaan—siap digunakan di produksi.",
+  "items": [
+    {
+      "title": "API Pesanan",
+      "description": "Ambil, filter, dan paginate pesanan dengan tipe aman dan penanganan error penuh."
+    },
+    {
+      "title": "Sinkronisasi Produk",
+      "description": "Sinkronkan listing produk, perbarui inventori, dan kelola SKU secara programatik."
+    },
+    {
+      "title": "Verifikasi Webhook",
+      "description": "Verifikasi webhook masuk dengan validasi signature dan timestamp bawaan."
+    },
+    {
+      "title": "Pembaruan Token",
+      "description": "Refresh token yang kadaluarsa secara otomatis menggunakan OAuth2 yang aman."
+    },
+    {
+      "title": "Tipe Error",
+      "description": "Tangkap dan klasifikasikan error API dengan exception bertipe seperti TikTokAPIError."
+    },
+    {
+      "title": "Import Modular",
+      "description": "Import hanya yang diperlukan—tidak ada kode yang tidak terpakai, tidak ada bundle yang bengkak."
+    }
+  ]
+}
