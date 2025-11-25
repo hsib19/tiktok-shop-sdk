@@ -16,7 +16,7 @@ Upload local images to TikTok Shop for use as:
 ## Requirements
 
 - A valid seller **Access Token**
-- Use `product.createCustomBrands()` from the SDK
+- Use `product.uploadProductImage()` from the SDK
 
 **Official documentation:**  
 [TikTok Shop – Upload Product Image](https://partner.tiktokshop.com/docv2/page/upload-product-image-202309)
