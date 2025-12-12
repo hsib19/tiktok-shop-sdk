@@ -6,6 +6,5 @@
   "trailingComma": "all",
   "arrowParens": "always",
   "bracketSpacing": true,
-  "endOfLine": "lf",
-  "pluginSearchDirs": false
+  "endOfLine": "lf"
 }

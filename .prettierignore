@@ -28,3 +28,9 @@ yarn.lock
 apps/docs/.svelte-kit
 apps/docs/public/build
 **/out
+
+# Ignore VitePress cache
+apps/docs/.vitepress/cache/
+apps/docs/.vitepress/dist/
+**/.vitepress/cache/
+**/.vitepress/dist/

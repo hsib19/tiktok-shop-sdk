@@ -33,7 +33,6 @@ out/
 .tmp/
 
 # Editor settings
-.vscode/
 .idea/
 
 # OS-specific files
