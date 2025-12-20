@@ -1,6 +1,6 @@
 import { request } from '@client';
-import { generateSignature, handleResponse, TikTokAPIError } from '@utils';
 import { RequestOptions } from '@types';
+import { generateSignature, handleResponse, TikTokAPIError } from '@utils';
 
 // Mock fetch
 global.fetch = jest.fn();
@@ -222,11 +222,36 @@ describe('request', () => {
       },
     });
 
-    // Pastikan generateSignature dipanggil dengan query yang ada shop_cipher
     expect(mockedGenerateSignature).toHaveBeenCalledWith(
       expect.objectContaining({
         query: expect.objectContaining({
           shop_cipher: 'test-cipher',
+        }),
+      }),
+    );
+  });
+
+  it('should include category_asset_cipher in query if categoryAssetsCipher is provided', async () => {
+    mockedGenerateSignature.mockReturnValue('signed-value');
+    mockedHandleResponse.mockReturnValue({ success: true });
+    mockedFetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({}),
+    } as Response);
+
+    await request({
+      method: 'POST',
+      path: '/test',
+      config: {
+        ...baseConfig,
+        categoryAssetsCipher: 'test-cipher',
+      },
+    });
+
+    expect(mockedGenerateSignature).toHaveBeenCalledWith(
+      expect.objectContaining({
+        query: expect.objectContaining({
+          category_asset_cipher: 'test-cipher',
         }),
       }),
     );

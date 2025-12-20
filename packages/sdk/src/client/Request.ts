@@ -38,6 +38,10 @@ export async function request<T>({
     unsignedQuery.shop_cipher = config.shopCipher;
   }
 
+  if (config.categoryAssetsCipher) {
+    unsignedQuery.category_asset_cipher = config.categoryAssetsCipher;
+  }
+
   // Generate the request signature using the provided app secret, path, query, and body
   // Signature version 'v1' is used explicitly here
   const sign = generateSignature({

@@ -57,15 +57,6 @@ export default defineConfig({
                 ]
               },
               {
-                text: 'Event',
-                collapsed: true,
-                items: [
-                  { text: 'Get Shop Webhooks', link: '/core-api/event/get-shop-webhooks' },
-                  { text: 'Update Shop Webhook', link: '/core-api/event/update-shop-webhook' },
-                  { text: 'Delete Shop Webhook', link: '/core-api/event/delete-shop-webhook' },
-                ]
-              },
-              {
                 text: 'Seller',
                 collapsed: true,
                 items: [
@@ -304,6 +295,7 @@ export default defineConfig({
                   { text: 'Get Affiliate Partner Campaign Product List', link: '/core-api/affiliate-partner/get-affiliate-partner-campaign-product-list' },
                   { text: 'Search Tap Affiliate Orders', link: '/core-api/affiliate-partner/search-tap-affiliate-orders' },
                   { text: 'Get Affiliate Campaign Creator Fulfillment Status List', link: '/core-api/affiliate-partner/get-affiliate-campaign-creator-fulfillment-status-list' },
+                  { text: 'Search CAP Affiliate Orders', link: '/core-api/affiliate-partner/search-cap-affiliate-orders' },
                   { text: 'Partner Generate Multi Affiliate Campaign Product Link', link: '/core-api/affiliate-partner/partner-generate-multi-affiliate-campaign-product-link' },
                   { text: 'Get Affiliate Campaign Creator Fulfillment Status Info', link: '/core-api/affiliate-partner/get-affiliate-campaign-creator-fulfillment-status-info' },
                   { text: 'Get Affiliate Campaign Creator Product Content Statistics', link: '/core-api/affiliate-partner/get-affiliate-campaign-creator-product-content-statistics' },

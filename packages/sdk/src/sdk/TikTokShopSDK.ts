@@ -1,21 +1,22 @@
 import { request, requestMultipart } from '@client';
-import { MultipartRequestFunction, RequestFunction } from '@types';
-import { DEFAULT_BASE_URL, SDKConfig } from '@sdk';
 import {
+  AffiliatePartnerModule,
+  AffiliateSellerModule,
+  AnalyticsModule,
   AuthModule,
   EventModule,
-  ShopModule,
-  SellerModule,
-  ProductModule,
-  OrderModule,
-  LogisticModule,
-  ReturnRefundModule,
   FinanceModule,
   FulfillmentModule,
+  LogisticModule,
+  OrderModule,
+  ProductModule,
   PromotionModule,
-  AnalyticsModule,
-  AffiliateSellerModule,
+  ReturnRefundModule,
+  SellerModule,
+  ShopModule,
 } from '@modules';
+import { DEFAULT_BASE_URL, SDKConfig } from '@sdk';
+import { MultipartRequestFunction, RequestFunction } from '@types';
 
 /**
  * TikTokShopSDK is the main entry point to interact with TikTok Shop API.
@@ -36,10 +37,12 @@ export class TikTokShopSDK {
   public promotion: PromotionModule;
   public analytics: AnalyticsModule;
   public affiliateSeller: AffiliateSellerModule;
+  public affiliatePartner: AffiliatePartnerModule;
 
   // Internally stored access token (used in headers)
   private accessToken?: string;
   private shopCipher?: string;
+  private categoryAssetsCipher?: string;
 
   request: RequestFunction;
   requestCipher: RequestFunction;
@@ -69,6 +72,7 @@ export class TikTokShopSDK {
           baseURL: DEFAULT_BASE_URL,
           accessToken: this.accessToken,
           shopCipher: this.shopCipher,
+          categoryAssetsCipher: this.categoryAssetsCipher,
         },
       });
 
@@ -82,6 +86,7 @@ export class TikTokShopSDK {
           baseURL: DEFAULT_BASE_URL,
           accessToken: this.accessToken,
           shopCipher: this.shopCipher,
+          categoryAssetsCipher: this.categoryAssetsCipher,
         },
       });
 
@@ -106,6 +111,7 @@ export class TikTokShopSDK {
     this.promotion = new PromotionModule(requestWithConfigCipher);
     this.analytics = new AnalyticsModule(requestWithConfigCipher);
     this.affiliateSeller = new AffiliateSellerModule(requestWithConfigCipher);
+    this.affiliatePartner = new AffiliatePartnerModule(requestWithConfigCipher);
   }
 
   /**
@@ -119,5 +125,9 @@ export class TikTokShopSDK {
 
   setShopCipher(cipher: string) {
     this.shopCipher = cipher;
+  }
+
+  setCategoryAssetsCipher(cipher: string) {
+    this.categoryAssetsCipher = cipher;
   }
 }

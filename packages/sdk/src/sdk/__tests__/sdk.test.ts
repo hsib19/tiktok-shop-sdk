@@ -1,5 +1,4 @@
 // sdk.test.ts
-import { TikTokShopSDK } from '../TikTokShopSDK';
 import { request, requestMultipart } from '@client';
 import {
   GetGlobalCategoriesQuery,
@@ -7,6 +6,7 @@ import {
   TikTokAPIResponse,
   UploadImageParams,
 } from '@types';
+import { TikTokShopSDK } from '../TikTokShopSDK';
 
 jest.mock('@client', () => ({
   request: jest.fn(),
@@ -25,13 +25,15 @@ describe('TikTokShopSDK', () => {
     jest.clearAllMocks();
   });
 
-  it('sets accessToken and shopCipher correctly', () => {
+  it('sets accessToken, shopCipher and categoryAssetsCipher correctly', () => {
     const sdk = new TikTokShopSDK(baseConfig);
     sdk.setAccessToken('token123');
     sdk.setShopCipher('cipherABC');
+    sdk.setCategoryAssetsCipher('cipherABC');
 
     expect(sdk['accessToken']).toBe('token123');
     expect(sdk['shopCipher']).toBe('cipherABC');
+    expect(sdk['categoryAssetsCipher']).toBe('cipherABC');
   });
 
   it('calls request with accessToken in config', async () => {
