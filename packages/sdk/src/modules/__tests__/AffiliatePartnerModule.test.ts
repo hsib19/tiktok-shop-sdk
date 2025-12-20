@@ -71,7 +71,7 @@ describe('AffiliatePartnerModule', () => {
 
     requestMock.mockResolvedValue(mockResponse);
 
-    const result = await module.createAffiliatePartnerCampaign(body);
+    const result = await module.createAffiliatePartnerCampaign({ body });
 
     expect(requestMock).toHaveBeenCalledTimes(1);
     expect(requestMock).toHaveBeenCalledWith({
@@ -118,7 +118,10 @@ describe('AffiliatePartnerModule', () => {
 
     requestMock.mockResolvedValue(mockResponse);
 
-    const result = await module.editAffiliatePartnerCampaign(campaignId, body);
+    const result = await module.editAffiliatePartnerCampaign({
+      path: { campaign_id: campaignId },
+      body,
+    });
 
     expect(requestMock).toHaveBeenCalledTimes(1);
     expect(requestMock).toHaveBeenCalledWith({
@@ -144,7 +147,9 @@ describe('AffiliatePartnerModule', () => {
 
     requestMock.mockResolvedValue(mockResponse);
 
-    const result = await module.publishAffiliatePartnerCampaign(campaignId);
+    const result = await module.publishAffiliatePartnerCampaign({
+      path: { campaign_id: campaignId },
+    });
 
     expect(requestMock).toHaveBeenCalledTimes(1);
     expect(result).toEqual(mockResponse);
@@ -170,10 +175,10 @@ describe('AffiliatePartnerModule', () => {
 
     requestMock.mockResolvedValue(mockResponse);
 
-    const result = await module.reviewAffiliatePartnerCampaign(
-      pathParams,
+    const result = await module.reviewAffiliatePartnerCampaign({
+      path: pathParams,
       body,
-    );
+    });
 
     expect(requestMock).toHaveBeenCalledTimes(1);
     expect(requestMock).toHaveBeenCalledWith({
@@ -207,10 +212,10 @@ describe('AffiliatePartnerModule', () => {
 
     requestMock.mockResolvedValue(mockResponse);
 
-    const result = await module.generateAffiliatePartnerCampaignProductLink(
-      pathParams,
+    const result = await module.generateAffiliatePartnerCampaignProductLink({
+      path: pathParams,
       body,
-    );
+    });
 
     expect(requestMock).toHaveBeenCalledTimes(1);
     expect(requestMock).toHaveBeenCalledWith({
@@ -240,7 +245,9 @@ describe('AffiliatePartnerModule', () => {
 
     requestMock.mockResolvedValue(mockResponse);
 
-    const result = await module.getAffiliatePartnerCampaignDetail(campaignId);
+    const result = await module.getAffiliatePartnerCampaignDetail({
+      path: { campaign_id: campaignId },
+    });
 
     expect(requestMock).toHaveBeenCalledTimes(1);
     expect(requestMock).toHaveBeenCalledWith({
@@ -291,7 +298,7 @@ describe('AffiliatePartnerModule', () => {
 
     requestMock.mockResolvedValue(mockResponse);
 
-    const result = await module.getAffiliatePartnerCampaignList(query);
+    const result = await module.getAffiliatePartnerCampaignList({ query });
 
     expect(requestMock).toHaveBeenCalledTimes(1);
     expect(requestMock).toHaveBeenCalledWith({
@@ -390,10 +397,10 @@ describe('AffiliatePartnerModule', () => {
 
     requestMock.mockResolvedValue(mockResponse);
 
-    const result = await module.getAffiliatePartnerCampaignProductList(
-      pathParams,
+    const result = await module.getAffiliatePartnerCampaignProductList({
+      path: pathParams,
       query,
-    );
+    });
 
     expect(requestMock).toHaveBeenCalledTimes(1);
     expect(requestMock).toHaveBeenCalledWith({
@@ -499,7 +506,7 @@ describe('AffiliatePartnerModule', () => {
 
     requestMock.mockResolvedValue(mockResponse);
 
-    const result = await module.searchTapAffiliateOrders(query, body);
+    const result = await module.searchTapAffiliateOrders({ query, body });
 
     expect(requestMock).toHaveBeenCalledTimes(1);
     expect(requestMock).toHaveBeenCalledWith({
@@ -580,10 +587,10 @@ describe('AffiliatePartnerModule', () => {
     requestMock.mockResolvedValue(mockResponse);
 
     const result =
-      await module.getAffiliateCampaignCreatorFulfillmentStatusList(
-        pathParams,
+      await module.getAffiliateCampaignCreatorFulfillmentStatusList({
+        path: pathParams,
         query,
-      );
+      });
 
     expect(requestMock).toHaveBeenCalledTimes(1);
     expect(requestMock).toHaveBeenCalledWith({
@@ -658,7 +665,7 @@ describe('AffiliatePartnerModule', () => {
 
     const result =
       await module.getAffiliateCampaignCreatorFulfillmentStatusList({
-        campaign_id: '123',
+        path: { campaign_id: '123' },
       });
 
     expect(requestMock).toHaveBeenCalledWith({
@@ -782,7 +789,7 @@ describe('AffiliatePartnerModule', () => {
 
     requestMock.mockResolvedValue(mockResponse);
 
-    const result = await module.searchCAPAffiliateOrders(query, body);
+    const result = await module.searchCAPAffiliateOrders({ query, body });
 
     expect(requestMock).toHaveBeenCalledTimes(1);
     expect(requestMock).toHaveBeenCalledWith({
@@ -824,10 +831,10 @@ describe('AffiliatePartnerModule', () => {
     requestMock.mockResolvedValue(mockResponse);
 
     const result =
-      await module.partnerGenerateMultiAffiliateCampaignProductLink(
-        pathParams,
+      await module.partnerGenerateMultiAffiliateCampaignProductLink({
+        path: pathParams,
         body,
-      );
+      });
 
     expect(requestMock).toHaveBeenCalledTimes(1);
     expect(requestMock).toHaveBeenCalledWith({
@@ -890,10 +897,10 @@ describe('AffiliatePartnerModule', () => {
     requestMock.mockResolvedValue(mockResponse);
 
     const result =
-      await module.getAffiliateCampaignCreatorFulfillmentStatusInfo(
-        pathParams,
+      await module.getAffiliateCampaignCreatorFulfillmentStatusInfo({
+        path: pathParams,
         query,
-      );
+      });
 
     expect(requestMock).toHaveBeenCalledTimes(1);
     expect(requestMock).toHaveBeenCalledWith({
@@ -912,8 +919,10 @@ describe('AffiliatePartnerModule', () => {
 
     const result =
       await module.getAffiliateCampaignCreatorFulfillmentStatusInfo({
-        campaign_id: 'c1',
-        product_id: 'p1',
+        path: {
+          campaign_id: 'c1',
+          product_id: 'p1',
+        },
       });
 
     expect(requestMock).toHaveBeenCalledWith({
@@ -966,10 +975,10 @@ describe('AffiliatePartnerModule', () => {
     requestMock.mockResolvedValue(mockResponse);
 
     const result =
-      await module.getAffiliateCampaignCreatorProductContentStatistics(
-        pathParams,
+      await module.getAffiliateCampaignCreatorProductContentStatistics({
+        path: pathParams,
         query,
-      );
+      });
 
     expect(requestMock).toHaveBeenCalledTimes(1);
     expect(requestMock).toHaveBeenCalledWith({
@@ -1014,9 +1023,11 @@ describe('AffiliatePartnerModule', () => {
 
     const result =
       await module.getAffiliateCampaignCreatorProductContentStatistics({
-        campaign_id: 'c1',
-        product_id: 'p1',
-        creator_temp_id: 'creator1',
+        path: {
+          campaign_id: 'c1',
+          product_id: 'p1',
+          creator_temp_id: 'creator1',
+        },
       });
 
     expect(requestMock).toHaveBeenCalledWith({
@@ -1060,8 +1071,9 @@ describe('AffiliatePartnerModule', () => {
 
     requestMock.mockResolvedValue(mockResponse);
 
-    const result =
-      await module.getAffiliateCampaignCreatorProductSampleStatus(pathParams);
+    const result = await module.getAffiliateCampaignCreatorProductSampleStatus({
+      path: pathParams,
+    });
 
     expect(requestMock).toHaveBeenCalledTimes(1);
     expect(requestMock).toHaveBeenCalledWith({
