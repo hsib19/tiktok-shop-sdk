@@ -37,7 +37,7 @@ export type EditAffiliatePartnerCampaignBody = {
   target_seller_types?: ('LOCAL' | 'CROSS_BORDER')[];
 };
 
-export type EditAffiliatePartnerCampaignResponse = {};
+export type EditAffiliatePartnerCampaignResponse = object;
 
 export type ReviewAffiliatePartnerCampaignProductBody = {
   review_result: 'APPROVE' | 'REJECT' | 'REJECT_FOREVER';

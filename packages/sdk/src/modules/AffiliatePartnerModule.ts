@@ -80,12 +80,10 @@ export class AffiliatePartnerModule {
    */
   async publishAffiliatePartnerCampaign(
     campaign_id: string,
-    body: {},
-  ): Promise<TikTokAPIResponse<{}>> {
+  ): Promise<TikTokAPIResponse<Record<string, never>>> {
     return this.request({
       method: 'POST',
       path: `/affiliate_partner/202405/campaigns/${campaign_id}/publish`,
-      body,
     });
   }
 
@@ -98,7 +96,7 @@ export class AffiliatePartnerModule {
       product_id: string;
     },
     body: ReviewAffiliatePartnerCampaignProductBody,
-  ): Promise<TikTokAPIResponse<{}>> {
+  ): Promise<TikTokAPIResponse<object>> {
     return this.request({
       method: 'POST',
       path: `/affiliate_partner/202405/campaigns/${path.campaign_id}/products/${path.product_id}/review`,

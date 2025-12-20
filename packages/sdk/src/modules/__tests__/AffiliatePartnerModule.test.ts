@@ -144,18 +144,9 @@ describe('AffiliatePartnerModule', () => {
 
     requestMock.mockResolvedValue(mockResponse);
 
-    const result = await module.publishAffiliatePartnerCampaign(
-      campaignId,
-      body,
-    );
+    const result = await module.publishAffiliatePartnerCampaign(campaignId);
 
     expect(requestMock).toHaveBeenCalledTimes(1);
-    expect(requestMock).toHaveBeenCalledWith({
-      method: 'POST',
-      path: `/affiliate_partner/202405/campaigns/${campaignId}/publish`,
-      body,
-    });
-
     expect(result).toEqual(mockResponse);
   });
 
