@@ -14,9 +14,11 @@ export async function main() {
     // Set Category Assets Cipher
     sdk.setCategoryAssetsCipher(process.env.TIKTOK_SHOP_CIPHER!);
 
-    const response = await sdk.affiliatePartner.editAffiliatePartnerCampaign(
-      '10934583045',
-      {
+    const response = await sdk.affiliatePartner.editAffiliatePartnerCampaign({
+      path: {
+        campaign_id: '3487503534545454',
+      },
+      body: {
         name: 'my first campaign',
         description: 'campaign for test',
         campaign_start_time: 1712941200,
@@ -35,7 +37,7 @@ export async function main() {
         target_shop_codes: ['THCBELNL4Y'],
         target_seller_types: ['CROSS_BORDER'],
       },
-    );
+    });
 
     console.log(response);
   } catch (error) {

@@ -202,7 +202,7 @@ export class AffiliatePartnerModule {
       page_size: number;
       page_token: string;
     };
-    body: SearchCAPAffiliateOrdersBody;
+    body?: SearchCAPAffiliateOrdersBody;
   }): Promise<TikTokAPIResponse<SearchCAPAffiliateOrdersResponse>> {
     return this.request({
       method: 'POST',

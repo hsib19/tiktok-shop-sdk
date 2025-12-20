@@ -14,13 +14,17 @@ export async function main() {
     // Set Category Assets Cipher
     sdk.setCategoryAssetsCipher(process.env.TIKTOK_SHOP_CIPHER!);
 
-    const response = await sdk.affiliatePartner.publishAffiliatePartnerCampaign(
-      {
-        path: {
-          campaign_id: '10934583045',
-        },
+    const response = await sdk.affiliatePartner.searchTapAffiliateOrders({
+      query: {
+        page_size: 20,
+        page_token: '29384204234',
       },
-    );
+      body: {
+        campaign_id: '2094820342394234',
+        // create_time_ge: "xxxxxxxxx",
+        // create_time_lt: "xxxxxxxxx",
+      },
+    });
 
     console.log(response);
   } catch (error) {
