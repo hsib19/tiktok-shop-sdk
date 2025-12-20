@@ -31,6 +31,7 @@ export interface RequestOptions {
     appSecret: string;
     accessToken?: string;
     shopCipher?: string;
+    categoryAssetsCipher?: string;
     baseURL: string;
   };
 }

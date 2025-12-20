@@ -11,6 +11,7 @@ interface MultipartRequestOptions {
     appSecret: string;
     accessToken?: string;
     shopCipher?: string;
+    categoryAssetsCipher?: string;
     baseURL: string;
   };
 }
@@ -32,6 +33,10 @@ export async function requestMultipart({
 
   if (config.shopCipher) {
     unsignedQuery.shop_cipher = config.shopCipher;
+  }
+
+  if (config.categoryAssetsCipher) {
+    unsignedQuery.category_asset_cipher = config.categoryAssetsCipher;
   }
 
   const sign = generateSignature({

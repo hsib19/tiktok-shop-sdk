@@ -1,6 +1,6 @@
-import FormData from 'form-data';
 import { requestMultipart } from '@client';
 import { generateSignature } from '@utils';
+import FormData from 'form-data';
 
 // Mock fetch
 global.fetch = jest.fn();
@@ -27,6 +27,7 @@ describe('requestMultipart', () => {
         appSecret: 'test_app_secret',
         accessToken: 'test_token',
         shopCipher: 'test_cipher',
+        categoryAssetsCipher: 'test_cipher',
         baseURL: 'https://example.com',
       },
     };
@@ -88,6 +89,7 @@ describe('requestMultipart', () => {
       baseURL: 'https://example.com',
       accessToken: 'access_token',
       shopCipher: 'cipher',
+      categoryAssetsCipher: 'test_cipher',
     };
 
     const mockRes = {
