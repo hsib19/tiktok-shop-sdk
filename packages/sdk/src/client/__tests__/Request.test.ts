@@ -453,4 +453,139 @@ describe('request', () => {
       expect(err.requestId).toBe('');
     });
   });
+
+  test('should append nested query primitive values (string, number, boolean)', async () => {
+    mockedFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ code: 0, message: 'OK' }),
+    } as Response);
+
+    mockedHandleResponse.mockReturnValueOnce({
+      code: 0,
+      message: 'OK',
+      request_id: '123',
+    });
+
+    await request({
+      method: 'GET',
+      path: '/test',
+      query: {
+        query: {
+          status: 'ACTIVE',
+          page: 2,
+          is_test: false,
+        },
+      },
+      config: {
+        baseURL: 'https://example.com',
+        appKey: 'key',
+        appSecret: 'secret',
+      },
+    });
+
+    expect(mockedFetch).toHaveBeenCalledWith(
+      expect.stringContaining('status=ACTIVE&page=2&is_test=false'),
+      expect.any(Object),
+    );
+  });
+
+  test('should skip nested query values that are objects or null', async () => {
+    mockedFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ code: 0, message: 'OK' }),
+    } as Response);
+
+    mockedHandleResponse.mockReturnValueOnce({
+      code: 0,
+      message: 'OK',
+      request_id: '456',
+    });
+
+    await request({
+      method: 'GET',
+      path: '/test',
+      query: {
+        query: {
+          valid: 'yes',
+          ignored: { foo: 'bar' },
+          alsoIgnored: null,
+        },
+      },
+      config: {
+        baseURL: 'https://example.com',
+        appKey: 'key',
+        appSecret: 'secret',
+      },
+    });
+
+    const calledUrl = mockedFetch.mock.calls[0][0] as string;
+
+    expect(calledUrl).toContain('valid=yes');
+    expect(calledUrl).not.toContain('ignored=');
+    expect(calledUrl).not.toContain('alsoIgnored=');
+  });
+
+  test('should append top-level primitive query values', async () => {
+    mockedFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ code: 0, message: 'OK' }),
+    } as Response);
+
+    mockedHandleResponse.mockReturnValueOnce({
+      code: 0,
+      message: 'OK',
+      request_id: 'abc',
+    });
+
+    await request({
+      method: 'GET',
+      path: '/test',
+      query: {
+        foo: 'bar',
+        page: 1,
+        active: true,
+      },
+      config: {
+        baseURL: 'https://example.com',
+        appKey: 'app-key',
+        appSecret: 'secret',
+      },
+    });
+
+    const calledUrl = mockedFetch.mock.calls[0][0] as string;
+
+    expect(calledUrl).toContain('foo=bar');
+    expect(calledUrl).toContain('page=1');
+    expect(calledUrl).toContain('active=true');
+  });
+
+  test('should skip top-level object query values', async () => {
+    mockedFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ code: 0, message: 'OK' }),
+    } as Response);
+
+    mockedHandleResponse.mockReturnValueOnce({
+      code: 0,
+      message: 'OK',
+      request_id: 'xyz',
+    });
+
+    await request({
+      method: 'GET',
+      path: '/test',
+      query: {
+        invalid: { foo: 'bar' },
+      },
+      config: {
+        baseURL: 'https://example.com',
+        appKey: 'app-key',
+        appSecret: 'secret',
+      },
+    });
+
+    const calledUrl = mockedFetch.mock.calls[0][0] as string;
+
+    expect(calledUrl).not.toContain('invalid=');
+  });
 });

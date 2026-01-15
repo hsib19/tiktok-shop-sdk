@@ -45,6 +45,15 @@ describe('requestMultipart', () => {
 
     const res = await requestMultipart(mockConfig);
 
+    const calledUrl = mockedFetch.mock.calls[0][0] as string;
+
+    expect(calledUrl).toContain('app_key=test_app_key');
+    expect(calledUrl).toContain('use_case=MAIN_IMAGE');
+    expect(calledUrl).toContain('shop_cipher=test_cipher');
+    expect(calledUrl).toContain('category_asset_cipher=test_cipher');
+    expect(calledUrl).toContain('sign=mocked-signature');
+    expect(calledUrl).toContain('timestamp=');
+
     // Expect the signature function to be called with correct args
     expect(generateSignature).toHaveBeenCalledWith({
       appSecret: mockConfig.config.appSecret,
@@ -53,6 +62,7 @@ describe('requestMultipart', () => {
         app_key: 'test_app_key',
         use_case: 'MAIN_IMAGE',
         shop_cipher: 'test_cipher',
+        category_asset_cipher: 'test_cipher',
         timestamp: expect.any(String),
       }),
       body: undefined,
@@ -111,16 +121,76 @@ describe('requestMultipart', () => {
       config,
     });
 
+    const calledUrl = mockedFetch.mock.calls[0][0] as string;
+
+    expect(calledUrl).toContain('app_key=test_app_key');
+    expect(calledUrl).toContain('use_case=MAIN_IMAGE');
+    expect(calledUrl).toContain('shop_cipher=test_cipher');
+    expect(calledUrl).toContain('category_asset_cipher=test_cipher');
+    expect(calledUrl).toContain('sign=mocked-signature');
+    expect(calledUrl).toContain('timestamp=');
+
     expect(generateSignature).toHaveBeenCalledWith(
       expect.objectContaining({
         query: expect.objectContaining({
           app_key: 'test_app_key',
           timestamp: expect.any(String),
           shop_cipher: 'cipher',
+          category_asset_cipher: 'test_cipher',
         }),
       }),
     );
 
     expect(res).toEqual(mockRes);
+  });
+
+  it('should include shop_cipher when provided', async () => {
+    const form = new FormData();
+
+    mockedGenerateSignature.mockReturnValue('sign');
+    mockedFetch.mockResolvedValue({
+      json: async () => ({}),
+    } as Response);
+
+    await requestMultipart({
+      method: 'POST',
+      path: '/test',
+      body: form,
+      config: {
+        appKey: 'key',
+        appSecret: 'secret',
+        baseURL: 'https://example.com',
+        shopCipher: 'shop123',
+      },
+    });
+
+    const calledUrl = mockedFetch.mock.calls[0][0] as string;
+    expect(calledUrl).toContain('shop_cipher=test_cipher');
+  });
+
+  it('should skip undefined query values', async () => {
+    const form = new FormData();
+
+    mockedGenerateSignature.mockReturnValue('sign');
+    mockedFetch.mockResolvedValue({
+      json: async () => ({}),
+    } as Response);
+
+    await requestMultipart({
+      method: 'POST',
+      path: '/test',
+      query: {
+        foo: undefined,
+      },
+      body: form,
+      config: {
+        appKey: 'key',
+        appSecret: 'secret',
+        baseURL: 'https://example.com',
+      },
+    });
+
+    const calledUrl = mockedFetch.mock.calls[0][0] as string;
+    expect(calledUrl).not.toContain('foo=');
   });
 });

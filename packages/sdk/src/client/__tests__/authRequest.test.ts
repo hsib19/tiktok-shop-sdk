@@ -1,6 +1,6 @@
-import { authRequest } from '../AuthRequest'; // Adjust path if different
-import { handleResponse } from '@utils/handleResponse'; // Adjust path if different
 import { AccessTokenResponse, AuthRequestOptions } from '@types';
+import { handleResponse } from '@utils/handleResponse'; // Adjust path if different
+import { authRequest } from '../AuthRequest'; // Adjust path if different
 
 // Mock fetch
 global.fetch = jest.fn();
@@ -206,6 +206,50 @@ describe('authRequest', () => {
     expect(mockedHandleResponse).toHaveBeenCalledWith(mockApiResponseData);
 
     // Verify that the final result of authRequest matches the data returned by the mocked handleResponse.
+    expect(result).toEqual(mockHandledResponse);
+  });
+
+  test('should not append query params with undefined values', async () => {
+    const mockApiResponseData = { code: 0, message: 'Success' };
+    const mockHandledResponse = {
+      code: 0,
+      message: 'Success',
+      request_id: '789',
+    };
+
+    mockedFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockApiResponseData,
+    } as Response);
+
+    mockedHandleResponse.mockReturnValueOnce(mockHandledResponse);
+
+    const options: AuthRequestOptions = {
+      method: 'GET',
+      path: '/api/v2/token/get',
+      query: {
+        app_key: 'app-key',
+        app_secret: undefined,
+        grant_type: 'authorized_code',
+        auth_code: undefined,
+      },
+    };
+
+    const result = await authRequest<AccessTokenResponse>(options);
+
+    expect(mockedFetch).toHaveBeenCalledTimes(1);
+
+    expect(mockedFetch).toHaveBeenCalledWith(
+      `${AUTH_BASE_URL}/api/v2/token/get?app_key=app-key&grant_type=authorized_code`,
+      {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        body: undefined,
+      },
+    );
+
+    expect(mockedHandleResponse).toHaveBeenCalledTimes(1);
+    expect(mockedHandleResponse).toHaveBeenCalledWith(mockApiResponseData);
     expect(result).toEqual(mockHandledResponse);
   });
 });
