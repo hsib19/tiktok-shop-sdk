@@ -1,6 +1,11 @@
 packages:
-  - 'packages/*'
-  - 'apps/*'
+  - packages/*
+  - apps/*
+
 onlyBuiltDependencies:
-  - esbuild
+  - '@swc/core'
   - '@tailwindcss/oxide'
+  - core-js
+  - esbuild
+  - sharp
+  - unrs-resolver

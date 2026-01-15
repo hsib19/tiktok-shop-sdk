@@ -19,7 +19,7 @@ describe('handleResponse', () => {
       request_id: 'abc',
     };
 
-    expect(() => handleResponse(res)).toThrowError(TikTokAPIError);
+    expect(() => handleResponse(res)).toThrow(TikTokAPIError);
     try {
       handleResponse(res);
     } catch (err) {
