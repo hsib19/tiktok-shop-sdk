@@ -1558,7 +1558,7 @@ describe('ProductModule', () => {
       expect(result).toEqual(mockRes);
     });
 
-    it('Get product recomend title, desc using getRecommendedProductTitleAndDescription', async () => {
+    it('Get product recommend title, desc using getRecommendedProductTitleAndDescription', async () => {
       const mockRes: TikTokAPIResponse<GetRecommendedProductTitleAndDescriptionResponse> =
         {
           data: {
