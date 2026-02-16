@@ -68,7 +68,7 @@ jobs:
           files: ./packages/sdk/coverage/lcov.info
 
   build:
-    needs: [lint, test]
+    needs: setup
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
@@ -83,4 +83,6 @@ jobs:
           cache: 'pnpm'
 
       - run: pnpm install --frozen-lockfile
-      - run: pnpm exec turbo run build --dry
+      - run: pnpm --filter=landing build
+      - run: pnpm --filter=docs build
+      - run: pnpm --filter=tiktok-shop-sdk build
