@@ -37,7 +37,7 @@
     "pnpm": "^10.28.2",
     "prettier": "^3.6.2",
     "tsx": "^4.20.3",
-    "turbo": "^2.6.3",
+    "turbo": "^2.9.14",
     "typescript-eslint": "^8.53.0"
   },
   "repository": {
