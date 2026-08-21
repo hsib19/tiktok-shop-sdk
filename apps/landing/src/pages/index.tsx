@@ -15,7 +15,7 @@ export default function HomePage() {
       <Seo
         title="TikTok Shop SDK | Unofficial API Integration"
         description="Documentation for integrating TikTok Shop SDK"
-        url="https://tiktok-shop-sdk-docs.vercel.app/"
+        url="https://ttshop-sdk-docs.vercel.app/"
         image="/images/docs-og.png"
       />
       <Layout>
